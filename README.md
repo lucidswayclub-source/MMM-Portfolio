@@ -17,3 +17,27 @@ All used under https://unsplash.com/license (free commercial use).
 - JC Media — https://unsplash.com/photos/clear-glass-perfume-bottle-with-pink-light-zvqq7CG8BwY
 - Adam Jaime — https://unsplash.com/photos/orange-slice-in-a-wine-glass-full-of-orange-liquid-shhT37a3ScY
 - Cemrecan Yurtman — https://unsplash.com/photos/a-person-operates-a-professional-video-camera-in-a-studio-QMa2FvZRoF0
+
+## Motion upgrade
+
+`dist/motion.js` is a dependency-free ES module with configurable LogoReveal, TextReveal, ImageReveal, VideoReveal, ProjectReveal, SectionReveal, BlurTextScroller, HorizontalGallery, ThreeDUI, Browser3D and PageTransition classes. `dist/motion.css` owns their presentation.
+
+- A single passive-scroll/requestAnimationFrame coordinator updates only scenes near the viewport. No wheel/touch interception, artificial scroll smoothing, or continuous render loop.
+- Homepage intro plays on each homepage load and refresh. Skip intro, intentional scrolling, reduced motion, hash-link navigation, and a timeout can bypass it. A native pixel-camera cursor is enabled for fine-pointer desktop devices; form fields retain the text cursor.
+- Desktop project exhibition uses sticky positioning and native vertical scrolling; phones use a native swipe gallery.
+- Services pass through a sharp focus plane, with capped peripheral blur and category controls. The original service accordions remain available as a fallback when the enhancement is unavailable.
+- Reduced motion and the footer motion toggle switch to static layouts. Decorative bar animations pause outside the viewport.
+- Real client sites, logos, testimonials, footage, and founder portraits remain content dependencies. No substitute client claims or fictional website UI are included.
+- The floating MMM mark uses the supplied raster artwork on a CSS perspective plane, retaining its original illustrated extrusion; it is not a newly modeled 3D mesh.
+
+Verification: seven routes; 320/390/430px phone widths; desktop scroll exhibition; services focus; growth tabs; motion pause/resume; reduced-motion navigation; local enquiry download. The static website is ready to serve from `dist/`.
+
+## Run locally
+
+From the project directory:
+
+```sh
+python3 -m http.server 4173 --directory dist
+```
+
+Open http://127.0.0.1:4173/. No install or build step is required.
