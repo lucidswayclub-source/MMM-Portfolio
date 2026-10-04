@@ -8,7 +8,7 @@ const mobile=()=>matchMedia('(max-width: 700px)').matches;
 const groups=[['CREATIVE',['Scriptwriting','Creative Direction','Content Strategy']],['PRODUCTION',['Videography','Photography','Video Production','Video Editing']],['DIGITAL',['Social Media Management','Website Development','SEO']],['GROWTH',['Influencer Marketing','Meta Ads','Google Ads','Performance Marketing','PR & Press Releases']]];
 
 class MotionDirector {
- constructor(){this.scenes=new Set();this.active=new Set();this.running=false;this.frame=0;this.y=scrollY;this.last=performance.now();this.velocity=0;this.disabled=reducedQuery.matches;this.observer=new IntersectionObserver(entries=>{for(const e of entries){const scene=[...this.scenes].find(s=>s.el===e.target);if(!scene)continue;if(e.isIntersecting)this.active.add(scene);else{this.active.delete(scene);scene.idle?.()}e.target.classList.toggle('in-view',e.isIntersecting)}this.schedule()},{rootMargin:'15% 0px'});this.schedule=this.schedule.bind(this);addEventListener('scroll',this.schedule,{passive:true});addEventListener('resize',()=>{this.scenes.forEach(s=>s.resize?.());this.schedule()},{passive:true});document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(this.frame);this.frame=0}else this.schedule()});reducedQuery.addEventListener('change',()=>this.setDisabled(reducedQuery.matches));}
+ constructor(){this.scenes=new Set();this.active=new Set();this.running=false;this.frame=0;this.y=scrollY;this.last=performance.now();this.velocity=0;this.disabled=reducedQuery.matches;this.observer=new IntersectionObserver(entries=>{for(const e of entries){const scenes=[...this.scenes].filter(s=>s.el===e.target);for(const scene of scenes){if(e.isIntersecting)this.active.add(scene);else{this.active.delete(scene);scene.idle?.()}}e.target.classList.toggle('in-view',e.isIntersecting)}this.schedule()},{rootMargin:'15% 0px'});this.schedule=this.schedule.bind(this);addEventListener('scroll',this.schedule,{passive:true});addEventListener('resize',()=>{this.scenes.forEach(s=>s.resize?.());this.schedule()},{passive:true});document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(this.frame);this.frame=0}else this.schedule()});reducedQuery.addEventListener('change',()=>this.setDisabled(reducedQuery.matches));}
  add(scene){this.scenes.add(scene);this.observer.observe(scene.el);scene.resize?.();return scene}
  schedule(){if(!this.frame&&!this.disabled&&!document.hidden)this.frame=requestAnimationFrame(t=>this.render(t))}
  render(t){this.frame=0;const elapsed=Math.max(16,t-this.last),speed=Math.abs(scrollY-this.y)/elapsed;this.velocity=Math.min(1,speed/3);this.y=scrollY;this.last=t;const measurements=[...this.active].map(s=>[s,s.el.getBoundingClientRect()]);for(const [s,r]of measurements){const enter=clamp((innerHeight-r.top)/(innerHeight+Math.min(r.height,innerHeight)));const progress=clamp(-r.top/Math.max(1,r.height-innerHeight));s.update({r,enter,progress,velocity:this.velocity,time:t})}if(speed>.015)this.frame=requestAnimationFrame(t=>this.render(t));}
@@ -50,7 +50,7 @@ export class ThreeDUI {
  activate(group,p){this.el.style.setProperty('--panel-rotation',`${mobile()?0:(p-.5)*9}deg`);$$('button',this.el).forEach((b,i)=>b.setAttribute('aria-pressed',i===group))}
 }
 export class BlurTextScroller {
- constructor(section){this.el=document.createElement('div');this.el.className='service-sequence';const items=groups.flatMap((g,group)=>g[1].map(text=>({text,group})));this.items=items;this.el.innerHTML=`<div class="service-pin"><div class="service-focus" aria-hidden="true"><div class="service-group">CREATIVE</div><div class="service-words">${items.map((x,i)=>`<div class="service-word" data-word="${i}">${x.text}</div>`).join('')}</div><div class="service-position"><span>01</span><div><i></i></div><span>${String(items.length).padStart(2,'0')}</span></div></div><div class="service-panel"></div></div>`;section.insertBefore(this.el,$('.service-list',section));this.words=$$('.service-word',this.el);this.ui=new ThreeDUI($('.service-panel',this.el),group=>{const n=items.findIndex(x=>x.group===group);if(director.disabled){this.focus(n,0);return}const target=scrollY+this.el.getBoundingClientRect().top+(n/(items.length-1))*Math.max(1,this.el.offsetHeight-innerHeight);scrollTo({top:target,behavior:'smooth'})});director.add(this)}
+ constructor(section){this.el=document.createElement('div');this.el.className='service-sequence';const items=groups.flatMap((g,group)=>g[1].map(text=>({text,group})));this.items=items;this.el.innerHTML=`<div class="service-pin"><div class="service-focus" aria-hidden="true"><div class="service-group">CREATIVE</div><div class="service-words">${items.map((x,i)=>`<div class="service-word" data-word="${i}">${x.text}</div>`).join('')}</div><div class="service-position"><span>01</span><div><i></i></div><span>${String(items.length).padStart(2,'0')}</span></div></div><div class="service-panel"></div></div>`;section.insertBefore(this.el,$('.service-list',section));const label=$('.section-tag',section);if(label)$('.category-pin',this.el).prepend(label);this.words=$$('.service-word',this.el);this.ui=new ThreeDUI($('.service-panel',this.el),group=>{const n=items.findIndex(x=>x.group===group);if(director.disabled){this.focus(n,0);return}const target=scrollY+this.el.getBoundingClientRect().top+(n/(items.length-1))*Math.max(1,this.el.offsetHeight-innerHeight);scrollTo({top:target,behavior:'smooth'})});director.add(this)}
  focus(position,velocity){const nearest=Math.round(position);this.words.forEach((word,i)=>{const delta=i-position,active=Math.abs(delta)<.5;word.style.transform=`translate3d(${delta*(mobile()?8:24)}px,${delta*(mobile()?92:112)}px,0) scale(${1-Math.min(.15,Math.abs(delta)*.06)})`;word.style.opacity=String(clamp(1-Math.abs(delta)*.6));word.style.filter=`blur(${active?0:Math.min(5,Math.abs(delta)*2.5+velocity*1.2)}px)`});$('.service-group',this.el).textContent=groups[this.items[nearest].group][0];$('.service-position>span',this.el).textContent=String(nearest+1).padStart(2,'0');$('.service-position i',this.el).style.transform=`scaleX(${(position+1)/this.items.length})`;this.ui.activate(this.items[nearest].group,position/(this.items.length-1));}
  update({progress,velocity}){this.focus(progress*(this.items.length-1),velocity)}
  reset(){this.focus(0,0)}
@@ -132,7 +132,7 @@ export class ServiceCategoryScroller {
  constructor(section){
   this.el=document.createElement('div');this.el.className='category-scene';this.active=-1;
   this.el.innerHTML=`<div class="category-pin"><div class="category-layout"><div class="category-wheel" role="tablist" aria-label="Service categories" aria-orientation="vertical"><span class="category-pointer" aria-hidden="true">→</span>${groups.map((g,i)=>`<button class="category-option" role="tab" id="category-${i}" aria-controls="category-services" aria-selected="${i===0}" tabindex="${i===0?0:-1}" data-category="${i}">${g[0]}</button>`).join('')}</div><div class="category-detail"><span class="category-detail-label">SERVICES</span><div id="category-services" role="tabpanel" aria-labelledby="category-0" tabindex="0"><ul></ul></div></div></div><div class="category-progress" aria-hidden="true"><span>01 / 04</span><div><i></i></div></div></div>`;
-  section.classList.add('has-category-scroller');section.insertBefore(this.el,$('.service-list',section));
+  section.classList.add('has-category-scroller');section.insertBefore(this.el,$('.service-list',section));const label=$('.section-tag',section);if(label)$('.category-pin',this.el).prepend(label);
   this.buttons=$$('.category-option',this.el);this.buttons.forEach((button,i)=>{button.addEventListener('click',()=>this.choose(i));button.addEventListener('keydown',e=>{let n=i;if(e.key==='ArrowDown'||e.key==='ArrowRight')n=(i+1)%4;else if(e.key==='ArrowUp'||e.key==='ArrowLeft')n=(i+3)%4;else if(e.key==='Home')n=0;else if(e.key==='End')n=3;else return;e.preventDefault();this.choose(n);this.buttons[n].focus({preventScroll:true})})});const wheel=$('.category-wheel',this.el);[-4,-3,-2,-1,4,5,6,7].forEach(n=>{const echo=document.createElement('span');echo.className='category-option category-orbit-echo';echo.textContent=groups[(n+8)%4][0];echo.dataset.orbitIndex=n;echo.setAttribute('aria-hidden','true');wheel.append(echo)});this.buttons.forEach((b,i)=>b.dataset.orbitIndex=i);this.orbitItems=$$('.category-option',this.el);this.paint(0,0);director.add(this);
  }
  choose(i){this.paint(i,0);if(!director.disabled){const distance=Math.max(1,this.el.offsetHeight-this.el.querySelector(".category-pin").offsetHeight);scrollTo({top:scrollY+this.el.getBoundingClientRect().top-(parseFloat(getComputedStyle(this.el.querySelector(".category-pin")).top)||0)+distance*i/3,behavior:'instant'})}}
@@ -153,9 +153,9 @@ $$('.capabilities').forEach(el=>new ServiceCategoryScroller(el));
 $$('.growth-section').forEach(el=>new GrowthSequence(el));
 $$('.bts').forEach(el=>new ProductionSequence(el));
 $$('.browser-stage').forEach(el=>new Browser3D(el));
-$$('.about-grid,.founder,.growth-offerings article').forEach(el=>new SectionReveal(el));
+$$('.about-grid,.growth-offerings article').forEach(el=>new SectionReveal(el));
 $$('.about-strip').forEach(el=>{const blocks=document.createElement('div');blocks.className='about-blocks';blocks.innerHTML=groups.map((g,i)=>`<span style="--block:${i}">${g[0]}</span>`).join('');el.append(blocks);new SectionReveal(blocks)});
-$$('.founder img').forEach(el=>new ImageReveal(el,{direction:'vertical'}));
+
 $$('video').forEach(el=>new VideoReveal(el));
 $$('.cta').forEach(el=>new Finale(el));
 new LogoReveal();
@@ -176,3 +176,37 @@ installCameraCursor();finePointer.addEventListener('change',installCameraCursor)
 const shutter=document.createElement('span');shutter.className='cursor-shutter';shutter.setAttribute('aria-hidden','true');document.body.append(shutter);
 document.addEventListener('pointerdown',event=>{if(!finePointer.matches||event.pointerType==='touch'||event.target.closest('input,textarea,select,[contenteditable="true"]'))return;shutter.style.left=`${event.clientX}px`;shutter.style.top=`${event.clientY}px`;shutter.classList.remove('snap');if(!director.disabled){void shutter.offsetWidth;shutter.classList.add('snap')}});
 shutter.addEventListener('animationend',()=>shutter.classList.remove('snap'));
+
+class DirectorPortraitSequence {
+ constructor(el){
+  this.el=el;el.classList.add('director-sequence');
+  this.photo=el.querySelector('.founder-portrait');this.bio=el.querySelector('.founder-bio');
+  const pin=document.createElement('div');pin.className='director-pin';
+  this.card=document.createElement('div');this.card.className='director-card director-shutter';
+  this.frame=document.createElement('div');this.frame.className='director-aperture';this.frame.append(this.photo);
+  this.label=document.createElement('div');this.label.className='director-frame-label';this.label.setAttribute('aria-hidden','true');this.label.innerHTML='<span>MMM / PORTRAIT 01</span><span>THE PERSON BEHIND THE VISION</span>';
+  this.word=document.createElement('span');this.word.className='director-focus-word';this.word.innerHTML='<span class="director-focus-rest">BEH</span><span class="director-letter-i" aria-hidden="true">I</span><span class="director-focus-rest">ND THE WORK.</span>';this.word.setAttribute('aria-hidden','true');
+  this.card.append(this.word,this.frame,this.bio,this.label);pin.append(this.card);el.append(pin);director.add(this);if(director.disabled)this.reset();
+ }
+ update({r}){
+  if(mobile()){this.reset();return}
+  const p=clamp(-r.top/Math.max(1,r.height-this.el.querySelector('.director-pin').offsetHeight));
+  this.word.style.opacity='1';
+  const open=clamp((p-.07)/.66),t=open*open*(3-2*open),reveal=clamp((p-.65)/.27);
+  // Measure the stationary letter box; only its siblings move, keeping registration exact.
+  const letter=this.word.querySelector('.director-letter-i').getBoundingClientRect(),card=this.card.getBoundingClientRect();
+  const width=this.frame.offsetWidth,height=this.frame.offsetHeight;
+  const strip=letter.width,capHeight=letter.height;
+  const insetX=(1-strip/width)*50*(1-t),insetY=(1-capHeight/height)*50*(1-t);
+  const fromX=letter.left+strip/2-card.left-(this.frame.offsetLeft+width/2),fromY=letter.top+capHeight/2-card.top-(this.frame.offsetTop+height/2);
+  this.frame.style.clipPath=`inset(${insetY}% ${insetX}% round ${t*2}px)`;
+  this.frame.style.transform=`translate(${fromX*(1-t)}px,${fromY*(1-t)}px)`;
+  this.photo.style.transform=`scale(${1.12-.12*t})`;this.word.querySelector('.director-letter-i').style.opacity=String(1-clamp(t*4));
+  this.word.querySelectorAll('.director-focus-rest').forEach(rest=>{rest.style.transform=`translateY(${-t*190}px)`;rest.style.opacity=String(1-clamp(t*1.5));rest.style.filter=`blur(${t*3}px)`});
+  this.bio.style.opacity=String(reveal);this.bio.style.transform=`translateY(${(1-reveal)*30}px)`;
+  this.bio.style.clipPath=`inset(0 0 ${(1-reveal)*100}% 0)`;
+  this.card.style.setProperty('--focus',String(t));
+ }
+ reset(){this.frame.style.clipPath='none';this.frame.style.transform='none';this.photo.style.transform='none';this.word.style.opacity='0';this.bio.style.opacity='1';this.bio.style.transform='none';this.bio.style.clipPath='none';this.card.style.setProperty('--focus','1')}
+}
+document.querySelectorAll('.founder').forEach(el=>new DirectorPortraitSequence(el));

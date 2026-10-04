@@ -91,3 +91,195 @@
 .category-detail{padding-left:28px}
 .category-detail li{font-size:22px;line-height:1.2}
 }
+
+/* Restored studio greens and a unified upward entrance after the logo reveal. */
+body,header,.hero,.about-strip,.about-page{background:#101c16}
+.growth-section{background:#0d1912}
+@keyframes hero-slide-up{from{opacity:0;transform:translateY(55px);filter:blur(4px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
+.hero-entered .hero h1>span:nth-child(n){animation-name:hero-slide-up;animation-duration:1100ms}
+.hero-entered .hero-bottom{animation-name:hero-slide-up}
+/* A single pinned white stage; native page scroll advances only the orbit. */
+.has-category-scroller{padding-top:0;padding-bottom:0;background:#fff;transform:none!important}
+.category-scene{height:210svh}
+.category-pin{top:0;height:100svh;min-height:600px;background:#fff}
+.category-pin>.section-tag{position:absolute;top:35px;left:0;right:0;margin:0}
+.motion-disabled .category-scene{height:auto}
+.motion-disabled .category-pin{height:auto;min-height:650px;padding:100px 0 55px}
+.website-showcase{min-width:0;width:100%}
+.website-toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}
+.website-toolbar h3{font-size:20px;letter-spacing:-.5px;margin:0}
+.preview-toggle{display:flex;gap:4px;padding:4px;background:#dde5df;border-radius:30px}
+.preview-toggle button{font-size:11px;border:0;border-radius:20px;background:transparent;padding:10px 13px;color:#405346}
+.preview-toggle button[aria-pressed=true]{background:#183d29;color:#fff}
+.website-device-stage{display:flex;justify-content:center;align-items:flex-start;min-height:440px}
+.website-device{display:block;width:100%;max-width:100%;padding:7px;background:#102019;border-radius:12px;box-shadow:8px 10px 0 #c1cec5;transition:width .4s ease}
+.website-chrome{display:flex;justify-content:space-between;color:#b8d3c0;font-size:9px;letter-spacing:1px;padding:10px 8px 15px}
+.website-device img{display:block;width:100%;height:auto;border-radius:3px}
+.website-device.is-mobile{width:210px;border-radius:25px;padding:9px}
+.website-device.is-mobile img{border-radius:15px}
+.website-device.is-mobile .website-chrome{font-size:7px;letter-spacing:0;padding:7px 4px 12px}
+.website-live-link{display:flex;justify-content:space-between;padding:20px 0 10px;border-bottom:1px solid #b5c2b8;font-size:11px;letter-spacing:1px}
+.founder{display:grid;grid-template-columns:minmax(220px,.75fr) 1fr;gap:8%;align-items:center}
+.founder-portrait{width:100%;height:auto;max-height:620px;object-fit:cover;border-radius:5px}
+.founder-bio h2{font-size:clamp(38px,5vw,78px)}
+.founder-bio p{color:#aab4ad}
+@media(max-width:700px){
+.category-scene{height:210svh}.category-pin{height:100svh;min-height:620px;top:0}
+.category-pin>.section-tag{top:24px}
+.website-toolbar{flex-wrap:wrap;gap:12px}.website-toolbar h3{font-size:18px}
+.website-device-stage{min-height:0}.website-device.is-mobile{width:210px}
+.preview-toggle button{min-height:40px}.website-live-link{margin-top:20px}
+.founder{grid-template-columns:1fr;gap:30px}.founder-portrait{max-width:430px}
+}
+@media(prefers-reduced-motion:reduce){.category-scene{height:auto}.category-pin{height:auto;min-height:650px;padding:100px 0 55px}.website-device{transition:none}}
+
+/* Alternate black cinematic sections with selected forest-green sections. */
+body,header,.hero,.work-section,.bts,.production-gallery,.equipment,footer{background:#080a09}
+.growth-section,.about-strip,.about-page{background:#101c16}
+
+.mmm-preview{background:#fff;min-height:340px;display:grid;place-items:center;border-radius:4px}
+.mmm-preview img{width:80%;max-width:300px;height:auto}
+.mmm-device-demo .website-device.is-mobile .mmm-preview{min-height:390px;border-radius:15px}
+.built-websites{background:#101c16;color:#f5f5f0}
+.website-portfolio-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:50px;margin-top:45px}
+.built-websites .website-device{box-shadow:8px 10px 0 #233b2c}
+.built-websites .website-live-link{border-color:#405548}
+@media(max-width:700px){.website-portfolio-grid{grid-template-columns:1fr;gap:35px}.mmm-preview{min-height:280px}}
+
+/* Growth dashboard: clear stage context and honest, unconnected metrics. */
+.growth-console{background:linear-gradient(145deg,#16271d,#0b120e 75%);border:1px solid #405848;border-radius:20px;box-shadow:0 24px 70px #0005;transform:none}
+.console-top{padding:22px 24px;font-size:10px;letter-spacing:1.1px;align-items:center;gap:14px}
+.dashboard-status{font-size:8px;color:#91dfa9;border:1px solid #3b6047;border-radius:20px;padding:7px 9px;white-space:nowrap}
+.growth-steps{padding:12px;gap:5px;background:#0b140f;border-bottom-color:#2c4233}
+.growth-steps button{padding:12px 5px;font-size:11px;border-radius:8px;transition:background .2s,color .2s}
+.growth-steps button[aria-selected=true]{background:#6fe09a;color:#102017;font-weight:700}
+#stage-panel{padding:28px 26px 85px;min-height:315px}
+#stage-title{font-size:clamp(25px,2.5vw,38px);letter-spacing:-1px;margin:10px 0 15px}
+.growth-console #stage-copy{font-size:14px;line-height:1.65;color:#b8c9be;max-width:340px;margin:0;position:relative;z-index:1}
+.stage-counter{font-size:94px;color:#6fe09a0e;top:12px;right:20px;font-style:normal}
+.stage-deliverables{display:flex;flex-wrap:wrap;gap:7px;position:relative;z-index:1;margin-top:20px}
+.stage-deliverables span{padding:7px 10px;font-size:10px;border:1px solid #385441;border-radius:20px;color:#cbdfd1;background:#132319}
+.signal{height:44px;opacity:.23;left:26px;right:26px;gap:6px}
+.metrics-heading{display:flex;justify-content:space-between;gap:12px;padding:17px 22px;font-size:8px;letter-spacing:.8px;color:#a4b9ab;border-top:1px solid #2c4233}
+.metrics-heading>span:last-child{color:#728e7c}
+.metrics{border-top:1px solid #2c4233}
+.metrics>span{padding:17px 14px;font-size:9px;transition:background .25s;border-color:#2c4233}
+.metrics>span.metric-relevant{background:#6fe09a0e;color:#9aebb5;box-shadow:inset 0 2px #6fe09a}
+.metrics b{font-size:26px;padding:7px 0;color:#d7e4db;font-weight:500}
+.metrics small{font-size:8px;letter-spacing:0;color:#81988a;display:block}
+.growth-console .console-note{font-size:8px;letter-spacing:1px;margin:17px 10px;color:#8ca795}
+@media(max-width:700px){.console-top{padding:18px 14px;font-size:8px}.dashboard-status{font-size:7px}.growth-steps button{font-size:11px;min-height:44px;padding:10px 12px}#stage-panel{padding:24px 20px 75px}#stage-title{font-size:29px}.growth-console #stage-copy{font-size:14px}.metrics-heading{padding:15px 12px;font-size:7px;letter-spacing:.4px}.metrics>span{padding:14px 8px;font-size:8px}.metrics small{font-size:7px}}
+
+/* Director introduction: pinned portrait travelling from right to left. */
+.founder.director-sequence{display:block;position:relative;height:200svh;padding:0;border:0;margin-top:80px}
+.director-pin{position:sticky;top:0;height:100svh;min-height:650px;display:flex;align-items:center}
+.director-card{position:relative;width:100%;height:570px;padding:45px;background:linear-gradient(135deg,#090e0b,#14271b);border:1px solid #314c39;border-radius:18px;box-shadow:0 25px 70px #0005;overflow:hidden}
+.director-card .founder-portrait{position:absolute;left:4%;top:8%;height:84%;width:40%;max-height:none;object-fit:cover;object-position:center 35%;border-radius:12px;will-change:transform}
+.director-intro{position:absolute;left:5%;top:50%;width:44%;translate:0 -50%;will-change:opacity,transform}
+.director-intro h2{font-size:clamp(32px,4vw,64px);line-height:1.1;margin:25px 0;letter-spacing:-.045em}
+.director-card .founder-bio{position:absolute;left:51%;right:4%;top:50%;translate:0 -50%;opacity:0;will-change:opacity,transform}
+.director-card .founder-bio h2{font-size:clamp(32px,4.1vw,66px);margin:25px 0;line-height:1.08}
+.director-card .eyebrow{font-size:10px;line-height:1.6;letter-spacing:1.4px}
+.motion-disabled .founder.director-sequence{height:auto}
+.motion-disabled .director-pin{height:auto;min-height:0;padding:35px 0}
+.motion-disabled .director-intro{display:none}
+@media(max-width:700px){
+.founder.director-sequence{height:auto;margin-top:55px}
+.director-pin{position:relative;height:auto;min-height:0}
+.director-card{height:auto;padding:22px;display:flex;flex-direction:column;gap:28px}
+.director-intro{display:none}
+.director-card .founder-portrait{position:relative;inset:auto;width:100%;height:auto;max-height:520px;transform:none!important}
+.director-card .founder-bio{position:relative;inset:auto;translate:none;opacity:1!important;transform:none!important}
+.director-card .founder-bio h2{font-size:clamp(30px,9vw,44px);margin:20px 0}
+}
+@media(prefers-reduced-motion:reduce){.founder.director-sequence{height:auto}.director-pin{height:auto;min-height:0;padding:35px 0}.director-intro{display:none}.director-card .founder-portrait{transform:none!important}.director-card .founder-bio{opacity:1!important;transform:none!important}}
+
+/* Website portfolio: green cards on black, with stable device-preview space. */
+.built-websites{background:#080a09}
+.built-websites .website-showcase{background:#152c1e;border:1px solid #355b41;border-radius:18px;padding:26px;min-width:0}
+.built-websites .website-device-stage{height:clamp(300px,32vw,430px);min-height:0;align-items:center}
+.built-websites .website-device{max-height:100%;box-shadow:5px 6px 0 #0a160e}
+.built-websites .website-device:not(.is-mobile){width:100%}
+.built-websites .website-device:not(.is-mobile) img{max-height:350px;object-fit:contain;background:#080a09}
+.built-websites .website-device.is-mobile{position:relative;width:172px;max-width:60%;height:100%;max-height:372px;padding:7px;border:2px solid #53665a;border-radius:28px;background:#050806;box-shadow:0 12px 25px #0005;overflow:hidden}
+.built-websites .website-device.is-mobile .website-chrome{display:none}
+.built-websites .website-device.is-mobile:before{content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);width:48px;height:12px;border-radius:12px;background:#050806;z-index:1}
+.built-websites .website-device.is-mobile img{width:100%;height:100%;object-fit:cover;object-position:top;border-radius:19px}
+.built-websites .website-live-link{margin-top:20px;border-color:#42644b}
+@media(max-width:700px){.built-websites .website-showcase{padding:18px}.built-websites .website-device-stage{height:330px}.built-websites .website-device.is-mobile{width:153px;max-height:330px}.built-websites .website-device:not(.is-mobile) img{max-height:270px}}
+
+/* Animate measured device dimensions instead of switching auto-sized frames. */
+.website-device{transition:border-radius .65s cubic-bezier(.22,1,.36,1);will-change:width,height}
+.website-device img{min-height:0}
+/* Full-bleed director stage: oversized type, an editorial portrait, and a name wipe. */
+.founder.director-sequence{width:100vw;margin-left:calc(50% - 50vw);height:230svh}
+.director-pin{height:100svh;min-height:650px}
+.director-card{height:100%;border:0;border-radius:0;box-shadow:none;padding:0;background:radial-gradient(ellipse at 70% 40%,#1c3b29,transparent 65%),#080d0a;isolation:isolate}
+.director-backdrop-word{position:absolute;left:3%;top:3%;font-size:clamp(150px,27vw,460px);font-weight:900;letter-spacing:-.08em;color:#79db98;opacity:.12;line-height:1;z-index:-1;pointer-events:none}
+.director-card .founder-portrait{left:6%;top:15%;width:38%;height:72%;border-radius:2px;object-fit:contain;background:#171a18}
+.director-intro{left:7%;width:43%}
+.director-intro h2{font-size:clamp(40px,5.2vw,84px)}
+.director-card .founder-bio{left:52%;right:5%}
+.director-card .founder-bio h2{font-size:clamp(40px,5.1vw,86px)}
+.director-card .founder-bio p{border-top:1px solid #51745b;padding-top:22px;font-size:18px}
+.motion-disabled .director-card{height:750px}
+@media(max-width:700px){.founder.director-sequence{height:auto}.director-pin{height:auto;min-height:0}.director-card,.motion-disabled .director-card{height:auto;padding:65px 6% 45px}.director-card .founder-portrait{position:relative;left:auto;top:auto;width:100%;height:auto;max-height:60svh}.director-card .founder-bio{left:auto;right:auto;clip-path:none!important}.director-card .founder-bio h2{font-size:11vw}.director-backdrop-word{top:15px;font-size:30vw}}
+@media(prefers-reduced-motion:reduce){.founder.director-sequence{height:auto}.director-card{min-height:650px}.website-device{transition:none}}
+
+/* Portrait study: slit-scan shutter opens into an editorial viewfinder. */
+.director-shutter{background:#080c09}
+.director-shutter:after{content:'';position:absolute;inset:7% 5%;border-top:1px solid #6fe09a35;border-bottom:1px solid #6fe09a35;pointer-events:none}
+.director-aperture{position:absolute;left:7%;top:16%;width:40%;height:70%;overflow:hidden;will-change:transform,clip-path;background:#161a17}
+.director-shutter .director-aperture .founder-portrait{position:static;width:100%;height:100%;max-height:none;object-fit:cover;object-position:center 38%;border-radius:0;will-change:transform}
+.director-aperture:after{content:'';position:absolute;inset:15px;border:1px solid #ffffff45;opacity:var(--focus,0);pointer-events:none;background:linear-gradient(#6fe09a,#6fe09a) left top/30px 2px no-repeat,linear-gradient(#6fe09a,#6fe09a) right bottom/30px 2px no-repeat}
+.director-focus-word{position:absolute;left:7%;top:36%;font-size:clamp(90px,16vw,260px);font-weight:900;white-space:nowrap;letter-spacing:-.07em;line-height:1;color:#6fe09a;opacity:.65;pointer-events:none}
+.director-frame-label{position:absolute;top:10%;left:7%;right:7%;display:flex;justify-content:space-between;font-size:10px;letter-spacing:2px;color:#a3b5a8}
+.director-shutter .founder-bio{left:54%;right:6%}
+.director-shutter .founder-bio h2{font-size:clamp(35px,4.7vw,80px)}
+@media(max-width:700px){.director-shutter{padding:75px 6% 50px}.director-aperture{position:relative;inset:auto;width:100%;height:440px;max-height:60svh;clip-path:none!important;transform:none!important}.director-focus-word{display:none}.director-frame-label{top:30px;font-size:7px;letter-spacing:1px;gap:20px}.director-shutter .founder-bio{left:auto;right:auto}.director-shutter .founder-bio h2{font-size:10vw}.director-shutter:after{inset:15px 4%;border-bottom:0}}
+
+/* The opening portrait slit is registered to the I in IN FOCUS. */
+.director-focus-word{left:18%;top:50%;translate:0 -50%;font-size:clamp(90px,13vw,220px);opacity:1;line-height:1}
+.director-letter-i{display:inline-block}
+.director-aperture{z-index:1}
+.director-shutter .founder-bio,.director-frame-label{z-index:2}
+
+/* A true portrait-filled I: explicit cap-height box, no green glyph behind it. */
+.director-focus-word{display:flex;align-items:center;gap:.045em;font-size:clamp(90px,13vw,220px);letter-spacing:-.065em;line-height:.73;top:50%;left:18%;overflow:visible}
+.director-letter-i{display:block;flex:none;width:.145em;height:.73em;font-size:inherit;color:transparent;letter-spacing:0;line-height:1;user-select:none}
+.director-focus-rest{display:block;will-change:transform,opacity,filter;line-height:.73}
+.director-aperture:after{opacity:calc(var(--focus,0)*var(--focus,0))}
+@media(max-width:700px){.director-focus-word{display:none}}
+
+/* Keep the portrait-filled I legible before the image opens out. */
+.director-letter-i{position:relative;width:.19em;background:rgba(111,224,154,.16);outline:1px solid rgba(111,224,154,.75);z-index:3;pointer-events:none}
+.director-letter-i:before,.director-letter-i:after{content:'';position:absolute;left:-.045em;right:-.045em;height:.045em;background:#6fe09a}
+.director-letter-i:before{top:0}.director-letter-i:after{bottom:0}
+.director-focus-word{z-index:2}
+.director-focus-rest{position:relative;z-index:0}
+
+/* Clean portrait-filled letter: no frame, serifs, tint, or decorative strokes. */
+.director-letter-i{width:.15em;background:none;outline:0}
+.director-letter-i:before,.director-letter-i:after{display:none}
+.director-focus-word{gap:.035em}
+.director-aperture:after{display:none}
+
+/* The expanding portrait always sits in front of the fading title. */
+.director-focus-word{z-index:0}
+.director-aperture{z-index:1}
+.director-shutter .founder-bio,.director-frame-label{z-index:2}
+
+/* A direct introduction, retaining the portrait expansion from its own anchor. */
+.director-focus-word{left:8%;font-size:clamp(70px,10.5vw,180px);gap:0}
+.director-focus-word .director-letter-i{position:absolute;left:0;top:0;width:.15em;height:.73em}
+
+.director-focus-word{left:7%;font-size:clamp(60px,8.8vw,150px)}
+
+/* Register the portrait to the actual I between BEH and ND. */
+.director-focus-word .director-letter-i{position:relative;left:auto;top:auto;flex:0 0 .15em;width:.15em;height:.73em;margin:0 .012em;color:transparent}
+
+/* A fine brand-green edge defines the photo-filled I before expansion. */
+.director-focus-word .director-letter-i{outline:1px solid #6fe09a;outline-offset:0}
+
+/* Separate the outlined I from the neighbouring H and N. */
+.director-focus-word .director-letter-i{margin-left:.065em;margin-right:.065em}
