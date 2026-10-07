@@ -46,6 +46,16 @@ class Exhibition {
  reset(){this.track.style.transform='none';this.cards.forEach(c=>$('.project-image',c).style.setProperty('--media-scale',1))}
 }
 $$('.work-section').forEach(el=>new Exhibition(el));
+// Native vertical scroll reveals the website cards from right to left.
+class WebsiteReel {
+ constructor(el){this.el=el;this.cards=$$('.website-showcase',el);this.track=$('.website-portfolio-grid',el);this.viewport=$('.website-reel-viewport',el);this.count=$('.website-reel-count',el);this.buttons=$$('[data-reel-step]',el);this.index=0;el.classList.add('website-reel');this.pin=document.createElement('div');this.pin.className='website-reel-pin';while(el.firstChild)this.pin.append(el.firstChild);el.append(this.pin);this.buttons.forEach(b=>b.addEventListener('click',()=>this.choose(this.index+Number(b.dataset.reelStep))));this.track.addEventListener('focusin',e=>{const card=e.target.closest('.website-showcase');if(card)this.choose(this.cards.indexOf(card))});this.viewport.addEventListener('scroll',()=>{if(mobile()||disabled)this.paint(this.viewport.scrollLeft>=this.distance-2?this.cards.length-1:Math.round(this.viewport.scrollLeft/(this.cards[0].offsetWidth+26)))},{passive:true});this.paint(0);add(this)}
+ resize(){this.distance=Math.max(0,this.track.scrollWidth-this.viewport.clientWidth);this.travel=this.distance*.55;this.el.style.setProperty('--reel-travel',this.travel+'px')}
+ paint(i){this.index=clamp(i,0,this.cards.length-1);this.count.textContent=`0${this.index+1} / 0${this.cards.length}`;this.buttons[0].disabled=this.index===0;this.buttons[1].disabled=this.index===this.cards.length-1}
+ choose(i){i=clamp(i,0,this.cards.length-1);if(mobile()||disabled){this.viewport.scrollTo({left:Math.min(this.distance,this.cards[i].offsetLeft-this.cards[0].offsetLeft),behavior:disabled?'instant':'smooth'});this.paint(i)}else{scrollTo({top:scrollY+this.el.getBoundingClientRect().top+this.travel*i/(this.cards.length-1),behavior:'instant'});this.paint(i)}}
+ update(r){if(mobile())return;const p=clamp(-r.top/Math.max(1,this.el.offsetHeight-this.pin.offsetHeight));this.track.style.transform=`translate3d(${-p*this.distance}px,0,0)`;this.paint(Math.round(p*(this.cards.length-1)))}
+ reset(){this.track.style.transform='none';this.paint(0)}
+}
+$$('.digital').forEach(el=>new WebsiteReel(el));
 const hero=$('.hero');if(hero)add({el:hero,update(r){hero.style.setProperty('--wall-scroll',clamp(-r.top/r.height))},reset(){hero.style.setProperty('--wall-scroll',0)}});
 $$('.website-device-stage').forEach(el=>add({el,update(r){el.style.setProperty('--device-arrival',clamp((innerHeight-r.top)/(innerHeight*.7)))},reset(){el.style.setProperty('--device-arrival',1)}}));
 $$('.bts').forEach(el=>add({el,update(r){const steps=$$('.process span',el);const progress=clamp((innerHeight*.65-r.top)/(r.height*.85));steps.forEach((s,i)=>s.classList.toggle('current',i===Math.min(steps.length-1,Math.floor(progress*steps.length))))},reset(){$$('.process span',el).forEach(s=>s.classList.remove('current'))}}));

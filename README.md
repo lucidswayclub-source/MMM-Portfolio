@@ -42,7 +42,7 @@ The original imported design is tagged `snapshot-before-reference-refactor-2026-
 
 JavaScript syntax and diff checks; homepage section navigation and legacy URL redirects; desktop and phone layouts; background image wall placement and movement; scrolling service categories and keyboard selection; exhibition lightbox and keyboard focus; growth stages; device previews; portrait scroll; motion pause/resume; local brief preparation.
 
-All navigation and calls to action use homepage anchors. Work, production, equipment, device previews, growth offerings, the director portrait sequence and the enquiry form are part of the homepage. Previous inner-page URLs redirect to their corresponding section.
+Work, production, equipment, website previews, growth offerings and the director portrait sequence stay on the homepage. Start a conversation and contact calls to action open `/contact/`, the only inner page. Earlier service page URLs redirect to their homepage sections; old `/#contact` bookmarks open the contact page.
 
 ## ASCII hero experiment
 
@@ -52,4 +52,4 @@ The previous design is saved as `snapshot-before-ascii-hero-fixed-2026-10-07`, i
 
 ## Website project gallery
 
-The supplied web-development project list is presented in the homepage website panel: PVST, Raizon Space Interiors, Ever Green Artha, Dhruv Consultants, The Lucid Sway and Hasini Infra. Each card links to its supplied live URL. Five new desktop previews were captured from the live sites; Lucid Sway retains its supplied desktop and mobile screenshots and device morph. The gallery uses two columns on desktop and one on mobile.
+The supplied web-development project list is presented in the homepage website panel: PVST, Raizon Space Interiors, Ever Green Artha, Dhruv Consultants, The Lucid Sway and Hasini Infra. Each card links to its supplied live URL. Five new desktop previews were captured from the live sites; Lucid Sway retains its supplied desktop and mobile screenshots and device morph. The gallery is one horizontal row: desktop vertical scrolling pins the panel and moves the cards from right to left. Arrow controls and keyboard focus navigate the reel. Phones and reduced-motion views use a native horizontal swipe row with snapping. The contact page provides the existing local project-brief form.

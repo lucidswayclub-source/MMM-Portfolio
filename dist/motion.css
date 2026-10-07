@@ -86,3 +86,34 @@
 .director-card .founder-bio p{color:#a9bdcd;border-color:#9bb9d02c}
 @media(max-width:1000px) and (min-width:701px){.founder.director-sequence{width:calc(100% - 50px)}.director-focus-word{font-size:38px}.director-focus-word>p{font-size:11px}.director-disciplines{gap:6px}.director-disciplines>span{padding:8px;font-size:6px}}
 @media(max-width:700px){.founder.director-sequence{width:calc(100% - 28px);margin-top:30px}.director-card{border-radius:15px;padding:58px 22px 25px}.director-aperture{left:auto;top:auto;width:100%;height:400px;max-height:60svh;box-shadow:0 12px 35px #0004}.director-card .founder-bio{left:auto;right:auto}.director-opening-caption{display:none}.director-frame-label{left:22px;right:22px;font-size:5px;letter-spacing:.6px}.director-card .founder-bio h2{font-size:38px}}
+
+/* A pinned website reel replaces the tall project grid. */
+.digital.website-reel{width:100%;max-width:none;margin:0;padding:0;height:calc(100svh + var(--reel-travel,0px));overflow:visible}
+.website-reel-pin{height:100svh;min-height:650px;position:sticky;top:0;padding:45px 6vw 28px;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
+.website-reel-pin>.section-tag{margin-bottom:20px}
+.website-reel .digital-portfolio-heading{gap:8%;align-items:center}
+.website-reel .digital-portfolio-heading h2{font-size:clamp(32px,3.1vw,48px);line-height:1.05;margin:12px 0 0}
+.website-reel .digital-portfolio-heading>div>p{font-size:12px;margin:0}
+.website-reel .digital-features{margin-top:15px}
+.website-reel-viewport{overflow:visible;margin-top:28px}
+.digital.website-reel .website-portfolio-grid{display:flex;gap:26px;width:max-content;margin:0;will-change:transform}
+.digital.website-reel .website-showcase{flex:none;width:min(43vw,560px);padding:18px}
+.digital.website-reel .website-toolbar{margin-bottom:15px;min-height:38px}
+.digital.website-reel .website-device-stage{height:225px}
+.digital.website-reel .website-device img{max-height:195px}
+.digital.website-reel .website-device.is-mobile{width:107px;max-width:107px}
+.digital.website-reel .website-device.is-mobile img{height:195px;max-height:195px}
+.website-reel-controls{display:flex;justify-content:space-between;align-items:center;margin-top:20px;font-size:8px;letter-spacing:1.5px;color:#708477}
+.website-reel-controls>div{display:flex;gap:10px;align-items:center}
+.website-reel-count{font-family:monospace;margin-right:12px;letter-spacing:1px}
+.website-reel-controls button{width:32px;height:32px;border:1px solid #aec3b4;border-radius:50%;background:transparent;color:#385a46;font-size:16px}
+.website-reel-controls button:hover{background:#d5e3d9}.website-reel-controls button:disabled{opacity:.3;cursor:default}
+.motion-disabled .digital.website-reel{height:auto}
+.motion-disabled .website-reel-pin{position:relative;height:auto;min-height:0;padding:70px 6vw}
+.motion-disabled .website-reel-viewport{overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px}
+.motion-disabled .website-showcase{scroll-snap-align:start}
+@media(max-width:700px){.digital.website-reel{height:auto}.website-reel-pin{position:relative;height:auto;min-height:0;padding:65px 24px 40px}.website-reel .digital-portfolio-heading{gap:20px}.website-reel .digital-portfolio-heading h2{font-size:38px}.website-reel-viewport{overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 0 14px;margin-top:25px;scrollbar-width:thin;scrollbar-color:#9caf9f transparent}.digital.website-reel .website-showcase{width:84vw;max-width:420px;scroll-snap-align:start}.digital.website-reel .website-portfolio-grid{transform:none!important;will-change:auto}.digital.website-reel .website-device-stage{height:auto}.digital.website-reel .website-device img{max-height:none}.digital.website-reel .website-device-stage:has(.is-mobile){min-height:225px}.website-reel-controls{font-size:6px;letter-spacing:.8px}.website-reel-count{font-size:9px;margin-right:4px}.motion-disabled .website-reel-pin{padding:65px 24px 40px}}
+@media(prefers-reduced-motion:reduce){.digital.website-reel{height:auto}.website-reel-pin{position:relative;height:auto;min-height:0}.website-reel-viewport{overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px}}
+.contact-heading{padding-bottom:15px}.contact-heading .text-link{margin-top:30px}.contact-page .contact-layout{padding-top:35px}
+
+.website-reel .website-live-link>span:last-child{white-space:nowrap;flex-shrink:0;font-size:12px}
