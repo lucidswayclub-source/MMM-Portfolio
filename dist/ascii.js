@@ -12,7 +12,7 @@ if(asciiHero){
  title.className='ascii-wordmark';title.setAttribute('aria-hidden','true');
  const pen=title.getContext('2d');
  const colour=pen.createLinearGradient(0,0,1400,100);
- colour.addColorStop(0,'#9ad9ed');colour.addColorStop(.4,'#e2f8e9');colour.addColorStop(.75,'#a2eec2');colour.addColorStop(1,'#9dd8ec');pen.fillStyle=colour;
+ colour.addColorStop(0,'#d4eaff');colour.addColorStop(.4,'#ffffff');colour.addColorStop(.75,'#f5f8ff');colour.addColorStop(1,'#c7dfff');pen.fillStyle=colour;
  for(let y=3;y<190;y+=6)for(let x=3;x<1400;x+=6){const alpha=pixels[(y*1400+x)*4+3]/255;if(alpha>.25){pen.globalAlpha=alpha;pen.fillRect(x-2,y-2,4,4)}}
  pen.globalAlpha=1;heading.append(title);heading.classList.add('ascii-ready');
  const characters=' .·:+=*#@';
@@ -32,10 +32,10 @@ if(asciiHero){
    sample.drawImage(image,(image.naturalWidth-sw)/2,(image.naturalHeight-sh)/2,sw,sh,0,0,columns,rows);
    const data=sample.getImageData(0,0,columns,rows).data;
    rendered=document.createElement('canvas');rendered.width=columns*7;rendered.height=rows*10;
-   const drawing=rendered.getContext('2d');drawing.fillStyle='#09130f';drawing.fillRect(0,0,rendered.width,rendered.height);drawing.font='10px monospace';drawing.textBaseline='top';
+   const drawing=rendered.getContext('2d');drawing.fillStyle='#0c1016';drawing.fillRect(0,0,rendered.width,rendered.height);drawing.font='10px monospace';drawing.textBaseline='top';
    for(let y=0;y<rows;y++)for(let x=0;x<columns;x++){
     const offset=(y*columns+x)*4,light=(data[offset]*.2126+data[offset+1]*.7152+data[offset+2]*.0722)/255;
-    drawing.fillStyle=`rgba(169,226,193,${.22+light*.78})`;
+    drawing.fillStyle=`rgba(187,201,219,${.22+light*.78})`;
     drawing.fillText(characters[Math.min(characters.length-1,Math.floor(light*characters.length))],x*7,y*10);
    }
    renders.set(key,rendered);
