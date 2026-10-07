@@ -58,3 +58,8 @@
 @media(max-width:1000px) and (min-width:701px){.category-detail{padding-left:24px}}
 @media(max-width:700px){.category-pin{height:100svh;min-height:620px;top:0}.category-pin>.section-tag{top:24px}.category-layout{grid-template-columns:1fr;gap:8px}.category-wheel{height:230px}.category-option{font-size:clamp(34px,10vw,58px);left:28px;padding:13px 1px}.category-pointer{font-size:25px}.category-detail{min-height:205px;padding:16px 0 8px 28px;border-left:0;border-top:1px solid #cbd8ce}.category-detail-label{font-size:10px;margin-bottom:12px}.category-detail ul{gap:7px}.category-detail li{font-size:22px;line-height:1.2;letter-spacing:0}.category-progress{margin:12px 0 0;width:100%;gap:16px;font-size:11px}}
 @media(prefers-reduced-motion:reduce){.category-scene{height:auto}.category-pin{position:relative;height:auto;min-height:650px;padding:100px 0 55px}.category-option{filter:none!important}}
+@keyframes wall-travel{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+.hero.in-view .wall-track{animation-play-state:running}
+.motion-disabled .wall-track{animation:none!important;will-change:auto}
+.motion-disabled .hero-wall-stage{transform:rotateX(16deg) rotateY(-7deg) rotateZ(-12deg) scale(1.06);transition:none}
+@media(prefers-reduced-motion:reduce){.wall-track{animation:none!important;will-change:auto}.hero-wall-stage{transition:none}}
