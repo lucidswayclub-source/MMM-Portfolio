@@ -105,3 +105,13 @@
  .hero h1.hero-wordmark{font-size:clamp(26px,8.5vw,60px);letter-spacing:-.065em;margin:0 0 23px;-webkit-text-stroke:1px #06140e;text-shadow:1px 1px #06140e,2px 2px #06140e,3px 3px #06140e,4px 4px #06140e,0 10px 25px #0007}
 }
 @media(max-width:360px){.home-page .hero{padding-inline:20px}.hero h1.hero-wordmark{font-size:8.5vw}}
+
+/* A continuous iridescent face, carved edge and soft cast shadow across the name. */
+.home-page .hero-wall-shade{background:radial-gradient(ellipse at 50% 48%,#07120fe3 0%,#07120fd1 27%,#07120f94 65%,#07120f85 100%),linear-gradient(0deg,#0b1310f2,transparent 22%,transparent 73%,#0b1310f7)}
+.hero h1.hero-wordmark{isolation:isolate;text-shadow:none;-webkit-text-stroke:0;filter:drop-shadow(0 12px 12px #0009) drop-shadow(0 25px 32px #0006)}
+.hero-wordmark>span{position:relative;display:inline-block;background:linear-gradient(115deg,#f3fff8 0%,#b2f1d2 16%,#73cfee 31%,#effff5 46%,#d6c9f5 59%,#99e5d0 73%,#f6fff8 87%,#9ddfeb 100%);background-size:180% 100%;background-clip:text;-webkit-background-clip:text;color:transparent;animation:wordmark-light 16s ease-in-out infinite alternate}
+.hero-wordmark>span:before{content:attr(data-wordmark);position:absolute;inset:0;z-index:-1;color:#153c30;background:none;-webkit-text-stroke:1px #7bd4b075;transform:translate(5px,7px);text-shadow:1px 1px #07150f,2px 2px #07150f,3px 3px #07150f,4px 4px #07150f}
+@keyframes wordmark-light{from{background-position:0% 50%}to{background-position:100% 50%}}
+.motion-disabled .hero-wordmark>span{animation:none}
+@media(max-width:700px){.hero h1.hero-wordmark{isolation:isolate;text-shadow:none;-webkit-text-stroke:0;filter:drop-shadow(0 8px 9px #0009)}.hero-wordmark>span:before{transform:translate(2px,3px);-webkit-text-stroke:.5px #7bd4b075;text-shadow:1px 1px #07150f,2px 2px #07150f}}
+@media(prefers-reduced-motion:reduce){.hero-wordmark>span{animation:none}}
