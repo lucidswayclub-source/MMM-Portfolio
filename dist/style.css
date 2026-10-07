@@ -93,3 +93,15 @@
  .hero-bottom{bottom:25px;left:24px;right:24px;font-size:5px;letter-spacing:.8px}
 }
 @media(max-width:360px){.hero{padding-inline:20px}.hero-actions{gap:10px}.hero-actions .text-link{padding:12px}.hero-bottom{left:20px;right:20px}}
+
+/* Full-screen brand scene, with lettering drawn from the supplied MMM mark. */
+.home-page>header{position:absolute;top:0;left:0;right:0;border-bottom:0;background:transparent}
+.home-page .hero{width:100%;max-width:none;margin:0;min-height:100svh;padding:140px 6% 110px}
+.home-page .hero-wall-shade{background:radial-gradient(ellipse at 50% 48%,#07120fd4 0%,#07120fba 27%,#07120f73 65%,#07120f66 100%),linear-gradient(0deg,#0b1310ee,transparent 20%,transparent 75%,#0b1310f5)}
+.hero h1.hero-wordmark{font-family:'Arial Black',Arial,Helvetica,sans-serif;font-size:clamp(44px,8.3vw,145px);font-weight:950;font-style:italic;letter-spacing:-.065em;line-height:1.2;margin:0 0 25px;padding:0 .04em;color:#f7faf8;transform:skewX(-7deg);-webkit-text-stroke:1.5px #06140e;paint-order:stroke fill;text-shadow:1px 1px #06140e,2px 2px #06140e,3px 3px #06140e,4px 4px #06140e,5px 5px #06140e,6px 6px #06140e,7px 7px #06140e,8px 8px #06140e,0 15px 35px #0007}
+.hero-wordmark b{font-weight:inherit;color:#5bc5f5}
+@media(max-width:700px){
+ .home-page .hero{min-height:100svh;padding:125px 24px 100px}
+ .hero h1.hero-wordmark{font-size:clamp(26px,8.5vw,60px);letter-spacing:-.065em;margin:0 0 23px;-webkit-text-stroke:1px #06140e;text-shadow:1px 1px #06140e,2px 2px #06140e,3px 3px #06140e,4px 4px #06140e,0 10px 25px #0007}
+}
+@media(max-width:360px){.home-page .hero{padding-inline:20px}.hero h1.hero-wordmark{font-size:8.5vw}}
