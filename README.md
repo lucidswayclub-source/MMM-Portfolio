@@ -43,3 +43,9 @@ The original imported design is tagged `snapshot-before-reference-refactor-2026-
 JavaScript syntax and diff checks; homepage section navigation and legacy URL redirects; desktop and phone layouts; background image wall placement and movement; scrolling service categories and keyboard selection; exhibition lightbox and keyboard focus; growth stages; device previews; portrait scroll; motion pause/resume; local brief preparation.
 
 All navigation and calls to action use homepage anchors. Work, production, equipment, device previews, growth offerings, the director portrait sequence and the enquiry form are part of the homepage. Previous inner-page URLs redirect to their corresponding section.
+
+## ASCII hero experiment
+
+The first section currently uses a square dot-matrix wordmark and sampled ASCII imagery. `ascii.js` generates the decorative canvases once; the existing image-wall animation moves them. The accessible heading remains text-labelled. Other sections retain their design and motion.
+
+The previous design is saved as `snapshot-before-ascii-hero-fixed-2026-10-07`, including the corrected services initialization. The ASCII trial is a separate commit and can be reverted without removing that fix.
