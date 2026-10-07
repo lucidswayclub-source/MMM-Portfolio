@@ -49,3 +49,7 @@ All navigation and calls to action use homepage anchors. Work, production, equip
 The first section currently uses a square dot-matrix wordmark and sampled ASCII imagery. `ascii.js` generates the decorative canvases once; the existing image-wall animation moves them. The accessible heading remains text-labelled. Other sections retain their design and motion.
 
 The previous design is saved as `snapshot-before-ascii-hero-fixed-2026-10-07`, including the corrected services initialization. The ASCII trial is a separate commit and can be reverted without removing that fix.
+
+## Website project gallery
+
+The supplied web-development project list is presented in the homepage website panel: PVST, Raizon Space Interiors, Ever Green Artha, Dhruv Consultants, The Lucid Sway and Hasini Infra. Each card links to its supplied live URL. Five new desktop previews were captured from the live sites; Lucid Sway retains its supplied desktop and mobile screenshots and device morph. The gallery uses two columns on desktop and one on mobile.
