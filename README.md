@@ -1,49 +1,43 @@
 # MegMultiMedia portfolio
 
-Static multi-page portfolio. Serve `dist/` with any static HTTP server. Seven routes share `app.js`, `style.css`, `motion.js`, `refinements.css` and `content.js`.
-
-## Content handoff
-
-- `dist/assets/mmm-logo.jpg` is an unchanged copy of IMG_9006.JPG.
-- Stock imagery is explicitly illustrative; do not describe these as MMM client projects.
-- Set verified email and WhatsApp in `dist/content.js` before enabling contact delivery. The current form only creates a local downloadable enquiry; it sends and stores nothing.
-- The supplied MMM logo, Lucid Sway website screenshots/link and Rithwik Pemmada portrait are included. Photography remains illustrative. Add approved client films, testimonials and contact details before public launch.
-- The digital section previews The Lucid Sway with desktop/mobile controls and links to the live site.
-- Equipment and founder name are from the supplied portfolio PDF. Confirm equipment remains accurate at launch.
-
-## Stock photographs
-
-All used under https://unsplash.com/license (free commercial use).
-- JC Media — https://unsplash.com/photos/clear-glass-perfume-bottle-with-pink-light-zvqq7CG8BwY
-- Adam Jaime — https://unsplash.com/photos/orange-slice-in-a-wine-glass-full-of-orange-liquid-shhT37a3ScY
-- Cemrecan Yurtman — https://unsplash.com/photos/a-person-operates-a-professional-video-camera-in-a-studio-QMa2FvZRoF0
-
-## Motion upgrade
-
-`dist/motion.js` is a dependency-free ES module with configurable LogoReveal, TextReveal, ImageReveal, VideoReveal, ProjectReveal, SectionReveal, BlurTextScroller, HorizontalGallery, ThreeDUI, Browser3D and PageTransition classes. `dist/motion.css` owns their presentation.
-
-- A single passive-scroll/requestAnimationFrame coordinator updates only scenes near the viewport. No wheel/touch interception, artificial scroll smoothing, or continuous render loop.
-- Homepage intro plays on each homepage load and refresh. Skip intro, intentional scrolling, reduced motion, hash-link navigation, and a timeout can bypass it. A native pixel-camera cursor is enabled for fine-pointer desktop devices; form fields retain the text cursor.
-- Desktop project exhibition uses sticky positioning and native vertical scrolling; phones use a native swipe gallery.
-- Services pass through a sharp focus plane, with capped peripheral blur and category controls. The original service accordions remain available as a fallback when the enhancement is unavailable.
-- Reduced motion and the footer motion toggle switch to static layouts. Decorative bar animations pause outside the viewport.
-- Photography and footage remain content dependencies. No substitute client claims or invented performance metrics are included.
-- The floating MMM mark uses the supplied raster artwork on a CSS perspective plane, retaining its original illustrated extrusion; it is not a newly modeled 3D mesh.
-
-Verification: seven routes; 320/390/430px phone widths; desktop scroll exhibition; services focus; growth tabs; motion pause/resume; reduced-motion navigation; local enquiry download. The static website is ready to serve from `dist/`.
-
-## Run locally
-
-From the project directory:
+The active website is the static project pulled from `lucidswayclub-source/MMM-Portfolio`. Serve `dist/`; no installation or build step is required.
 
 ```sh
 python3 -m http.server 5173 --bind 127.0.0.1 --directory dist
 ```
 
-Open http://127.0.0.1:5173/. No install or build step is required.
+Open http://127.0.0.1:5173/.
 
-## Imported design refinements — 7 October 2026
+## Studio redesign — 7 October 2026
 
-Work continues in this pulled repository. The earlier project remains separate in `../snapshots/`; none of its layouts or assets are used here. The imported Create / Build / Grow hero, supplied mint-box logo, exhibition gallery, service orbit and director portrait sequence are retained. `refinements.css` adjusts spacing, surfaces and readability; the opening is shorter, service copy is filled, and the homepage digital section now shows the supplied real website preview.
+Seven pages share a new design system: deep green surfaces, mint and blue brand accents, soft typography, precise borders and spacious layouts. The supplied MMM logo remains unchanged.
 
-Original imported version: `snapshot-before-reference-refactor-2026-10-07`. The intervening alternate design is retained as `snapshot-reference-refactor-2026-10-07` for recovery only.
+- The homepage has a perspective studio canvas with Visual, Digital and Growth tabs, keyboard navigation, and animated panel transitions.
+- Four expandable capability cards use custom illustrations, SVG line drawing, production imagery and a layered interface study.
+- The desktop portfolio uses a native-scroll pinned exhibition; mobile and reduced-motion views use a swipe gallery. Keyboard focus brings the selected project into view.
+- A growth workspace connects each strategy stage to deliverables and relevant measurement categories. Its chart is explicitly illustrative, with no live performance claims.
+- The Lucid Sway website preview morphs between desktop and mobile dimensions. A portrait sequence introduces Rithwik Pemmada on the studio page.
+- Scroll reveals, pointer depth and device arrival transitions are coordinated without wheel interception. Offscreen scenes do not run a continuous animation loop. OS reduced motion and a footer motion toggle provide static layouts.
+
+`app.js` renders content and controls. `style.css` defines the design. `motion.js` and `motion.css` implement animation. No paid components or templates were copied.
+
+Design references reviewed: [Three.js](https://threejs.org/), [Animos](https://animos.app/editor), [Anime.js](https://animejs.com/), [Motion](https://motion.dev/), [Kokonut UI](https://kokonutui.pro/), [Bklit UI](https://bklit.com/), and [shadcn/ui](https://ui.shadcn.com/). This static implementation uses native CSS, SVG and Web Animations rather than importing their libraries.
+
+## Content
+
+- `assets/mmm-logo.jpg`: supplied MMM logo.
+- `assets/lucidsway-desktop.png` and `assets/lucidsway-mobile.png`: supplied real website screenshots, linking to https://thelucidsway.com/.
+- `assets/rithwik-pemmada.png`: supplied Managing Director portrait.
+- Photography is labelled as illustrative stock imagery, not MMM client work. Replace it with approved client work when available.
+- Email and WhatsApp are unconfigured in `content.js`. The enquiry form creates a local downloadable text brief. It does not send or save personal details.
+- Equipment details come from the supplied portfolio document and should be confirmed before public launch.
+
+Stock photo credits, used under the [Unsplash license](https://unsplash.com/license): [JC Media](https://unsplash.com/photos/clear-glass-perfume-bottle-with-pink-light-zvqq7CG8BwY), [Adam Jaime](https://unsplash.com/photos/orange-slice-in-a-wine-glass-full-of-orange-liquid-shhT37a3ScY), and [Cemrecan Yurtman](https://unsplash.com/photos/a-person-operates-a-professional-video-camera-in-a-studio-QMa2FvZRoF0).
+
+## Snapshots
+
+The original imported design is tagged `snapshot-before-reference-refactor-2026-10-07`. The lighter refinement before this redesign is tagged `snapshot-before-studio-redesign-2026-10-07`. An intervening alternate design remains under `snapshot-reference-refactor-2026-10-07` for recovery. The older project and its bundles remain separate in `../snapshots/`; its assets and layout are not used here.
+
+## Verification
+
+JavaScript syntax and diff checks; all seven primary routes; desktop and phone layouts; canvas keyboard navigation; capability expansion; exhibition lightbox and keyboard focus; growth stages; device previews; portrait scroll; motion pause/resume; local brief preparation.
