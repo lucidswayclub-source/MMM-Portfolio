@@ -10,13 +10,13 @@ Open http://127.0.0.1:5173/.
 
 ## Studio redesign — 7 October 2026
 
-Seven pages share a new design system: deep green surfaces, mint and blue brand accents, soft typography, precise borders and spacious layouts. The supplied MMM logo remains unchanged.
+One continuous homepage uses a design system with deep green surfaces, mint and blue brand accents, soft typography, precise borders and spacious layouts. The supplied MMM logo remains unchanged.
 
 - The homepage centres the company name over a continuously moving image wall. Alternating columns of imagery and original typographic studies share a CSS perspective plane behind the text. Dark overlays preserve contrast; motion pauses offscreen and has a static reduced-motion fallback.
 - Services use the original pulled version’s pinned, orbiting category animation: Creative, Production, Digital and Growth scroll into focus, with their service lists alongside. Clicking categories and keyboard navigation also work.
 - The desktop portfolio uses a native-scroll pinned exhibition; mobile and reduced-motion views use a swipe gallery. Keyboard focus brings the selected project into view.
 - A growth workspace connects each strategy stage to deliverables and relevant measurement categories. Its chart is explicitly illustrative, with no live performance claims.
-- The Lucid Sway website preview morphs between desktop and mobile dimensions. A portrait sequence introduces Rithwik Pemmada on the studio page.
+- The Lucid Sway website preview morphs between desktop and mobile dimensions. A portrait sequence introduces Rithwik Pemmada on the homepage.
 - Scroll reveals, pointer depth and device arrival transitions are coordinated without wheel interception. Offscreen scenes do not run a continuous animation loop. OS reduced motion and a footer motion toggle provide static layouts.
 
 `app.js` renders content and controls. `style.css` defines the design. `motion.js` and `motion.css` implement animation. No paid components or templates were copied.
@@ -40,4 +40,6 @@ The original imported design is tagged `snapshot-before-reference-refactor-2026-
 
 ## Verification
 
-JavaScript syntax and diff checks; all seven primary routes; desktop and phone layouts; background image wall placement and movement; scrolling service categories and keyboard selection; exhibition lightbox and keyboard focus; growth stages; device previews; portrait scroll; motion pause/resume; local brief preparation.
+JavaScript syntax and diff checks; homepage section navigation and legacy URL redirects; desktop and phone layouts; background image wall placement and movement; scrolling service categories and keyboard selection; exhibition lightbox and keyboard focus; growth stages; device previews; portrait scroll; motion pause/resume; local brief preparation.
+
+All navigation and calls to action use homepage anchors. Work, production, equipment, device previews, growth offerings, the director portrait sequence and the enquiry form are part of the homepage. Previous inner-page URLs redirect to their corresponding section.
