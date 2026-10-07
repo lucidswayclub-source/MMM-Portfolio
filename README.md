@@ -13,7 +13,7 @@ Open http://127.0.0.1:5173/.
 Seven pages share a new design system: deep green surfaces, mint and blue brand accents, soft typography, precise borders and spacious layouts. The supplied MMM logo remains unchanged.
 
 - The homepage has a perspective studio canvas with Visual, Digital and Growth tabs, keyboard navigation, and animated panel transitions.
-- Four expandable capability cards use custom illustrations, SVG line drawing, production imagery and a layered interface study.
+- Services use the original pulled version’s pinned, orbiting category animation: Creative, Production, Digital and Growth scroll into focus, with their service lists alongside. Clicking categories and keyboard navigation also work.
 - The desktop portfolio uses a native-scroll pinned exhibition; mobile and reduced-motion views use a swipe gallery. Keyboard focus brings the selected project into view.
 - A growth workspace connects each strategy stage to deliverables and relevant measurement categories. Its chart is explicitly illustrative, with no live performance claims.
 - The Lucid Sway website preview morphs between desktop and mobile dimensions. A portrait sequence introduces Rithwik Pemmada on the studio page.
@@ -40,4 +40,4 @@ The original imported design is tagged `snapshot-before-reference-refactor-2026-
 
 ## Verification
 
-JavaScript syntax and diff checks; all seven primary routes; desktop and phone layouts; canvas keyboard navigation; capability expansion; exhibition lightbox and keyboard focus; growth stages; device previews; portrait scroll; motion pause/resume; local brief preparation.
+JavaScript syntax and diff checks; all seven primary routes; desktop and phone layouts; canvas keyboard navigation; scrolling service categories and keyboard selection; exhibition lightbox and keyboard focus; growth stages; device previews; portrait scroll; motion pause/resume; local brief preparation.
