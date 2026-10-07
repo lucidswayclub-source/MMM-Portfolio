@@ -116,47 +116,6 @@
 @media(max-width:700px){.hero h1.hero-wordmark{isolation:isolate;text-shadow:none;-webkit-text-stroke:0;filter:drop-shadow(0 8px 9px #0009)}.hero-wordmark>span:before{transform:translate(2px,3px);-webkit-text-stroke:.5px #7bd4b075;text-shadow:1px 1px #07150f,2px 2px #07150f}}
 @media(prefers-reduced-motion:reduce){.hero-wordmark>span{animation:none}}
 
-/* ASCII / dot-matrix hero trial. The rest of the portfolio keeps its current design. */
-.ascii-hero{background:#07110d}
-.hero.ascii-hero h1.hero-wordmark{transform:none;filter:drop-shadow(3px 5px 0 #163a29) drop-shadow(0 12px 20px #000)}
-.ascii-wordmark{display:block;width:min(88vw,1280px);height:auto;margin:auto}
-.ascii-ready.hero-wordmark>span{display:none}
-.ascii-hero .wall-tile{border-radius:4px;border:1px solid #90cca732;box-shadow:none}
-.ascii-hero .wall-tile.ascii-ready>img{visibility:hidden}
-.ascii-image{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;opacity:.95}
-.ascii-hero .wall-website .ascii-image{inset:12px;width:calc(100% - 24px);height:calc(100% - 24px)}
-.ascii-hero .wall-type,.ascii-hero .wall-pattern{background:#10231a;color:#b5d6c1;font-family:'Courier New',monospace}
-.ascii-hero .wall-type>b{font-family:'Courier New',monospace;font-size:clamp(24px,2.6vw,40px);letter-spacing:-.07em}
-.ascii-hero .wall-type b i{font-family:inherit;font-style:normal}
-.ascii-hero .wall-pattern i{border-radius:0!important;background:radial-gradient(#88ba9c 1px,transparent 1.5px) 0 0/5px 5px!important;border:0}
-.home-page .ascii-hero .hero-wall-shade{background:radial-gradient(ellipse at 50% 48%,#06110de6 0%,#06110da3 38%,#06110d40 80%),linear-gradient(0deg,#07110def,transparent 22%,transparent 77%,#07110de8)}
-.ascii-hero:after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(#b2dfbe0e .6px,transparent .8px) 0 0/5px 5px}
-.ascii-hero .hero-tagline{font-size:clamp(20px,2.3vw,32px)}
-.ascii-hero .hero-intro>p,.ascii-hero .hero-bottom,.ascii-hero .wall-photo>span{font-family:'Courier New',monospace}
-.ascii-hero .hero-actions .button,.ascii-hero .hero-actions .text-link{border-radius:3px;font-family:'Courier New',monospace;font-size:12px}
-@media(max-width:700px){.ascii-wordmark{width:88vw}.ascii-hero .wall-type>b{font-size:27px}.ascii-hero .hero-intro>p{font-size:10px}.ascii-hero .hero-actions{gap:14px}.ascii-hero .hero-actions .button,.ascii-hero .hero-actions .text-link{font-size:11px}}
-
-/* Keep the company name at the viewport centre and separate it from the image field. */
-.home-page .hero.ascii-hero{background:#0b0e13}
-.ascii-hero .hero-image-wall{background:#0b0e13}
-.ascii-hero .hero-intro{animation:none;position:absolute;top:50%;left:0;width:100%;max-width:none;padding:0 6%;transform:translateY(calc(min(88vw,1280px) * -.067857))}
-.hero.ascii-hero h1.hero-wordmark{padding:0;margin:0 0 12px;filter:drop-shadow(0 0 1px #eff7ff) drop-shadow(0 0 16px #c3ddff40) drop-shadow(0 10px 16px #000)}
-.ascii-hero .wall-tile{background:#151a22;border-color:#bac8de24}
-.ascii-hero .wall-type,.ascii-hero .wall-pattern{background:#171d25;color:#acb5c3}
-.ascii-hero .wall-pattern i{background:radial-gradient(#8b98ac 1px,transparent 1.5px) 0 0/5px 5px!important}
-.ascii-hero .wall-photo:after{background:linear-gradient(transparent 65%,#0b0e13d9)}
-.ascii-hero .wall-photo>span{color:#9ca6b7}
-.home-page .ascii-hero .hero-wall-shade{background:radial-gradient(ellipse at 50% 50%,#090d14fa 0%,#090d14e6 21%,#090d14ab 45%,#090d1460 80%),linear-gradient(0deg,#0b0e13f2,transparent 25%,transparent 75%,#0b0e13e8)}
-.ascii-hero:after{background:radial-gradient(#bbc9df0a .6px,transparent .8px) 0 0/5px 5px}
-.ascii-hero .hero-tagline{color:#ecf1f9;text-shadow:0 3px 12px #000}
-.ascii-hero .hero-intro>p{color:#b5becd;text-shadow:0 2px 12px #000}
-.ascii-hero .hero-actions .button{background:#d7e6f7;border-color:#e9f1ff80;color:#152231}
-.ascii-hero .hero-actions .button:hover{background:#eff5ff;box-shadow:0 8px 30px #b9d3ff20}
-.ascii-hero .hero-actions .text-link{background:#10151dd4;border-color:#cedcf230;color:#d1dbea}
-.ascii-hero .hero-bottom,.ascii-hero .hero-bottom>a{color:#9faabc;border-color:#bac8de20}
-@media(max-width:700px){.ascii-hero .hero-intro{padding:0 6%}.ascii-hero .hero-intro>p{margin:12px auto 20px}.ascii-hero .hero-actions{gap:12px}}
-@media(max-height:560px){.ascii-hero .hero-intro{top:42%}.ascii-hero .hero-intro>p{margin:8px auto 12px}.ascii-hero .hero-bottom{bottom:15px}}
-
 /* Real website projects presented as a compact, responsive browser-card gallery. */
 .digital-portfolio-heading{display:grid;grid-template-columns:1fr 1fr;gap:8%;align-items:end}
 .digital-portfolio-heading>div>p{max-width:370px;font-size:14px;line-height:1.8;color:#647e72}

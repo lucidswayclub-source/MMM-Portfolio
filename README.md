@@ -46,7 +46,7 @@ Work, production, equipment, website previews, growth offerings and the director
 
 ## ASCII hero experiment
 
-The first section currently uses a square dot-matrix wordmark and sampled ASCII imagery. `ascii.js` generates the decorative canvases once; the existing image-wall animation moves them. The accessible heading remains text-labelled. Other sections retain their design and motion.
+The pre-ASCII hero was restored on 8 October 2026: photographic image-wall motion and the iridescent italic company wordmark with shadows. The ASCII experiment remains in Git history and `ascii.js`, but is no longer loaded. All later website-card, portrait and contact-page refinements remain active.
 
 The previous design is saved as `snapshot-before-ascii-hero-fixed-2026-10-07`, including the corrected services initialization. The ASCII trial is a separate commit and can be reverted without removing that fix.
 
