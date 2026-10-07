@@ -18,26 +18,32 @@ All used under https://unsplash.com/license (free commercial use).
 - Adam Jaime — https://unsplash.com/photos/orange-slice-in-a-wine-glass-full-of-orange-liquid-shhT37a3ScY
 - Cemrecan Yurtman — https://unsplash.com/photos/a-person-operates-a-professional-video-camera-in-a-studio-QMa2FvZRoF0
 
-## Motion upgrade
+## Reference-led refactor — 7 October 2026
 
-`dist/motion.js` is a dependency-free ES module with configurable LogoReveal, TextReveal, ImageReveal, VideoReveal, ProjectReveal, SectionReveal, BlurTextScroller, HorizontalGallery, ThreeDUI, Browser3D and PageTransition classes. `dist/motion.css` owns their presentation.
+The active site uses charcoal and ivory surfaces, the supplied MMM logo, mint/blue accents, large editorial type, interactive production imagery and spatial website previews. All seven routes share the same design system. The Lucid Sway website showcase and Rithwik Pemmada portrait are preserved.
 
-- A single passive-scroll/requestAnimationFrame coordinator updates only scenes near the viewport. No wheel/touch interception, artificial scroll smoothing, or continuous render loop.
-- Homepage intro plays on each homepage load and refresh. Skip intro, intentional scrolling, reduced motion, hash-link navigation, and a timeout can bypass it. A native pixel-camera cursor is enabled for fine-pointer desktop devices; form fields retain the text cursor.
-- Desktop project exhibition uses sticky positioning and native vertical scrolling; phones use a native swipe gallery.
-- Services pass through a sharp focus plane, with capped peripheral blur and category controls. The original service accordions remain available as a fallback when the enhancement is unavailable.
-- Reduced motion and the footer motion toggle switch to static layouts. Decorative bar animations pause outside the viewport.
-- Real client sites, logos, testimonials, footage, and founder portraits remain content dependencies. No substitute client claims or fictional website UI are included.
-- The floating MMM mark uses the supplied raster artwork on a CSS perspective plane, retaining its original illustrated extrusion; it is not a newly modeled 3D mesh.
+Motion is implemented with native Web Animations, CSS perspective and a shared, event-driven scroll coordinator. There is no arbitrary decorative 3D object, forced intro, custom cursor or scroll interception. Heading reveals and growth-path drawing are finite; pointer tilt is bounded. The header motion control persists in this browser, and system reduced motion takes priority. Content stays visible when animations are disabled.
 
-Verification: seven routes; 320/390/430px phone widths; desktop scroll exhibition; services focus; growth tabs; motion pause/resume; reduced-motion navigation; local enquiry download. The static website is ready to serve from `dist/`.
+Visual and interaction references reviewed:
+
+- [Three.js showcase](https://threejs.org/) and [Lusion](https://lusion.co/): immersive studio presentation and image depth.
+- [Animos editor](https://animos.app/editor#): composed project surfaces and perspective. Referenced visually; no paid templates or assets copied.
+- [Anime.js](https://animejs.com/): staged text reveals and finite path drawing.
+- [Motion](https://motion.dev/): scroll-linked transforms and responsive interaction timing.
+- [Kokonut UI](https://kokonutui.pro/): consistent, refined interactive surfaces. No paid components copied.
+- [Bklit](https://bklit.com/): readable strategy and measurement presentation. Diagram is labelled illustrative, with no invented campaign results.
+- [shadcn/ui](https://ui.shadcn.com/): consistent focus states, tabs, form controls and dialog behavior. This static project uses native HTML equivalents.
+
+Verification: JavaScript syntax checks, local asset references, all seven routes at a narrow phone viewport, desktop composition, hero selection, project dialog, keyboard growth tabs, motion pause/resume, responsive website preview and local enquiry preparation.
+
+Before refactoring, the imported source was preserved with tag `snapshot-before-reference-refactor-2026-10-07` and a full Git bundle at `../snapshots/MMM-Portfolio-before-refactor-2026-10-07.bundle`. The earlier Codex website remains in `../megmultimedia` with its separate snapshot.
 
 ## Run locally
 
-From the project directory:
+From this project directory:
 
 ```sh
-python3 -m http.server 4173 --directory dist
+python3 -m http.server 5173 --bind 127.0.0.1 --directory dist
 ```
 
-Open http://127.0.0.1:4173/. No install or build step is required.
+Open http://127.0.0.1:5173/. No install or build step is required.
