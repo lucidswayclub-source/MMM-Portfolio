@@ -12,7 +12,7 @@ Open http://127.0.0.1:5173/.
 
 Seven pages share a new design system: deep green surfaces, mint and blue brand accents, soft typography, precise borders and spacious layouts. The supplied MMM logo remains unchanged.
 
-- The homepage has a perspective studio canvas with Visual, Digital and Growth tabs, keyboard navigation, and animated panel transitions.
+- The homepage centres the company name in a SaaS-style hero, with supporting copy and calls to action above a perspective studio canvas with Visual, Digital and Growth tabs, keyboard navigation, and animated panel transitions.
 - Services use the original pulled version’s pinned, orbiting category animation: Creative, Production, Digital and Growth scroll into focus, with their service lists alongside. Clicking categories and keyboard navigation also work.
 - The desktop portfolio uses a native-scroll pinned exhibition; mobile and reduced-motion views use a swipe gallery. Keyboard focus brings the selected project into view.
 - A growth workspace connects each strategy stage to deliverables and relevant measurement categories. Its chart is explicitly illustrative, with no live performance claims.
