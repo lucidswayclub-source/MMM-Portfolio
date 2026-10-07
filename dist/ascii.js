@@ -12,7 +12,7 @@ if(asciiHero){
  title.className='ascii-wordmark';title.setAttribute('aria-hidden','true');
  const pen=title.getContext('2d');
  const colour=pen.createLinearGradient(0,0,1400,100);
- colour.addColorStop(0,'#d4eaff');colour.addColorStop(.4,'#ffffff');colour.addColorStop(.75,'#f5f8ff');colour.addColorStop(1,'#c7dfff');pen.fillStyle=colour;
+ colour.addColorStop(0,'#7fcfff');colour.addColorStop(.28,'#b5e5ff');colour.addColorStop(.5,'#f4fcff');colour.addColorStop(.72,'#d4f9e2');colour.addColorStop(1,'#90edaf');pen.fillStyle=colour;
  for(let y=3;y<190;y+=6)for(let x=3;x<1400;x+=6){const alpha=pixels[(y*1400+x)*4+3]/255;if(alpha>.25){pen.globalAlpha=alpha;pen.fillRect(x-2,y-2,4,4)}}
  pen.globalAlpha=1;heading.append(title);heading.classList.add('ascii-ready');
  const characters=' .·:+=*#@';
