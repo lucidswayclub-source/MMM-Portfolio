@@ -1,0 +1,844 @@
+/* MMM / logo-led identity: sky blue, white and black. */
+:root {
+  --mint:#567df3; /* Existing interaction code uses this token. */
+  --blue:#567df3; --paper:#f5f4f0; --ink:#191b23;
+  --muted:#a6afb3; --line:#ffffff1c;
+  --accent:#567df3; --surface:#1c1f27; --ivory:#f3f1eb;
+  background:#111318; color:var(--paper);
+}
+body { background:#111318; }
+::selection { background:#426ff5; color:#fff; }
+header { height:96px; gap:28px; border-color:#ffffff24; }
+.brand > span:last-child { font-size:18px; font-weight:700; letter-spacing:-.7px; }
+.brand small { color:#b0b7bb; font-size:8px; letter-spacing:1.6px; }
+nav { font-size:13px; gap:24px; }
+nav a { color:#c2c9cc; }
+nav a:hover, nav a[aria-current=page] { color:#fff; }
+.button {
+  min-height:54px; padding:15px 24px; border-radius:5px;
+  border:1px solid #5882ff; background:var(--accent); color:#fff;
+  box-shadow:none; transition:background .2s,translate .2s,box-shadow .2s;
+}
+.button:before { box-shadow:none; }
+.button:hover { background:#315ee4; box-shadow:0 8px 24px #426ff526; }
+.button.small { background:#ffffff0c; border-color:#ffffff38; color:#fff; font-size:12px; }
+.button.small:hover { background:#ffffff18; }
+.status-dot { background:#82a1ff; box-shadow:0 0 12px #426ff54d; }
+.eyebrow, .section-tag { font-size:10px; letter-spacing:1.8px; color:#aab3b8; }
+.section-tag > span:last-child { color:#929ba0; }
+.section-tag i { background:var(--accent); width:6px; height:6px; }
+.section { padding-block:110px; }
+h2 { font-weight:600; }
+h2 i, h1 i { color:#9cb5ff; }
+.section-heading > p, .body-copy { color:#b7bec2; font-size:15px; line-height:1.8; }
+.text-link { font-size:13px; border-color:#ffffff40; }
+.text-link:hover { color:#a9beff; border-color:#a9beff; }
+/* Keep the original hero lettering and moving photo wall; give them cooler light. */
+.home-page .hero, .hero-image-wall { background:#111318; }
+.home-page .hero-wall-shade {
+  background:radial-gradient(ellipse at 50% 48%,#101219df,#101219b8 32%,#10121979 72%),
+    linear-gradient(0deg,#111318,transparent 30%,transparent 72%,#111318e8);
+}
+.hero:before { background:radial-gradient(ellipse at center,#426ff51f,transparent 65%); }
+.hero-wordmark > span {
+  background-image:linear-gradient(110deg,#f6f5ef 0%,#c8d6ff 20%,#8ba8ff 38%,#fffaf0 55%,#c5d3ff 73%,#f3f6ff 100%);
+}
+.hero-wordmark > span:before {
+  color:#171a25; -webkit-text-stroke:1px #91acff40;
+  text-shadow:1px 1px #101219,2px 2px #101219,3px 3px #101219,4px 4px #101219;
+}
+.home-page .hero-intro > p { color:#d0d7da; font-size:16px; max-width:440px; }
+.hero-actions .text-link { color:#f3f2ed; background:#191c2480; border-color:#ffffff35; border-radius:5px; font-size:13px; }
+.hero-bottom { color:#b1bbc0; border-color:#ffffff30; font-size:9px; }
+.hero-bottom > a { color:#e0e5e8; font-size:12px; }
+.wall-type { background:#dbdfec; color:#24293a; }
+.wall-pattern { background:#303649; color:#e3e8f5; }
+.wall-pattern i { background:#9aa9d759; border-color:#e2e9ff33; }
+.wall-pattern i:nth-child(2n) { background:#6474a440; }
+.wall-website { background:#232734; }
+.discipline-strip { padding-block:32px; color:#c3c9cc; font-size:12px; border-color:#ffffff20; }
+.discipline-strip small { color:#9eacd4; }
+.discipline-strip > span:first-child { color:#f3f1eb; }
+/* Work stays cinematic; the captions and controls have clearer hierarchy. */
+.work-section { background:#111318; }
+.project-image { border-radius:6px; background:#20232d; }
+.project-caption { padding-top:23px; }
+.project-caption > div > span { color:#a7b3b9; font-size:10px; }
+.project-caption h3 { margin-top:10px; }
+.stock-label { border-radius:3px; background:#14191bbf; color:#fff; border:1px solid #ffffff29; }
+.view-project { background:#f3f1eb; color:#1a1c24; border-radius:50%; }
+.editorial-note { color:#a6b0b5; font-size:11px; line-height:1.7; }
+/* The camera-dial orbit is unchanged. Selection is now blue on warm ivory. */
+.has-category-scroller, .category-pin { background:var(--ivory); color:#1b1e28; }
+.category-pin > .section-tag { color:#5d6a71; }
+.category-pin > .section-tag > span:last-child { color:#737e83; }
+.category-pin > .section-tag i { background:var(--accent); }
+.category-option { color:#252833; }
+.category-option[aria-selected=true], .category-pointer { color:var(--accent); }
+.category-detail { border-color:#cbcfd1; }
+.category-detail-label { color:#616d73; font-weight:600; }
+.category-detail li { color:#252833; }
+.category-progress { color:#67747b; }
+.category-progress > div { background:#d4d9dc; }
+.category-progress i { background:var(--accent); }
+.service-index { color:#73828a; }
+.service-list .service-content li { border-color:#c4cacd; }
+/* Growth reads like a working studio console, not a wall of green. */
+.growth-section { background:var(--ivory); color:#20232c; }
+.growth-section .section-tag, .growth-section .eyebrow { color:#606d74; }
+.growth-section h2 i { color:var(--accent); }
+.growth-layout > div > p { color:#657177; font-size:15px; }
+.growth-console { background:#1b1e27; border:1px solid #323644; border-radius:12px; box-shadow:0 20px 55px #171d3020; color:#f3f5f6; }
+.console-top { background:#232732; color:#d1d6e4; font-size:9px; border-color:#ffffff16; }
+.dashboard-status { color:#a7bdff; }
+.growth-steps { background:#161820; border-color:#ffffff17; gap:4px; padding:10px; }
+.growth-steps button { color:#b5bbcd; font-size:11px; min-height:40px; border-radius:4px; }
+.growth-steps button[aria-selected=true] { background:var(--accent); color:#fff; box-shadow:none; }
+.growth-steps button:hover { background:#30374d; color:#fff; }
+.growth-console .eyebrow { color:#aec2ff; }
+#stage-copy { color:#b9bfd0; font-size:13px; line-height:1.8; }
+.stage-counter { color:#ffffff12; }
+.stage-deliverables { color:#c4cadb; }
+.metrics-heading { color:#b3bacf; font-size:9px; }
+.metrics > span { color:#a5adc5; font-size:9px; border-color:#ffffff1c; }
+.metrics > span.metric-relevant { color:#e0e8ff; border-color:#6b90ff80; background:#426ff523; }
+.console-note { color:#a7aec4; font-size:10px; line-height:1.6; }
+.growth-offerings { gap:24px; }
+.growth-offerings article { padding:28px; border:1px solid #d7dcdf; border-radius:6px; background:#faf9f5; }
+.growth-offerings article > span { color:var(--accent); font-size:11px; }
+.growth-offerings p { color:#657177; font-size:14px; }
+/* Production gets quiet framing and clear process steps. */
+.bts { background:#15171e; }
+.bts-photo { border-radius:6px; }
+.bts-copy > p { color:#b8c3c9; font-size:15px; }
+.process span { color:#d7dae3; font-size:13px; border-color:#ffffff20; }
+.process small { color:#9db5ff; }
+/* Black showcase, neutral project boxes and blue view selectors. */
+.digital, .digital.website-reel { background:#111318; color:var(--paper); }
+.digital .section-tag { color:#b0bcc2; }
+.digital .section-tag > span:last-child { color:#92a0a7; }
+.digital .section-tag i { background:var(--accent); }
+.digital h2 i { color:#9cb5ff; }
+.digital .eyebrow { color:#b0bcc2; }
+.website-reel .digital-portfolio-heading > div > p { color:#b7bccb; font-size:14px; line-height:1.8; }
+.digital-features { color:#aebce7; font-size:11px; gap:10px; }
+.digital .website-showcase { background:#20232d; border:1px solid #37444a; border-radius:10px; box-shadow:none; }
+.digital .website-toolbar h3 { color:#f3f2ed; }
+.digital .website-toolbar h3 small { color:#b2b9cd; font-size:9px; }
+.website-number { color:#97a9e0; }
+.digital .preview-toggle { background:#14171f; border:1px solid #444a5d; border-radius:5px; }
+.digital .preview-toggle button { color:#c1c8db; font-size:10px; border-radius:3px; }
+.digital .preview-toggle button[aria-pressed=true] { background:var(--accent); color:#fff; box-shadow:none; }
+.digital .website-device { background:#f1f2f6; border-radius:5px; box-shadow:0 12px 25px #0003; }
+.digital .website-device.is-mobile { border-radius:22px; background:#090b10; }
+.digital .website-chrome { color:#5d707a; }
+.website-chrome i { background:#a1aac6; }
+.website-chrome i:nth-child(2) { background:#bac1d5; }
+.website-chrome i:nth-child(3) { background:#d2d6e3; }
+.digital .website-live-link { color:#e3e8f5; border-color:#ffffff24; padding-top:16px; }
+.digital .website-live-link > span:first-child { color:#b0b9d5; }
+.website-reel-controls { color:#b7bdce; font-size:10px; }
+.website-reel-controls button { width:38px; height:38px; border-color:#60757f; color:#dce5ff; }
+.website-reel-controls button:hover { background:var(--accent); color:#fff; border-color:var(--accent); }
+/* Studio narrative is airy; the director's existing portrait animation remains. */
+.about-strip { background:var(--ivory); color:#20232c; }
+.about-strip .section-tag { color:#626e74; }
+.about-strip h2 i { color:var(--accent); }
+.about-strip .large-copy { color:#353a49; font-size:23px; line-height:1.65; }
+.about-strip .body-copy { color:#657177; }
+.studio-person { border-color:#c9d0d4; }
+.studio-person b { color:#282d3c; font-size:13px; }
+.studio-person small { color:#6a7b83; font-size:11px; }
+.studio-person > span:last-child { color:var(--accent); }
+.founder.director-sequence .director-card { background:radial-gradient(ellipse at 90% 20%,#426ff51a,transparent 65%),#1b1e27; border-color:#373c4d; border-radius:10px; }
+.director-focus-word i, .director-card .founder-bio h2 i { color:#a9beff; }
+.director-focus-word > p { color:#b9bfd3; font-size:14px; }
+.director-kicker, .director-card .founder-bio .eyebrow { color:#a7b8ed; }
+.director-disciplines > span { color:#c0c8e1; border-color:#ffffff29; font-size:9px; }
+.director-aperture { border-radius:6px; border-color:#ffffff25; }
+.director-card .founder-bio p { color:#c3cadf; }
+/* One unmistakable final action. */
+.cta { background:var(--accent); color:#fff; border:0; border-radius:8px; padding:65px; }
+.cta .eyebrow, .cta h2, .cta h2 i { color:#fff; }
+.cta-bottom > p { color:#e0e8ff; font-size:15px; }
+.cta .button { background:var(--ivory); color:#202944; border-color:var(--ivory); }
+.cta .button:hover { background:#fff; }
+.cta-orbit { opacity:.18; border-color:#fff; }
+footer { color:#b6bbcc; border-color:#ffffff24; padding-block:40px; font-size:12px; }
+footer > a:first-child { color:#f2f4fa; }
+footer > p, footer > a:nth-of-type(2) { font-size:11px; }
+.motion-toggle { color:#c0c7dc; border-color:#ffffff2e; font-size:10px; }
+/* Contact keeps its existing local brief download workflow. */
+.page-heading { background:radial-gradient(ellipse at 85% 5%,#426ff51f,transparent 65%),#111318; }
+.page-heading p { color:#b7bed3; font-size:16px; }
+.contact-note { background:#202430; border-color:#3b4259; border-radius:6px; }
+.contact-note b { color:#c2d1ff; font-size:10px; }
+.contact-note p { color:#b4bcd5; font-size:13px; }
+form label, legend { color:#d4d8e5; font-size:13px; }
+input, textarea { background:#1c202a; border-color:#41485d; border-radius:5px; color:#f6f8fc; font-size:14px; }
+input::placeholder, textarea::placeholder { color:#99a2bf; }
+input:focus, textarea:focus { background:#222737; border-color:#82a1ff; }
+.service-choices span { color:#b9c3df; border-color:#41485d; border-radius:4px; font-size:12px; }
+.service-choices input:checked + span { color:#fff; background:#426ff5; border-color:#82a1ff; }
+.form-privacy { color:#a0aac7; font-size:11px; }
+.lightbox { background:#191c26; border-color:#4b536d; color:#f6f5ef; }
+/* Touch layouts retain the native carousels and existing mobile portrait. */
+@media(max-width:1000px) { nav { gap:16px; font-size:12px; } header { gap:20px; } }
+@media(max-width:700px) {
+  header { height:78px; }
+  header nav { background:#191d28; border-color:#40485e; }
+  .brand > span:last-child { font-size:16px; }
+  .section { padding-block:70px; }
+  .section-tag { font-size:8px; letter-spacing:1.3px; }
+  .section-heading > p, .body-copy, .bts-copy > p, .growth-layout > div > p { font-size:14px; }
+  .home-page .hero-intro > p { font-size:14px; }
+  .hero-actions .text-link { font-size:12px; }
+  .hero-bottom { font-size:7px; }
+  .hero-bottom > a { font-size:10px; }
+  .discipline-strip > span { font-size:11px; }
+  .growth-offerings article { padding:24px; }
+  .console-top { font-size:7px; }
+  .growth-steps button { font-size:9px; }
+  .digital .website-toolbar h3 small { font-size:8px; }
+  .website-reel-controls { font-size:8px; }
+  .about-strip .large-copy { font-size:20px; }
+  .director-focus-word > p { font-size:12px; }
+  .director-disciplines > span { font-size:7px; }
+  .cta { padding:40px 25px; }
+  .cta-bottom > p { font-size:13px; }
+}
+/* Keep the pinned services canvas flush, and recolor SVG light without touching behavior. */
+.has-category-scroller { padding-block:0; }
+.journey-graph stop:first-child { stop-color:#82a1ff; }
+.journey-graph stop:last-child { stop-color:#b5c7fd; }
+.journey-graph .graph-area { fill:#426ff51a; }
+.journey-graph circle { fill:#a6bcff; }
+
+/* Pair the logo's light blue with black, and a deeper blue on white surfaces. */
+:root { --brand-blue:#567df3; --brand-blue-ink:#082e9f; }
+.button { background:var(--brand-blue); border-color:var(--brand-blue); color:#08090d; }
+.button:hover { background:#83a0f8; box-shadow:0 8px 24px #567df326; }
+.button.small { background:#ffffff08; border-color:#ffffff38; color:#fff; }
+.button.small:hover { background:#ffffff14; }
+.hero-wordmark > span {
+  background-image:linear-gradient(110deg,#fff 0%,#d5e0ff 18%,#567df3 38%,#fff 55%,#8ba6f8 76%,#fff 100%);
+}
+.hero-wordmark > span:before { color:#07080b; -webkit-text-stroke:1px #000; }
+.category-option[aria-selected=true], .category-pointer,
+.growth-section h2 i, .about-strip h2 i, .growth-offerings article > span,
+.studio-person > span:last-child { color:var(--brand-blue-ink); }
+.category-progress i, .category-pin > .section-tag i { background:var(--brand-blue-ink); }
+.growth-steps button[aria-selected=true],
+.digital .preview-toggle button[aria-pressed=true],
+.service-choices input:checked + span { background:var(--brand-blue); color:#08090d; }
+.website-reel-controls button:hover { background:var(--brand-blue); color:#08090d; }
+.cta { background:var(--brand-blue); color:#08090d; }
+.cta .eyebrow, .cta h2, .cta h2 i { color:#08090d; }
+.cta-bottom > p { color:#16234a; }
+.cta .button { background:#08090d; color:#fff; border-color:#08090d; }
+.cta .button:hover { background:#242b41; }
+.journey-graph stop:first-child { stop-color:#567df3; }
+.journey-graph stop:last-child { stop-color:#e0e8ff; }
+.journey-graph circle { fill:#567df3; }
+::selection { background:#567df3; color:#08090d; }
+
+/* Visible motion: lifted reveals, drifting photographs and studio micro-interactions. */
+.motion-ready .reveal-item {
+  transform:translateY(65px); opacity:0;
+  transition:opacity .95s var(--ease),transform .95s var(--ease);
+}
+.motion-ready .reveal-item.is-revealed { opacity:1; transform:none; }
+.heading-word { display:inline-block; }
+.editorial-image > img { translate:0 var(--image-drift,0px); }
+.bts-photo.editorial-image > img { transform:scale(1.13); }
+.project-image.editorial-image > img { transform:scale(calc(var(--media-scale,1) + .10)); }
+.reading-line { position:fixed; top:0; left:0; width:100%; height:3px;
+  background:var(--brand-blue); z-index:80; pointer-events:none; transform:scaleX(0); transform-origin:left; }
+.hero-wordmark > span { animation-duration:7s; }
+.wall-track { animation-duration:38s; }
+.wall-column:nth-child(2n) .wall-track { animation-duration:46s; }
+.section-tag i { box-shadow:0 0 0 5px #567df31a; }
+nav a { position:relative; }
+nav a:before { content:''; position:absolute; bottom:5px; left:0; right:0; height:1px;
+  background:var(--brand-blue); transform:scaleX(0); transform-origin:left; transition:transform .3s var(--ease); }
+nav a:hover:before { transform:scaleX(1); }
+.button > span, .view-project { transition:transform .35s var(--ease); }
+.button:hover > span { transform:translate(4px,-4px); }
+.project:hover .view-project { transform:rotate(-12deg); }
+.digital .website-showcase { transition:border-color .35s,box-shadow .35s; }
+.digital .website-showcase:hover { border-color:#567df3; box-shadow:0 12px 40px #0003; }
+.website-live-link > span:last-child { transition:translate .3s var(--ease); }
+.website-live-link:hover > span:last-child { translate:3px -2px; }
+.growth-offerings article { transition:translate .35s var(--ease),border-color .35s; }
+.growth-offerings article:hover { translate:0 -6px; border-color:#567df3; }
+.cta { position:relative; overflow:hidden; isolation:isolate; }
+.cta:after { content:''; position:absolute; width:65%; aspect-ratio:1; top:-60%; right:-25%;
+  border:1px solid #ffffff40; border-radius:50%; box-shadow:0 0 0 60px #ffffff08,0 0 0 120px #ffffff05;
+  z-index:-1; pointer-events:none; animation:studio-rings 9s ease-in-out infinite alternate; }
+@keyframes studio-rings { from { transform:translate(0,0) scale(.9); } to { transform:translate(-10%,18%) scale(1.15); } }
+.motion-disabled .heading-word { opacity:1!important; transform:none!important; filter:none!important; }
+.motion-disabled .editorial-image > img { translate:none; }
+.motion-disabled .bts-photo.editorial-image > img { transform:none; }
+.motion-disabled .project-image.editorial-image > img { transform:scale(1); }
+.motion-disabled .cta:after { animation:none; }
+.motion-disabled .reading-line { display:none; }
+@media(prefers-reduced-motion:reduce) {
+  .heading-word { opacity:1!important; transform:none!important; filter:none!important; }
+  .editorial-image > img { translate:none; }
+  .bts-photo.editorial-image > img, .project-image.editorial-image > img { transform:none; }
+  .cta:after { animation:none; }
+  .reading-line { display:none; }
+  nav a:before, .button > span, .view-project, .growth-offerings article, .website-live-link > span:last-child { transition:none; }
+}
+
+/* Background-free logo: fit the emblem rather than cropping the old square photo. */
+.mini-logo { width:64px; height:30px; overflow:visible; border-radius:0; flex-shrink:0; }
+.mini-logo img { width:100%; height:100%; max-width:100%; margin:0; object-fit:contain; }
+@media(max-width:700px) { .mini-logo { width:54px; height:26px; } }
+
+/* Restore the original warm ivory across all light surfaces. */
+:root { --ivory:#f3f1eb; --paper:#f5f4f0; }
+.has-category-scroller, .category-pin, .growth-section, .about-strip { background:#f3f1eb; }
+.growth-offerings article { background:#faf8f1; }
+.digital .website-device:not(.is-mobile) { background:#f3f1eb; }
+
+/* Earlier electric-blue identity, with the restored warm ivory. */
+:root { --accent:#4264f5; --brand-blue:#4264f5; --brand-blue-ink:#4264f5; --mint:#829eff; --blue:#a9baff; }
+.button { background:#4264f5; border-color:#5875ff; color:#fff; }
+.button:hover { background:#3153e4; box-shadow:0 8px 24px #4264f526; }
+.button.small { background:#ffffff0c; border-color:#ffffff38; color:#fff; }
+.button.small:hover { background:#ffffff18; }
+.growth-steps button[aria-selected=true], .digital .preview-toggle button[aria-pressed=true],
+.service-choices input:checked + span { background:#4264f5; color:#fff; }
+.website-reel-controls button:hover { background:#4264f5; color:#fff; }
+.cta { background:#4264f5; color:#fff; }
+.cta .eyebrow, .cta h2, .cta h2 i { color:#fff; }
+.cta-bottom > p { color:#e0e6ff; }
+.cta .button { background:var(--ivory); color:#202544; border-color:var(--ivory); }
+.cta .button:hover { background:#fff; }
+.hero-wordmark > span { background-image:linear-gradient(110deg,#f6f5ef 0%,#c8d3ff 20%,#8babff 38%,#fffaf0 55%,#c9c5ff 73%,#f3f4ff 100%); }
+.journey-graph stop:first-child { stop-color:#829eff; }
+.journey-graph stop:last-child { stop-color:#c4b5fd; }
+.journey-graph circle { fill:#a6b8ff; }
+::selection { background:#4264f5; color:#fff; }
+
+/* A restrained mint accent taken from the original MMM logo backdrop. */
+:root { --brand-mint:#6fe09a; }
+.brand .mini-logo {
+ background:var(--brand-mint);padding:3px 4px;border-radius:6px;
+ overflow:hidden;
+}
+.hero-intro > .eyebrow:before {
+ content:'';display:inline-block;width:6px;height:6px;margin-right:8px;
+ border-radius:50%;background:var(--brand-mint);vertical-align:middle;
+}
+.work .section-tag, .digital .section-tag, .bts .section-tag { color:var(--brand-mint); }
+.digital .preview-toggle button[aria-pressed=true] { background:var(--brand-mint);color:#14251c; }
+.website-live-link:hover, .work .text-link:hover, .director-kicker { color:var(--brand-mint); }
+.reading-line { background:var(--brand-mint); }
+::selection { background:var(--brand-mint);color:#14251c; }
+
+/* Give the logo's mint a stronger role in interactive accents. */
+.hero-actions .button { background:var(--brand-mint);border-color:var(--brand-mint);color:#14251c; }
+.hero-actions .button:hover { background:#92edb4;box-shadow:0 8px 24px #6fe09a26; }
+header .button.small { border-color:#6fe09a70;color:var(--brand-mint);background:#6fe09a0d; }
+header .button.small:hover { background:var(--brand-mint);color:#14251c; }
+.growth-steps button[aria-selected=true], .service-choices input:checked + span {
+ background:var(--brand-mint);color:#14251c;
+}
+.website-reel-controls button:hover { background:var(--brand-mint);border-color:var(--brand-mint);color:#14251c; }
+.director-disciplines > span { border-color:#6fe09a45;color:#b7efcc;background:#6fe09a08; }
+.director-card .founder-bio .eyebrow { color:var(--brand-mint); }
+.cta .button { background:var(--brand-mint);border-color:var(--brand-mint);color:#14251c; }
+.cta .button:hover { background:#92edb4; }
+.bts .process span.current { color:var(--brand-mint);border-color:var(--brand-mint); }
+.journey-graph stop:first-child { stop-color:var(--brand-mint); }
+.journey-graph circle { fill:var(--brand-mint); }
+a:focus-visible, button:focus-visible, summary:focus-visible { outline-color:var(--brand-mint); }
+
+/* Mint and metallic blue share the accent surfaces. */
+:root {
+ --metal-blue:#91b9d8;
+ --mint-metal:linear-gradient(115deg,#8ce5ad 0%,#a1decf 44%,#91b9d8 76%,#bacfe1 100%);
+}
+.hero-actions .button, .cta .button,
+.growth-steps button[aria-selected=true],
+.digital .preview-toggle button[aria-pressed=true],
+.service-choices input:checked + span,
+.website-reel-controls button:hover {
+ background:var(--mint-metal);border-color:#b1ddd6;color:#142632;
+ box-shadow:inset 0 1px 0 #ffffff65,inset 0 -1px 0 #36557720;
+}
+.hero-actions .button:hover, .cta .button:hover {
+ background:linear-gradient(115deg,#a0efbd,#b0e5db 44%,#a7c9e2 76%,#d0dfeb);
+ box-shadow:inset 0 1px 0 #ffffff80,0 8px 24px #91b9d822;
+}
+header .button.small { background:linear-gradient(115deg,#6fe09a12,#91b9d816);border-color:#9bcfc470;color:#c1e9de; }
+header .button.small:hover { background:var(--mint-metal);color:#142632; }
+.director-disciplines > span { background:linear-gradient(115deg,#6fe09a0c,#91b9d818);border-color:#91b9d84d;color:#c6e8e6; }
+.reading-line { background:linear-gradient(90deg,#6fe09a,#91b9d8); }
+.journey-graph stop:first-child { stop-color:#6fe09a; }
+.journey-graph stop:last-child { stop-color:#91b9d8; }
+
+/* Show the mint/metal-blue pairing at a scale that is visible immediately. */
+.hero-wordmark > span {
+ background-image:linear-gradient(110deg,#6fe09a 0%,#a3efd0 28%,#7ab5df 58%,#c4deee 78%,#6fe09a 100%);
+}
+.category-option[aria-selected=true] {
+ background:linear-gradient(110deg,#268457 0%,#399c7b 35%,#4264f5 76%,#5286b5 100%);
+ background-clip:text;-webkit-background-clip:text;color:transparent;
+}
+.cta { background:linear-gradient(115deg,#6fe09a 0%,#97dec6 38%,#7bb1d7 75%,#a4c8e2 100%);color:#142632; }
+.cta .eyebrow, .cta h2, .cta h2 i { color:#142632; }
+.cta-bottom > p { color:#243f4b; }
+.cta .button { background:#142632;border-color:#142632;color:#e1f4ed;box-shadow:none; }
+.cta .button:hover { background:#263f51;color:#fff; }
+.digital .website-toolbar { border-bottom-color:#8ecbbc; }
+.digital .website-portfolio-heading .eyebrow { color:#98deca; }
+.hero-intro > .eyebrow { border-color:#8dd8c44d;background:linear-gradient(110deg,#6fe09a16,#91b9d820);color:#c3e9e1; }
+
+/* Blue occupies 70% of the blend, with mint concentrated in the first 30%. */
+:root { --mint-metal:linear-gradient(115deg,#6fe09a 0%,#95dfc3 20%,#91b9d8 30%,#7eafd4 70%,#b6d0e4 100%); }
+.hero-wordmark > span {
+ background-image:linear-gradient(110deg,#6fe09a 0%,#a0e5ce 20%,#86bae0 30%,#79a9d2 65%,#c4deee 100%);
+}
+.category-option[aria-selected=true] {
+ background-image:linear-gradient(110deg,#268457 0%,#399c7b 20%,#5286b5 30%,#4264f5 75%,#5286b5 100%);
+}
+.cta { background:var(--mint-metal); }
+.hero-actions .button:hover {
+ background:linear-gradient(115deg,#90ecb3 0%,#b0e5db 20%,#a7c9e2 30%,#95bce0 70%,#d0dfeb 100%);
+}
+header .button.small { background:linear-gradient(115deg,#6fe09a12 0%,#91b9d816 30%,#91b9d824 100%);border-color:#91b9d870;color:#d0e4f2; }
+.director-disciplines > span { background:linear-gradient(115deg,#6fe09a0c 0%,#91b9d818 30%,#91b9d824 100%);border-color:#91b9d84d;color:#cee4f2; }
+.reading-line { background:linear-gradient(90deg,#6fe09a 0%,#91b9d8 30%,#91b9d8 100%); }
+.hero-intro > .eyebrow { border-color:#91b9d84d;background:linear-gradient(110deg,#6fe09a16 0%,#91b9d820 30%,#91b9d820 100%);color:#cee4f2; }
+
+/* Small toolkit buttons, each with a playful equipment-specific reveal. */
+.equipment .toolkit-buttons { display:flex;flex-wrap:wrap;gap:16px 14px;padding-top:68px;padding-bottom:42px; }
+.tool-button-wrap { position:relative;isolation:isolate; }
+.tool-button { position:relative;z-index:2;border:1px solid #91b9d84d;border-radius:7px;background:#1b2430;color:#cfe0ee;padding:12px 17px;font-size:11px;letter-spacing:.35px;min-height:40px;transition:background .25s,border-color .25s,box-shadow .3s; }
+.tool-hover-art { position:absolute;left:50%;bottom:10px;width:68px;height:68px;translate:-50% 0;opacity:0;transform:translateY(20px) scale(.7);color:#91b9d8;pointer-events:none;z-index:1;transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .25s; }
+.tool-hover-art svg { width:100%;height:100%;filter:drop-shadow(0 3px 8px #91b9d844); }
+.tool-note { position:absolute;z-index:4;left:50%;top:calc(100% + 9px);width:190px;max-width:65vw;translate:-50% 0;padding:9px 12px;border:1px solid #91b9d84d;background:#192735;color:#d3e4ed;border-radius:6px;box-shadow:0 8px 25px #0003;font-size:10px;line-height:1.5;text-align:center;opacity:0;visibility:hidden;transform:translateY(-4px);transition:opacity .2s,transform .2s,visibility .2s;pointer-events:none; }
+.tool-button-wrap:is(:hover,:focus-within,.tool-active) .tool-hover-art { opacity:1;transform:translateY(-28px) scale(1); }
+.tool-button-wrap:is(:hover,:focus-within,.tool-active) .tool-button { border-color:#9adbc8;background:#233b43;color:#e0f5ed; }
+.tool-button-wrap:is(:hover,:focus-within,.tool-active) .tool-note { opacity:1;visibility:visible;transform:none; }
+/* Camera rises; the lens rolls into place; video sweeps through a viewfinder. */
+.tool-effect-1:is(:hover,:focus-within,.tool-active) .tool-hover-art { animation:tool-lens .6s cubic-bezier(.2,.8,.2,1) both; }
+.tool-effect-2:is(:hover,:focus-within,.tool-active) .tool-hover-art svg { animation:tool-frame 1.8s ease-in-out infinite; }
+/* Softbox lights up both the button and the illustrated lamp. */
+.tool-effect-3:is(:hover,:focus-within,.tool-active) .tool-button { background:#eaf3dc;color:#243627;border-color:#ffffd2;box-shadow:0 0 16px #f3f7bb88,0 0 48px #e5f5b533; }
+.tool-effect-3:is(:hover,:focus-within,.tool-active) .tool-hover-art { color:#fbffce;filter:drop-shadow(0 0 9px #f4ffb8); }
+.tool-effect-4:is(:hover,:focus-within,.tool-active) .tool-hover-art svg { animation:tool-balance 2s ease-in-out infinite;transform-origin:50% 78%; }
+.tool-effect-5:is(:hover,:focus-within,.tool-active) .tool-hover-art { animation:tool-stand .5s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes tool-lens { from { opacity:0;transform:translateY(12px) scale(.6) rotate(-60deg); } to { opacity:1;transform:translateY(-28px) scale(1) rotate(0); } }
+@keyframes tool-frame { 0%,100% { filter:drop-shadow(0 0 3px #91b9d833); } 50% { filter:drop-shadow(0 0 8px #6fe09aaa); } }
+@keyframes tool-balance { 0%,100% { transform:rotate(-8deg); } 50% { transform:rotate(8deg); } }
+@keyframes tool-stand { from { opacity:0;transform:translateY(12px) scaleX(.4) scaleY(.7); } to { opacity:1;transform:translateY(-28px) scale(1); } }
+@media(max-width:700px) { .equipment .toolkit-buttons { gap:66px 12px;padding-bottom:50px; }.tool-button { font-size:10px;padding:11px 13px; }.tool-note { width:155px; }.tool-button-wrap:first-child .tool-note { left:0;translate:0; }.tool-button-wrap:last-child .tool-note { left:auto;right:0;translate:0; } }
+.motion-disabled .tool-hover-art,.motion-disabled .tool-hover-art svg { animation:none!important;transition:none; }
+@media(prefers-reduced-motion:reduce) { .tool-hover-art,.tool-hover-art svg { animation:none!important;transition:none; } }
+
+/* Larger dimensional camera studies, with layered optical glass and metal controls. */
+.tool-effect-0 .tool-hover-art, .tool-effect-2 .tool-hover-art { width:108px;height:108px;bottom:8px; }
+.tool-effect-0:is(:hover,:focus-within,.tool-active) .tool-hover-art,
+.tool-effect-2:is(:hover,:focus-within,.tool-active) .tool-hover-art { transform:translateY(-30px) scale(1) rotate(-5deg); }
+.tool-effect-0 .tool-hover-art svg, .tool-effect-2 .tool-hover-art svg { filter:drop-shadow(0 6px 10px #0006); }
+.equipment .toolkit-buttons { padding-top:94px; }
+@media(max-width:700px) { .equipment .toolkit-buttons { row-gap:92px; }.tool-effect-0 .tool-hover-art,.tool-effect-2 .tool-hover-art { width:94px;height:94px; } }
+
+/* Match every tool to the richer camera illustrations. */
+.tool-hover-art { width:102px;height:102px;bottom:8px; }
+.tool-effect-1 .tool-hover-art svg,.tool-effect-4 .tool-hover-art svg,.tool-effect-5 .tool-hover-art svg { filter:drop-shadow(0 6px 10px #0006); }
+.tool-effect-3:is(:hover,:focus-within,.tool-active) .tool-hover-art svg { filter:drop-shadow(0 0 12px #efffc966); }
+@media(max-width:700px) { .tool-hover-art { width:92px;height:92px; } }
+
+/* Real setup gestures: stabilise the mounted camera, then unfold and raise the tripod. */
+.tool-effect-4:is(:hover,:focus-within,.tool-active) .tool-hover-art svg { animation:none; }
+.gimbal-camera { transform-box:view-box;transform-origin:45px 27px; }
+.tool-effect-4:is(:hover,:focus-within,.tool-active) .gimbal-camera { animation:gimbal-settle 1.35s .12s both; }
+@keyframes gimbal-settle {
+ 0% { transform:rotate(-32deg); } 42% { transform:rotate(13deg); }
+ 68% { transform:rotate(-6deg); } 85% { transform:rotate(2deg); } 100% { transform:rotate(0); }
+}
+.tool-effect-5:is(:hover,:focus-within,.tool-active) .tool-hover-art { animation:none;transform:translateY(-28px) scale(1); }
+.tripod-leg-left { transform-box:view-box;transform-origin:34px 33px; }
+.tripod-leg-right { transform-box:view-box;transform-origin:46px 33px; }
+.tripod-column { transform-box:view-box;transform-origin:40px 65px; }
+.tripod-braces { transform-box:view-box;transform-origin:40px 57px; }
+.tool-effect-5:is(:hover,:focus-within,.tool-active) .tripod-leg-left { animation:tripod-left .65s .08s cubic-bezier(.22,1,.36,1) both; }
+.tool-effect-5:is(:hover,:focus-within,.tool-active) .tripod-leg-right { animation:tripod-right .65s .08s cubic-bezier(.22,1,.36,1) both; }
+.tool-effect-5:is(:hover,:focus-within,.tool-active) .tripod-braces { animation:tripod-spread .65s .08s cubic-bezier(.22,1,.36,1) both; }
+.tool-effect-5:is(:hover,:focus-within,.tool-active) .tripod-column { animation:tripod-extend .65s .4s cubic-bezier(.22,1,.36,1) both; }
+.tool-effect-5:is(:hover,:focus-within,.tool-active) .tripod-head { animation:tripod-raise .65s .4s cubic-bezier(.22,1,.36,1) both; }
+@keyframes tripod-left { from { transform:rotate(-26deg); } to { transform:rotate(0); } }
+@keyframes tripod-right { from { transform:rotate(26deg); } to { transform:rotate(0); } }
+@keyframes tripod-spread { from { transform:scaleX(.22); } to { transform:scaleX(1); } }
+@keyframes tripod-extend { from { transform:scaleY(.47); } to { transform:scaleY(1); } }
+@keyframes tripod-raise { from { transform:translateY(18px); } to { transform:translateY(0); } }
+.motion-disabled .tool-hover-art g { animation:none!important;transform:none!important; }
+@media(prefers-reduced-motion:reduce) { .tool-hover-art g { animation:none!important;transform:none!important; } }
+
+/* An open studio backdrop for the compact interactive toolkit. */
+.section.equipment {
+ position:relative;isolation:isolate;width:100%;max-width:none;margin:0;
+ padding:70px max(6vw,24px) 45px;
+ background:radial-gradient(ellipse at 95% 65%,#6fe09a17,transparent 34%),linear-gradient(115deg,#172b42 0%,#122138 45%,#1d344b 70%,#192f32 100%);
+ border-block:1px solid #91b9d82b;
+}
+.equipment:before {
+ content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
+ background:repeating-linear-gradient(0deg,#c6e1f004 0px,#c6e1f004 1px,transparent 1px,transparent 4px);
+}
+.equipment > .section-tag { display:flex;justify-content:space-between;color:#b3cce0;border-bottom:1px solid #91b9d82b;padding-bottom:20px;margin-bottom:35px; }
+.equipment .toolkit-intro { display:grid;grid-template-columns:1.3fr 1fr;align-items:center;gap:40px; }
+.toolkit-intro h2 { margin:0;font-size:clamp(48px,6vw,86px);line-height:1.03;letter-spacing:-.06em;color:#f0f5fa; }
+.toolkit-intro h2 i { background:var(--mint-metal);background-clip:text;-webkit-background-clip:text;color:transparent; }
+.toolkit-overline { font-size:9px;letter-spacing:1.7px;color:#93b6d1; }
+.toolkit-intro-copy p { font-size:15px;line-height:1.8;color:#c1d3e2;margin:18px 0; }
+.toolkit-invitation { font-size:11px;color:#a8e5c6;display:inline-flex;align-items:center;gap:9px; }
+.toolkit-invitation > span { font-size:21px; }
+.equipment .toolkit-buttons { gap:18px;padding-top:112px;padding-bottom:58px; }
+.equipment .tool-button { background:#22394b;border-color:#91b9d85c;box-shadow:inset 0 1px 0 #c1dcec16,0 4px 10px #0002; }
+.equipment .toolkit-footer { display:flex;justify-content:space-between;gap:20px;border-top:1px solid #91b9d82b;padding-top:18px;color:#8eafc7;font-size:8px;letter-spacing:1.6px; }
+@media(max-width:700px) {
+ .section.equipment { padding:45px 24px 28px; }
+ .equipment > .section-tag { font-size:7px;gap:15px;margin-bottom:28px; }
+ .equipment .toolkit-intro { grid-template-columns:1fr;gap:24px; }
+ .toolkit-intro h2 { font-size:clamp(44px,12vw,66px); }
+ .toolkit-intro-copy p { font-size:12px;margin:12px 0; }
+ .toolkit-overline { font-size:7px;letter-spacing:1px; }
+ .equipment .toolkit-buttons { gap:94px 12px;padding-top:95px;padding-bottom:50px; }
+ .equipment .toolkit-footer { font-size:6px;letter-spacing:.8px; }
+}
+
+/* Compact the layouts after removing decorative captions and duplicate copy. */
+.digital-portfolio-heading { grid-template-columns:1fr; }
+.toolkit-intro-copy { justify-self:end; }
+.hero-bottom { justify-content:flex-end; }
+@media(max-width:700px) { .toolkit-intro-copy { justify-self:start; } }
+
+/* A bold, condensed cinematic display face; interface copy stays in DM Sans. */
+@font-face {
+ font-family:'MMM Cinematic';src:url('/assets/fonts/archivo-black.ttf') format('truetype');
+ font-weight:400;font-style:normal;font-display:swap;
+}
+main h1:not(.hero-wordmark), main h2, main h2 i, main h3,
+.director-focus-word, .director-focus-word i, .category-option {
+ font-family:'MMM Cinematic','Arial Black','Arial Narrow',sans-serif;
+ font-weight:400;font-style:normal;letter-spacing:.012em;text-transform:uppercase;
+}
+main h2, main h2 i { line-height:1.1; }
+main .hero h2.hero-tagline { font-family:'MMM Cinematic','Arial Black',sans-serif;font-weight:400;font-size:clamp(24px,2.6vw,38px);letter-spacing:.025em;line-height:1.2; }
+main .project-caption h3, main .digital .website-toolbar h3,
+main #stage-title, main .growth-offerings h3 { font-family:'MMM Cinematic','Arial Black',sans-serif;font-weight:400;letter-spacing:.015em; }
+.director-focus-word { line-height:1.1; }
+main .digital .website-toolbar h3 small { font-family:var(--body-font);font-weight:400;text-transform:none;letter-spacing:0; }
+
+/* Give condensed display letters room; remove inherited tight geometric tracking. */
+.home-page main h2, .home-page main h2 i,
+.contact-page main h1, .contact-page main h1 i,
+.contact-page main h2, .contact-page main h2 i,
+.home-page main h3, .contact-page main h3,
+main #stage-title, .director-focus-word, .director-focus-word i {
+ letter-spacing:.04em;word-spacing:.08em;
+}
+main .hero h2.hero-tagline { letter-spacing:.045em;word-spacing:.1em; }
+.category-option { letter-spacing:.035em;word-spacing:.06em; }
+.category-detail li, .service-list .service-content li { letter-spacing:0;line-height:1.35; }
+.brand > span:last-child { letter-spacing:-.2px; }
+main .digital .website-toolbar h3 small { letter-spacing:0;word-spacing:normal; }
+.heading-word { padding-right:.025em; }
+@media(max-width:700px) {
+ .home-page main h2, .home-page main h2 i,
+ .contact-page main h1, .contact-page main h1 i { letter-spacing:.03em; }
+ .category-option { letter-spacing:.025em; }
+}
+
+/* Condensed display typography: retain spacing and avoid decorative character joins. */
+main h1:not(.hero-wordmark), main h2, main h2 i, main h3,
+.director-focus-word, .director-focus-word i, .category-option {
+ font-variant-ligatures:none;font-feature-settings:'liga' 0,'dlig' 0,'clig' 0;
+}
+
+/* Upright upper lines, italic lower lines, without animating their font style. */
+.home-page main h2, .contact-page main h1, .contact-page main h2,
+.home-page main h3, .contact-page main h3,
+.director-focus-word { font-style:normal; }
+.home-page main h2 i, .contact-page main h1 i,
+.contact-page main h2 i, .director-focus-word i {
+ font-style:italic;font-synthesis:style;
+ display:inline-block;padding-inline:.025em .13em;
+}
+
+/* Cursive lower lines paired with upright cinematic headings. */
+@font-face {
+ font-family:'MMM Script';src:url('/assets/fonts/yellowtail-regular.ttf') format('truetype');
+ font-weight:400;font-style:normal;font-display:swap;
+}
+.home-page main h2 i, .contact-page main h1 i,
+.contact-page main h2 i, .director-focus-word i {
+ font-family:'MMM Script','Brush Script MT',cursive;font-weight:400;font-style:normal;
+ font-synthesis:none;text-transform:none;letter-spacing:0;word-spacing:.03em;
+ line-height:1.15;padding-inline:.02em .12em;font-size:1.08em;
+ font-variant-ligatures:normal;font-feature-settings:normal;
+}
+main h2 i .heading-word, main h1 i .heading-word { padding-right:.015em; }
+
+/* Brush-style lower lines inspired by the supplied reference. */
+@font-face {
+ font-family:'MMM Brush';src:url('/assets/fonts/lobster-regular.ttf') format('truetype');
+ font-weight:400;font-style:normal;font-display:swap;
+}
+.home-page main h2 i, .contact-page main h1 i,
+.contact-page main h2 i, .director-focus-word i {
+ font-family:'MMM Brush','Brush Script MT',cursive;font-weight:400;font-style:normal;
+ text-transform:uppercase;font-size:.9em;letter-spacing:.012em;word-spacing:.045em;
+ line-height:1.3;padding-inline:.02em .14em;
+}
+@media(max-width:700px) {
+ .home-page main h2 i, .contact-page main h1 i { letter-spacing:.008em; }
+}
+
+/* Keep the brush lines in their natural mixed case. */
+.home-page main h2 i, .contact-page main h1 i,
+.contact-page main h2 i, .director-focus-word i { text-transform:none; }
+
+/* Let the brush line overlap the upright headline slightly. */
+.home-page main h2 i, .contact-page main h1 i,
+.contact-page main h2 i, .director-focus-word i {
+ position:relative;z-index:1;margin-top:-.18em;vertical-align:top;
+}
+@media(max-width:700px) {
+ .home-page main h2 i, .contact-page main h1 i,
+ .contact-page main h2 i, .director-focus-word i { margin-top:-.14em; }
+}
+
+/* Rougher painted brush lettering, with more presence in the lower line. */
+.home-page main h2 i, .contact-page main h1 i,
+.contact-page main h2 i, .director-focus-word i {
+ font-size:1.08em;letter-spacing:.012em;line-height:1.08;
+ text-transform:none;margin-top:-.13em;padding-inline:.02em .07em;
+}
+@media(max-width:700px) {
+ .home-page main h2 i, .contact-page main h1 i,
+ .contact-page main h2 i, .director-focus-word i { margin-top:-.1em; }
+}
+
+/* Wide, heavy title lettering inspired by the supplied film-poster reference. */
+.home-page main h2, .contact-page main h1, .contact-page main h2,
+.director-focus-word { letter-spacing:.005em;word-spacing:.015em;line-height:1.06; }
+.home-page main h2 i, .contact-page main h1 i,
+.contact-page main h2 i, .director-focus-word i {
+ font-family:'MMM Brush','Brush Script MT',cursive;letter-spacing:.012em;line-height:1.08;
+}
+.digital .website-toolbar h3 { min-width:0;overflow-wrap:anywhere; }
+@media(max-width:700px) {
+ .home-page main h2, .contact-page main h1 { letter-spacing:0; }
+ .home-page main h2 i, .contact-page main h1 i { letter-spacing:.008em; }
+}
+
+/* Full, connected cursive secondary lines inspired by the supplied reference. */
+.home-page main h2 i, .contact-page main h1 i,
+.contact-page main h2 i, .director-focus-word i {
+ font-family:'MMM Brush','MMM Script',cursive;font-weight:400;font-style:normal;
+ font-size:1.05em;letter-spacing:0;word-spacing:.03em;line-height:1.16;
+ font-variant-ligatures:normal;font-feature-settings:normal;text-transform:none;
+ margin-top:-.14em;padding-inline:.015em .12em;
+}
+main h2 i .heading-word, main h1 i .heading-word { padding-right:0; }
+@media(max-width:700px) {
+ .home-page main h2 i, .contact-page main h1 i,
+ .contact-page main h2 i, .director-focus-word i { letter-spacing:0;margin-top:-.1em; }
+}
+
+/* Centre the growth script into its primary title. */
+.growth-section .growth-layout > div:first-child > h2 { width:max-content;max-width:100%;text-align:center; }
+.home-page main .growth-section .growth-layout h2 i {
+ display:block;width:100%;margin-top:-.24em;padding-inline:.06em;
+ text-align:center;position:relative;z-index:1;
+}
+@media(max-width:700px) {
+ .home-page main .growth-section .growth-layout h2 i { margin-top:-.2em; }
+}
+
+/* Larger editorial titles with dimensional shadows and restrained highlights. */
+.home-page main .section h2, .home-page main .cta h2 {
+ font-size:clamp(48px,5.7vw,86px);
+ text-shadow:0 2px 0 #0002,0 10px 24px #0002;
+}
+.home-page main .growth-section h2, .home-page main .about-strip h2 {
+ text-shadow:0 2px 0 #91b9d82e,0 8px 20px #1c36531a;
+}
+.home-page main .digital h2, .home-page main .bts h2,
+.home-page main .work-section h2, .home-page main .equipment h2 {
+ text-shadow:0 3px 0 #14243f,0 12px 28px #0005;
+}
+.home-page main .section h2 i, .home-page main .cta h2 i {
+ text-shadow:0 2px 0 #102b3926,0 7px 18px #4264f52b;
+}
+.home-page main .equipment h2 i { text-shadow:none;filter:drop-shadow(0 6px 10px #0003); }
+.home-page main .hero h2.hero-tagline { font-size:clamp(28px,3.2vw,46px);text-shadow:0 3px 0 #102038,0 8px 24px #0005; }
+.contact-page main .page-heading h1 { font-size:clamp(54px,7.5vw,108px);text-shadow:0 3px 0 #14243f,0 12px 28px #0004; }
+.contact-page main .contact-layout h2 { font-size:clamp(40px,4.4vw,64px);text-shadow:0 8px 18px #19375418; }
+.director-card .founder-bio h2 { font-size:clamp(40px,5.1vw,72px);text-shadow:0 3px 0 #0e1728,0 12px 24px #0004; }
+.project-caption h3 { font-size:clamp(20px,2vw,28px);text-shadow:0 3px 10px #0002; }
+.category-option { text-shadow:0 5px 16px #1b365215; }
+.category-option[aria-selected=true] { text-shadow:none;filter:drop-shadow(0 4px 6px #4264f51c); }
+@media(max-width:700px) {
+ .home-page main .section h2, .home-page main .cta h2 { font-size:clamp(38px,10.3vw,60px); }
+ .home-page main .hero h2.hero-tagline { font-size:clamp(25px,6.5vw,34px); }
+ .contact-page main .page-heading h1 { font-size:clamp(44px,11.4vw,66px); }
+ .contact-page main .contact-layout h2 { font-size:clamp(34px,9vw,46px); }
+ .director-card .founder-bio h2 { font-size:clamp(34px,9vw,46px); }
+ .project-caption h3 { font-size:22px; }
+}
+
+/* Soft accent glow, keeping the heading edges crisp. */
+.home-page main .digital h2, .home-page main .bts h2,
+.home-page main .work-section h2, .home-page main .equipment h2,
+.home-page main .hero h2.hero-tagline, .contact-page main .page-heading h1,
+.director-card .founder-bio h2 {
+ text-shadow:0 2px 0 #15283e,0 0 10px #91b9d82b;
+}
+.home-page main .digital h2 i, .home-page main .bts h2 i,
+.home-page main .work-section h2 i, .contact-page main .page-heading h1 i,
+.director-card .founder-bio h2 i {
+ text-shadow:0 2px 5px #0002,0 0 9px #6fe09a30;
+}
+.home-page main .equipment h2 i { text-shadow:none;filter:drop-shadow(0 0 6px #91b9d830); }
+.home-page main .growth-section h2, .home-page main .about-strip h2,
+.contact-page main .contact-layout h2 {
+ text-shadow:0 3px 8px #19375418;
+}
+.home-page main .growth-section h2 i, .home-page main .about-strip h2 i {
+ text-shadow:0 2px 7px #4264f51c;
+}
+.home-page main .cta h2, .home-page main .cta h2 i { text-shadow:0 2px 7px #14263220; }
+.hero-wordmark > span { filter:drop-shadow(0 0 8px #91b9d822); }
+
+/* White hero wordmark with a blue-to-mint edge and offset colour shadow. */
+.hero h1.hero-wordmark { filter:none; }
+.hero-wordmark > span {
+ color:#fff;-webkit-text-fill-color:#fff;background:none;
+ -webkit-text-stroke:0;text-shadow:none;filter:none;animation:none;
+}
+.hero-wordmark > span:before, .hero-wordmark > span:after {
+ content:attr(data-wordmark);position:absolute;inset:0;pointer-events:none;
+ background:linear-gradient(110deg,#75a9db 0%,#91b9d8 55%,#87cfca 70%,#6fe09a 100%);
+ background-clip:text;-webkit-background-clip:text;
+ color:transparent;-webkit-text-fill-color:transparent;-webkit-text-stroke:0;
+ text-shadow:none;
+}
+.hero-wordmark > span:before { z-index:-1;transform:scale(1.012,1.04);transform-origin:center; }
+.hero-wordmark > span:after { z-index:-2;transform:translate(4px,6px);opacity:.65;filter:blur(.5px); }
+@media(max-width:700px) {
+ .hero h1.hero-wordmark { filter:none; }
+ .hero-wordmark > span:before { transform:scale(1.014,1.045);-webkit-text-stroke:0; }
+ .hero-wordmark > span:after { transform:translate(2px,3px);opacity:.6; }
+}
+
+/* A dark backing shadow separates the complete wordmark from the image wall. */
+.hero h1.hero-wordmark {
+ filter:drop-shadow(0 3px 2px #000b) drop-shadow(0 10px 14px #0009);
+}
+@media(max-width:700px) {
+ .hero h1.hero-wordmark { filter:drop-shadow(0 2px 1px #000b) drop-shadow(0 6px 9px #0008); }
+}
+
+/* Match all four discipline labels in Lobster. */
+@font-face {
+ font-family:'MMM Discipline';src:url('/assets/fonts/lobster-regular.ttf') format('truetype');
+ font-weight:400;font-style:normal;font-display:swap;
+}
+.discipline-strip > span {
+ font-family:'MMM Discipline',cursive;font-weight:400;font-style:normal;
+ font-size:clamp(21px,2vw,30px);letter-spacing:0;
+ color:#e7edf1;font-variant-ligatures:normal;
+}
+.discipline-strip > span small { font-family:var(--body-font);font-size:10px;font-style:normal; }
+@media(max-width:700px) { .discipline-strip > span { font-size:21px; } }
+
+/* Remove the legacy introductory-label override from Creative direction. */
+.discipline-strip { grid-template-columns:repeat(4,minmax(0,1fr)); }
+.discipline-strip > span:first-child {
+ font-family:'MMM Discipline',cursive;font-style:normal;font-weight:400;
+ font-size:clamp(21px,2vw,30px);letter-spacing:0;color:#e7edf1;
+}
+@media(max-width:700px) {
+ .discipline-strip { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ .discipline-strip > span:first-child { grid-column:auto;font-size:21px; }
+}
+
+/* A clearer hero composition around the original MMM wordmark. */
+.hero { padding-top:clamp(65px,8vw,110px);padding-bottom:38px; }
+.hero .hero-wall-shade {
+ background:radial-gradient(ellipse at 50% 43%,#0b1016ed 0%,#0b1016cc 37%,#0b10166b 78%,#0b101688),linear-gradient(0deg,#10151af5,transparent 30%,transparent 72%,#10151ab0);
+}
+.hero .hero-intro { max-width:1200px; }
+.hero h1.hero-wordmark { position:relative;margin:0 auto 46px; }
+.hero h1.hero-wordmark:after {
+ content:'';position:absolute;bottom:-24px;left:50%;translate:-50% 0;
+ width:76px;height:2px;background:linear-gradient(90deg,#91b9d8 0%,#91b9d8 70%,#6fe09a);border-radius:2px;
+}
+.home-page main .hero h2.hero-tagline {
+ display:flex;justify-content:center;align-items:baseline;flex-wrap:wrap;gap:0 .27em;
+ margin:0 auto 20px;font-size:clamp(26px,3.1vw,44px);
+ line-height:1.15;letter-spacing:.015em;text-shadow:0 3px 10px #0005;
+}
+.home-page main .hero h2.hero-tagline i {
+ font-family:'MMM Brush',cursive;font-size:1.28em;margin:0;padding:0 .08em 0 0;
+ color:#b3dfd6;letter-spacing:0;line-height:1.15;text-transform:none;
+ text-shadow:0 3px 8px #0005;
+}
+.hero .hero-intro > p { font-size:clamp(13px,1.2vw,17px);line-height:1.7;max-width:520px;margin:0 auto 32px;color:#c5cdd5;text-shadow:0 2px 8px #0009; }
+.hero .hero-actions { display:flex;justify-content:center;align-items:stretch;gap:18px; }
+.hero .hero-actions .button, .hero .hero-actions .text-link {
+ min-height:54px;padding:16px 23px;font-size:13px;border-radius:9px;
+ display:inline-flex;align-items:center;justify-content:center;gap:22px;
+ transition:transform .3s,box-shadow .3s,background .3s;
+}
+.hero .hero-actions .text-link { background:#121c27b8;border-color:#91b9d850;color:#e7edf2; }
+.hero .hero-actions a:hover { transform:translateY(-3px);box-shadow:0 10px 22px #0004; }
+.hero .hero-actions .text-link:hover { background:#263b48;border-color:#a3d7cd; }
+.hero .hero-bottom { margin-top:48px;opacity:.8;font-size:9px;letter-spacing:.8px; }
+@media(max-width:700px) {
+ .hero { padding-top:55px;padding-bottom:28px; }
+ .hero h1.hero-wordmark { margin-bottom:40px; }
+ .home-page main .hero h2.hero-tagline { font-size:clamp(22px,5.5vw,30px);max-width:95%;gap:2px .2em;margin-bottom:16px; }
+ .hero .hero-intro > p { max-width:300px;margin-bottom:25px;font-size:12px; }
+ .hero .hero-actions { gap:10px;flex-wrap:wrap; }
+ .hero .hero-actions .button,.hero .hero-actions .text-link { min-height:48px;padding:13px 16px;font-size:11px;gap:12px; }
+ .hero .hero-bottom { margin-top:30px; }
+}
+.motion-disabled .hero .hero-actions a { transition:none; }
+@media(prefers-reduced-motion:reduce) { .hero .hero-actions a { transition:none; } }
+
+/* Accent lettering: 30% green at the left, 70% metallic blue across the rest. */
+:root {
+ --metal-text-blend:linear-gradient(90deg,#6fe09a 0%,#80cfbb 20%,#7eafd4 30%,#91b9d8 65%,#7eacd1 100%);
+ --metal-text-on-ivory:linear-gradient(90deg,#2e9467 0%,#438e8d 20%,#527fae 30%,#4264f5 70%,#527fae 100%);
+}
+.home-page main .section h2 i,
+.contact-page main .page-heading h1 i,
+.contact-page main .contact-layout h2 i,
+.director-focus-word i, .director-card .founder-bio h2 i {
+ background-image:var(--metal-text-blend);background-size:100% 100%;
+ background-clip:text;-webkit-background-clip:text;
+ color:transparent;-webkit-text-fill-color:transparent;text-shadow:none;
+ filter:drop-shadow(0 2px 4px #19375420);
+}
+.home-page main .growth-section h2 i,
+.home-page main .about-strip h2 i,
+.contact-page main .contact-layout h2 i,
+.category-option[aria-selected=true] {
+ background-image:var(--metal-text-on-ivory);background-clip:text;-webkit-background-clip:text;
+ color:transparent;-webkit-text-fill-color:transparent;text-shadow:none;
+}
+
+/* Restore a richer blue rather than the pale metallic tint in accent lettering. */
+:root {
+ --metal-text-blend:linear-gradient(90deg,#6fe09a 0%,#55bea9 20%,#527ed7 30%,#4264f5 70%,#5480dc 100%);
+ --metal-text-on-ivory:linear-gradient(90deg,#2e9467 0%,#398e92 20%,#4c75c4 30%,#3457e8 70%,#4268cf 100%);
+}

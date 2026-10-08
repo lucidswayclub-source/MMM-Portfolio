@@ -1,0 +1,156 @@
+/* Static dark surfaces; the homepage retains its scrolling-image collage. */
+body { isolation:isolate; }
+.work-section,.digital { background:transparent; }
+.exhibition-pin,.website-reel-pin { background:#0b172b8c; }
+.bts { background:#0b172b8c; }
+.section.equipment { background:#142b3e8c; }
+.founder.director-sequence .director-card { background:#102133a6; }
+.discipline-strip,footer,.page-heading { background:#101a278c; }
+.hero { background:#10151a; }
+
+/* Clean equipment and director section surfaces. */
+.section.equipment { padding-block:48px 36px;background:#10223465;border-block:1px solid #91b9d81a; }
+.equipment:before { content:none; }
+.equipment > .section-tag { margin-bottom:26px;padding-bottom:16px; }
+.equipment > .section-tag > span { background:none;border:0;border-radius:0;padding:0;box-shadow:none; }
+.equipment .toolkit-intro { display:block; }
+.equipment .toolkit-intro-copy { display:none; }
+.home-page main .equipment h2 { font-size:clamp(44px,4.8vw,68px); }
+.equipment .toolkit-buttons { padding-top:98px;padding-bottom:35px; }
+.founder.director-sequence { width:100%;max-width:none;margin:0;height:180svh; }
+.director-sequence .director-pin { padding:38px 6vw;height:min(100svh,800px); }
+.founder.director-sequence .director-card { max-height:none;background:#10213360;border:0;border-radius:0;box-shadow:none; }
+.director-card:before { content:none; }
+.director-frame-label:empty { display:none; }
+.director-focus-word { font-size:clamp(30px,3.9vw,58px); }
+.director-aperture { border-color:#91b9d838;box-shadow:0 16px 32px #0002; }
+@media(max-width:700px) {
+ .section.equipment { padding:36px 24px 28px; }
+ .home-page main .equipment h2 { font-size:clamp(38px,10.3vw,58px); }
+ .equipment .toolkit-buttons { padding-top:94px;padding-bottom:35px; }
+ .founder.director-sequence { height:auto; }
+ .director-sequence .director-pin { height:auto;padding:30px 20px; }
+ .founder.director-sequence .director-card { padding:20px 0;background:transparent; }
+}
+.motion-disabled .founder.director-sequence { height:auto; }
+.motion-disabled .director-sequence .director-pin { height:auto;min-height:0; }
+.motion-disabled .director-card { min-height:560px; }
+@media(max-width:700px) { .motion-disabled .director-card { min-height:0; } }
+
+/* Carry the same rich blue/green text blend into the toolkit backdrop. */
+.section.equipment {
+ background:linear-gradient(90deg,#6fe09ad6 0%,#55bea9d6 20%,#527ed7d6 30%,#4264f5d6 70%,#5480dcd6 100%);
+ border-color:#b9dfeb40;
+}
+.equipment > .section-tag { color:#f2f8fa;border-bottom-color:#ffffff40; }
+.equipment > .section-tag i { background:#fff;box-shadow:0 0 0 5px #ffffff18; }
+.home-page main .equipment h2, .home-page main .equipment h2 i {
+ color:#fff;-webkit-text-fill-color:#fff;background:none;
+ text-shadow:0 3px 10px #152e5550;filter:none;
+}
+.equipment .tool-button { background:#172b42;border-color:#b1d5e670;color:#e2edf5; }
+
+/* Toolkit only: 45% green, 55% blue. */
+.section.equipment {
+ background:linear-gradient(90deg,#6fe09ad6 0%,#55bea9d6 30%,#527ed7d6 45%,#4264f5d6 75%,#5480dcd6 100%);
+}
+
+/* Toolkit background: equal green and blue balance. */
+.section.equipment {
+ background:linear-gradient(90deg,#6fe09ad6 0%,#55bea9d6 35%,#527ed7d6 50%,#4264f5d6 80%,#5480dcd6 100%);
+}
+
+/* Balance the toolkit: heading on the left, accessories on the right. */
+.section.equipment {
+ display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
+ column-gap:clamp(32px,5vw,88px);align-items:center;
+}
+.equipment > .section-tag { grid-column:1/-1;width:100%; }
+.equipment .toolkit-intro { min-width:0; }
+.equipment .toolkit-buttons {
+ min-width:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:100px 14px;padding-top:85px;padding-bottom:35px;
+}
+.equipment .tool-button-wrap { min-width:0; }
+.equipment .tool-button { width:100%;padding-inline:10px;font-size:10px; }
+.equipment .tool-note { max-width:190px; }
+@media(max-width:1000px) and (min-width:701px) {
+ .section.equipment { grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);column-gap:24px; }
+ .home-page main .equipment h2 { font-size:clamp(38px,4.8vw,52px); }
+ .equipment .tool-button { font-size:9px;padding-inline:7px; }
+}
+@media(max-width:700px) {
+ .section.equipment { grid-template-columns:1fr;gap:0; }
+ .equipment .toolkit-buttons { grid-template-columns:repeat(2,minmax(0,1fr));gap:94px 14px;padding-top:94px;padding-bottom:35px; }
+ .equipment .tool-button { font-size:10px; }
+}
+
+/* Separate business growth from the ivory studio section. */
+.growth-section { background:#102238;color:#eef4fa;isolation:isolate; }
+.growth-section:before,.growth-section:after { content:none; }
+.growth-section .section-tag,.growth-section .growth-layout > div:first-child > p { color:#b8ccdd; }
+.home-page main .growth-section h2 { color:#f4f7fb;text-shadow:0 3px 10px #0003; }
+.home-page main .growth-section h2 i { background-image:var(--metal-text-blend);color:transparent;-webkit-text-fill-color:transparent;text-shadow:none; }
+.growth-section .growth-offerings article { background:#1a3148;border-color:#91b9d833;color:#edf4fa; }
+.growth-section .growth-offerings article h3 { color:#f0f5fa; }
+.growth-section .growth-offerings article p { color:#bed0dd; }
+.growth-section .growth-offerings article > span { color:#8acdbb; }
+.growth-section .growth-console { border-color:#91b9d84d;box-shadow:0 15px 35px #0002; }
+
+/* Blue/mint gradient growth cards with black typography. */
+.growth-section .growth-offerings article {
+ background:var(--mint-metal);border-color:#a9d8d3;color:#000;
+}
+.growth-section .growth-offerings article h3,
+.growth-section .growth-offerings article p,
+.growth-section .growth-offerings article > span {
+ color:#000;text-shadow:none;
+}
+
+/* Match the growth cards to the site's existing warm-white surfaces. */
+.growth-section .growth-offerings article {
+ background:var(--ivory,#f3f1eb);border-color:#dedbd3;color:#000;
+}
+
+/* Consistent rounded surfaces and pill-shaped controls throughout the site. */
+.growth-section .growth-offerings article { border-radius:22px;overflow:hidden; }
+.website-showcase,.website-device:not(.is-mobile),.growth-console,
+.director-card,.project-image,.capability-card { border-radius:20px; }
+.preview-toggle,.growth-steps { border-radius:16px; }
+.preview-toggle button,.growth-steps button,.tool-button,
+.service-choices span,.button,.hero-actions .text-link { border-radius:999px; }
+.metrics > span,.director-disciplines > span { border-radius:10px; }
+.website-reel-controls button { border-radius:50%; }
+@media(max-width:700px) {
+ .growth-section .growth-offerings article { border-radius:18px; }
+ .website-showcase,.growth-console,.director-card,.project-image { border-radius:16px; }
+}
+
+/* Override older component-specific corner rules on the interactive controls. */
+button,.button,.hero-actions .text-link,.service-choices span { border-radius:999px!important; }
+.preview-toggle,.growth-steps,.growth-console,.website-showcase { border-radius:18px!important; }
+input:not([type=checkbox]),textarea { border-radius:12px; }
+
+/* Studio motifs beneath frosted ivory glass on the growth cards. */
+.growth-section .growth-offerings article {
+ position:relative;isolation:isolate;overflow:hidden;
+ background:#f3f1eb;border:1px solid #ffffffb8;
+ box-shadow:inset 0 1px 0 #fff,0 10px 25px #0002;
+ -webkit-backdrop-filter:none;backdrop-filter:none;
+}
+.growth-section .growth-offerings article:before {
+ content:'';position:absolute;inset:-12px;z-index:-2;pointer-events:none;
+ background:url('/assets/studio-objects.svg') 15% 40% / auto 140% no-repeat;
+ opacity:.36;filter:blur(2px);
+}
+.growth-section .growth-offerings article:after {
+ content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
+ background:linear-gradient(125deg,#fffdf68c,#f8f6ef80 48%,#f1f1f68c),url('/assets/frost-grain.svg') repeat;
+ -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+}
+.growth-section .growth-offerings article:nth-child(3n+2):before { background-position:55% 50%; }
+.growth-section .growth-offerings article:nth-child(3n):before { background-position:90% 60%; }
+@media(prefers-reduced-transparency:reduce) {
+ .growth-section .growth-offerings article:before { opacity:.12; }
+ .growth-section .growth-offerings article:after { background:#f3f1ebd9;backdrop-filter:none;-webkit-backdrop-filter:none; }
+}

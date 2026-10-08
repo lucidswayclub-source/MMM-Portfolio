@@ -1,0 +1,215 @@
+/* Warm ivory behind misted glass. Typography and interactive previews stay crisp. */
+:root {
+  --mist-surface:linear-gradient(125deg,#ffffffc9 0%,#f9f7f1b8 48%,#eeedf6bf 100%);
+  --mist-shadow:inset 0 1px 0 #fff, inset 0 -1px 0 #ffffffa6, 0 18px 45px #232b5010;
+}
+.has-category-scroller {
+  background:radial-gradient(ellipse at 12% 40%,#cad3f6 0%,transparent 48%),
+    radial-gradient(ellipse at 95% 70%,#e2d9c9 0%,transparent 50%),#f3f1eb;
+}
+.category-pin {
+  isolation:isolate; background:var(--mist-surface);
+  -webkit-backdrop-filter:blur(22px) saturate(115%); backdrop-filter:blur(22px) saturate(115%);
+  border-block:1px solid #ffffffc9; box-shadow:var(--mist-shadow);
+}
+.growth-section, .about-strip {
+  position:relative; isolation:isolate;
+  background:linear-gradient(125deg,#ffffffae,#f5f2ecce 48%,#f0f0f5b8),
+    radial-gradient(ellipse at 8% 15%,#bbc9f5 0%,transparent 50%),
+    radial-gradient(ellipse at 92% 85%,#e0d4bd 0%,transparent 55%),#f3f1eb;
+  border-block:1px solid #ffffffc9; box-shadow:var(--mist-shadow);
+  -webkit-backdrop-filter:blur(20px); backdrop-filter:blur(20px);
+}
+.category-pin:before, .growth-section:before, .about-strip:before {
+  content:''; position:absolute; inset:0; z-index:-1; pointer-events:none;
+  background:url('/assets/frost-grain.svg') repeat; opacity:.18;
+}
+.category-detail {
+  background:linear-gradient(125deg,#ffffff70,#ffffff0d);
+  border-color:#ffffffdc; border-radius:0 18px 18px 0;
+  box-shadow:inset 1px 0 0 #b0b8cf3b;
+  padding-right:20px;
+}
+.growth-offerings article {
+  background:linear-gradient(130deg,#ffffffb8,#f9f7f16b);
+  border:1px solid #fff; border-radius:14px; box-shadow:var(--mist-shadow);
+  -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px);
+}
+.studio-person { border-color:#b4b8c840; }
+.digital .website-device:not(.is-mobile) {
+  background:linear-gradient(130deg,#ffffffd9,#f3f1ebba);
+  border:1px solid #ffffffe6; box-shadow:inset 0 1px #fff,0 12px 30px #0002;
+  -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px);
+}
+.digital .website-chrome {
+  background:linear-gradient(120deg,#ffffff7d,#ffffff18);
+  border-bottom:1px solid #ffffffa6;
+}
+.cta .button {
+  background:linear-gradient(120deg,#fffdf6e6,#f3f1ebc9); border:1px solid #fff;
+  box-shadow:inset 0 1px 0 #fff,0 6px 20px #111b5520;
+  -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px);
+}
+.cta .button:hover { background:linear-gradient(120deg,#fff,#f4f2ede6); }
+@media(max-width:700px) {
+  .category-pin, .growth-section, .about-strip,
+  .growth-offerings article, .digital .website-device:not(.is-mobile) {
+    -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+  }
+  .category-detail { border-radius:12px; padding-right:12px; }
+}
+@media(prefers-reduced-transparency:reduce) {
+  .category-pin, .growth-section, .about-strip, .growth-offerings article,
+  .digital .website-device:not(.is-mobile), .cta .button {
+    background:#f3f1eb; -webkit-backdrop-filter:none; backdrop-filter:none;
+  }
+}
+
+/* Frost is a continuous section background, rather than an inset glass box. */
+.category-pin, .growth-section, .about-strip {
+  border:0; border-radius:0; box-shadow:none;
+}
+.category-detail {
+  background:transparent; border-radius:0; box-shadow:none;
+}
+.growth-offerings article {
+  background:transparent; border:0; border-top:1px solid #9fa7bd45;
+  border-radius:0; box-shadow:none;
+  -webkit-backdrop-filter:none; backdrop-filter:none;
+}
+.category-pin:before, .growth-section:before, .about-strip:before {
+  inset:0; border-radius:0;
+}
+@media(max-width:700px) { .category-detail { border-radius:0; } }
+
+/* Studio objects sit behind a full-width frosted pane, below all readable content. */
+.category-pin, .growth-section, .about-strip { background:#f3f1eb; }
+.category-pin:before, .growth-section:before, .about-strip:before {
+  background:url('/assets/studio-objects.svg') center / cover no-repeat;
+  opacity:.38; filter:blur(5px); z-index:-2;
+}
+.category-pin:after, .growth-section:after, .about-strip:after {
+  content:''; position:absolute; inset:0; z-index:-1; pointer-events:none;
+  background:linear-gradient(125deg,#fffdf6a6,#f8f6ef85 48%,#f1f1f6a8),
+    url('/assets/frost-grain.svg') repeat;
+  -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+}
+.category-pin:before, .category-pin:after { left:calc(-1 * clamp(24px,3.5vw,72px)); right:calc(-1 * clamp(24px,3.5vw,72px)); }
+.growth-section:before { background-position:60% center; }
+.about-strip:before { background-position:35% center; }
+@media(max-width:700px) {
+  .category-pin:before, .growth-section:before, .about-strip:before {
+    background-size:auto 100%; opacity:.32; filter:blur(4px);
+  }
+  .category-pin:after, .growth-section:after, .about-strip:after {
+    -webkit-backdrop-filter:blur(7px); backdrop-filter:blur(7px);
+  }
+}
+@media(prefers-reduced-transparency:reduce) {
+  .category-pin:before, .growth-section:before, .about-strip:before { display:none; }
+  .category-pin:after, .growth-section:after, .about-strip:after { background:#f3f1eb; backdrop-filter:none; }
+}
+
+/* Keep the studio silhouettes recognizable through a lighter mist. */
+.category-pin:before, .growth-section:before, .about-strip:before {
+  filter:blur(1.5px); opacity:.52;
+}
+.category-pin:after, .growth-section:after, .about-strip:after {
+  background:linear-gradient(125deg,#fffdf680,#f8f6ef66 48%,#f1f1f682),
+    url('/assets/frost-grain.svg') repeat;
+  -webkit-backdrop-filter:blur(3px); backdrop-filter:blur(3px);
+}
+@media(max-width:700px) {
+  .category-pin:before, .growth-section:before, .about-strip:before { filter:blur(1px); opacity:.46; }
+  .category-pin:after, .growth-section:after, .about-strip:after { -webkit-backdrop-filter:blur(2px); backdrop-filter:blur(2px); }
+}
+@media(prefers-reduced-transparency:reduce) {
+  .category-pin:after, .growth-section:after, .about-strip:after { background:#f3f1eb; -webkit-backdrop-filter:none; backdrop-filter:none; }
+}
+
+/* Subtle studio forms behind the glass. */
+.category-pin:before, .growth-section:before, .about-strip:before {
+  filter:blur(2px); opacity:.30;
+}
+.category-pin:after, .growth-section:after, .about-strip:after {
+  background:linear-gradient(125deg,#fffdf695,#f8f6ef7a 48%,#f1f1f695),
+    url('/assets/frost-grain.svg') repeat;
+  -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px);
+}
+@media(max-width:700px) {
+  .category-pin:before, .growth-section:before, .about-strip:before { filter:blur(1.5px); opacity:.26; }
+  .category-pin:after, .growth-section:after, .about-strip:after { -webkit-backdrop-filter:blur(3px); backdrop-filter:blur(3px); }
+}
+@media(prefers-reduced-transparency:reduce) {
+  .category-pin:after, .growth-section:after, .about-strip:after { background:#f3f1eb; -webkit-backdrop-filter:none; backdrop-filter:none; }
+}
+
+/* The same studio objects under smoked glass on dark surfaces. */
+.work-section, .bts, .digital.website-reel {
+  position:relative; isolation:isolate; background:#111218;
+}
+.work-section:before, .bts:before, .digital.website-reel:before {
+  content:''; position:absolute; inset:0; z-index:-2; pointer-events:none;
+  background:url('/assets/studio-objects.svg') center / cover no-repeat;
+  filter:blur(2px); opacity:.35;
+}
+.work-section:after, .bts:after, .digital.website-reel:after {
+  content:''; position:absolute; inset:0; z-index:-1; pointer-events:none;
+  background:linear-gradient(125deg,#11121875,#11121895 48%,#19203170),
+    url('/assets/frost-grain.svg') repeat;
+  -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px);
+}
+/* Keep the scenery anchored to the visible pinned frame during long reels. */
+.work-section:before, .work-section:after,
+.digital.website-reel:before, .digital.website-reel:after { content:none; }
+.exhibition-pin, .website-reel-pin { isolation:isolate; background:#111218; }
+.exhibition-pin:before, .website-reel-pin:before {
+  content:''; position:absolute; inset:0; z-index:-2; pointer-events:none;
+  background:url('/assets/studio-objects.svg') center / cover no-repeat;
+  filter:blur(2px); opacity:.35;
+}
+.exhibition-pin:after, .website-reel-pin:after {
+  content:''; position:absolute; inset:0; z-index:-1; pointer-events:none;
+  background:linear-gradient(125deg,#11121875,#11121895 48%,#19203170),
+    url('/assets/frost-grain.svg') repeat;
+  -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px);
+}
+.website-reel-pin:before { background-position:65% center; }
+.bts:before { background-position:35% center; }
+@media(max-width:700px) {
+  .exhibition-pin:before, .website-reel-pin:before, .bts:before {
+    background-size:auto 100%; opacity:.28; filter:blur(1.5px);
+  }
+  .exhibition-pin:after, .website-reel-pin:after, .bts:after {
+    -webkit-backdrop-filter:blur(3px); backdrop-filter:blur(3px);
+  }
+}
+@media(prefers-reduced-transparency:reduce) {
+  .exhibition-pin:before, .website-reel-pin:before, .bts:before { display:none; }
+  .exhibition-pin:after, .website-reel-pin:after, .bts:after {
+    background:#111218; -webkit-backdrop-filter:none; backdrop-filter:none;
+  }
+}
+
+/* Inverse tones on dark backdrops: white outlines and silver objects. */
+.exhibition-pin:before, .website-reel-pin:before, .bts:before {
+  background-image:url('/assets/studio-objects-dark.svg'); opacity:.25;
+}
+@media(max-width:700px) {
+  .exhibition-pin:before, .website-reel-pin:before, .bts:before { opacity:.22; }
+}
+
+/* Dark sections use clean backgrounds with crisp decorative objects, without glass. */
+.exhibition-pin:after, .website-reel-pin:after, .bts:after { content:none; }
+.exhibition-pin:before, .website-reel-pin:before, .bts:before {
+  filter:none; opacity:.12;
+}
+.exhibition-pin, .website-reel-pin, .bts {
+  -webkit-backdrop-filter:none; backdrop-filter:none;
+}
+@media(max-width:700px) {
+  .exhibition-pin:before, .website-reel-pin:before, .bts:before { filter:none; opacity:.10; }
+}
+
+/* Plain dark backgrounds, without decorative studio objects. */
+.exhibition-pin:before, .website-reel-pin:before, .bts:before { content:none; }
