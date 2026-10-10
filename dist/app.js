@@ -9,11 +9,65 @@ document.body.classList.toggle('home-page',!contactPage);
 document.body.classList.toggle('contact-page',contactPage);
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 document.title=contactPage?'Start a conversation — MegMultiMedia':'MegMultiMedia — Create. Build. Grow.';
-const menu=document.querySelector('.menu');
-function closeMenu(){menu.setAttribute('aria-expanded','false');menu.setAttribute('aria-label','Open menu');document.querySelector('nav').classList.remove('open')}
-menu.addEventListener('click',()=>{const open=menu.getAttribute('aria-expanded')!=='true';menu.setAttribute('aria-expanded',open);menu.setAttribute('aria-label',open?'Close menu':'Open menu');document.querySelector('nav').classList.toggle('open',open)});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
-document.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',closeMenu));
+const menu=document.querySelector('.menu'),navigation=document.querySelector('header nav');
+const compactMenu=matchMedia('(max-width:1000px)');
+// Restrained studio light moving behind the navigation controls.
+const menuAtmosphere=document.createElement('div');
+menuAtmosphere.className='menu-atmosphere';menuAtmosphere.setAttribute('aria-hidden','true');
+menuAtmosphere.innerHTML='<span class="menu-light-sweep"></span><span class="menu-lens-glint"></span><span class="menu-film-grain"></span>';
+document.querySelector('header').prepend(menuAtmosphere);
+const hangingPhotographer=document.createElement('span');
+hangingPhotographer.className='menu-hanging-photographer';hangingPhotographer.setAttribute('aria-hidden','true');
+hangingPhotographer.innerHTML=`<svg viewBox="0 0 76 106" fill="none" focusable="false"><g class="hanging-figure" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M19 3V19Q19 24 27 32L33 40" stroke-width="5"/><path d="M15 3H24M16 3V7M20 3V7M24 3V6" stroke-width="2"/><circle cx="39" cy="30" r="7" fill="currentColor" stroke="none"/><path d="M34 41Q31 47 34 58L44 61Q48 48 44 42Z" fill="currentColor" stroke="none"/><path d="M44 44L54 49L61 40" stroke-width="5"/><g class="hanging-hand-camera"><rect x="55" y="30" width="16" height="12" rx="2.5" fill="currentColor" stroke="none"/><path d="M59 28H65V31" stroke-width="2"/><circle cx="64" cy="36" r="4" fill="#111518" stroke="none"/><circle cx="64" cy="36" r="2" stroke-width="1"/><path d="M56 40Q49 50 53 56" stroke-width="1" opacity=".5"/></g><path d="M36 59L31 75L19 81M43 60L48 78L43 96" stroke-width="6"/><path d="M19 81L14 83M43 96L48 98" stroke-width="4"/></g></svg>`;
+document.querySelector('header').append(hangingPhotographer);
+
+const menuSnow=document.createElement('span');menuSnow.className='menu-snow';
+menuSnow.innerHTML=Array.from({length:48},(_,i)=>{
+ const size=i%5===0?3:1.5+(i%3)*.4;
+ return `<i style="--snow-x:${(i*47+13)%100}%;--snow-size:${size}px;--snow-time:${7+(i%7)*1.3}s;--snow-delay:${-((i*17)%100)/10}s;--snow-drift:${(i%2?1:-1)*(9+i%5*4)}px;--snow-opacity:${.25+(i%4)*.12}"></i>`;
+}).join('');menuAtmosphere.append(menuSnow);
+
+navigation.id='primary-navigation';menu.setAttribute('aria-controls',navigation.id);
+menu.innerHTML='<span class="menu-caption">Menu</span><span class="menu-glyph" aria-hidden="true"><i></i><i></i></span>';
+const navLinks=[...navigation.querySelectorAll('a')];
+navLinks.forEach((a,i)=>{const label=a.textContent;a.innerHTML=`<span class="nav-index" aria-hidden="true">0${i+1}</span><span class="nav-label">${label}</span><span class="nav-arrow" aria-hidden="true">↗</span>`});
+// One shared highlight glides between navigation items without moving the links.
+const navIndicator=document.createElement('span');
+navIndicator.className='nav-indicator';navIndicator.setAttribute('aria-hidden','true');
+navigation.append(navIndicator);
+let pointedNav=null,focusedNav=null,indicatorFrame=0;
+function updateNavIndicator(){
+ indicatorFrame=0;
+ const target=focusedNav||pointedNav||navLinks.find(link=>link.getAttribute('aria-current')==='location');
+ const visible=!compactMenu.matches&&!!target;
+ navigation.classList.toggle('has-nav-indicator',visible);
+ if(!visible)return;
+ navIndicator.style.width=target.offsetWidth+'px';navIndicator.style.height=target.offsetHeight+'px';
+ navIndicator.style.transform=`translate3d(${target.offsetLeft}px,${target.offsetTop}px,0)`;
+}
+function queueNavIndicator(){if(!indicatorFrame)indicatorFrame=requestAnimationFrame(updateNavIndicator)}
+navLinks.forEach(link=>{
+ link.addEventListener('pointerenter',event=>{if(event.pointerType==='mouse'){pointedNav=link;queueNavIndicator()}});
+ link.addEventListener('focus',()=>{focusedNav=link;queueNavIndicator()});
+ link.addEventListener('blur',()=>{focusedNav=null;queueNavIndicator()});
+});
+navigation.addEventListener('pointerleave',()=>{pointedNav=null;queueNavIndicator()});
+new MutationObserver(queueNavIndicator).observe(navigation,{subtree:true,attributes:true,attributeFilter:['aria-current']});
+new ResizeObserver(queueNavIndicator).observe(navigation);
+addEventListener('resize',queueNavIndicator,{passive:true});
+document.fonts?.ready.then(queueNavIndicator);queueNavIndicator();
+function setMenu(open){
+ menu.setAttribute('aria-expanded',String(open));menu.setAttribute('aria-label',open?'Close menu':'Open menu');
+ navigation.classList.toggle('open',open);document.querySelector('header').classList.toggle('menu-open',open);
+ navigation.inert=compactMenu.matches&&!open;
+ if(compactMenu.matches)navigation.setAttribute('aria-hidden',String(!open));else navigation.removeAttribute('aria-hidden');
+}
+function closeMenu(){setMenu(false)}
+menu.addEventListener('click',()=>setMenu(menu.getAttribute('aria-expanded')!=='true'));
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&menu.getAttribute('aria-expanded')==='true'){closeMenu();menu.focus({preventScroll:true})}});
+document.addEventListener('click',e=>{if(menu.getAttribute('aria-expanded')==='true'&&!e.target.closest('header'))closeMenu()});
+navLinks.forEach(a=>a.addEventListener('click',()=>{closeMenu();navLinks.forEach(link=>link.removeAttribute('aria-current'));a.setAttribute('aria-current','location')}));
+compactMenu.addEventListener('change',closeMenu);closeMenu();
 const link=(href,label,kind='text-link')=>`<a class="${kind}" href="${sectionLinks[href]||href}">${label}<span aria-hidden="true">↗</span></a>`;
 const tag=(n,text)=>`<div class="section-tag"><span><i></i>${text}</span></div>`;
 const photo=(key,alt,extra='')=>`<img src="${config.images[key]}" alt="${alt}" loading="lazy" ${extra}>`;
@@ -70,8 +124,24 @@ const gearDiagram=(id,kind)=>{
  const defs=`<defs><linearGradient id="${id}-metal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d1e4f1"/><stop offset=".3" stop-color="#789bb7"/><stop offset=".55" stop-color="#223c55"/><stop offset="1" stop-color="#aac7dd"/></linearGradient><radialGradient id="${id}-glass"><stop stop-color="#9de6cf"/><stop offset=".35" stop-color="#315d82"/><stop offset="1" stop-color="#0f2036"/></radialGradient><radialGradient id="${id}-light"><stop stop-color="#ffffe9"/><stop offset=".65" stop-color="#f0f5c4"/><stop offset="1" stop-color="#8ea9a3"/></radialGradient></defs>`;
  const metal=`url(#${id}-metal)`,glass=`url(#${id}-glass)`;
  const shapes={
- lens:`<path d="M20 21h40v40c0 13-40 13-40 0z" fill="${metal}" stroke="#a7c6dd"/><path d="M20 31h40v16H20z" fill="#20364b"/><path d="M24 32v14m4-14v14m4-14v14m4-14v14m4-14v14m4-14v14m4-14v14m4-14v14m4-14v14" stroke="#8caac2" stroke-width=".7"/><path d="M20 51c8 5 32 5 40 0M20 56c8 5 32 5 40 0M20 61c8 5 32 5 40 0" stroke="#c7dceb" stroke-width=".6"/><ellipse cx="40" cy="21" rx="23" ry="14" fill="#20334b" stroke="#9ec0db"/><ellipse cx="40" cy="21" rx="19" ry="11" fill="${glass}" stroke="#83b7c4"/><ellipse cx="40" cy="21" rx="12" ry="7" fill="#11243b" stroke="#729ab3" stroke-width=".7"/><path d="M28 17c6-6 17-5 24-1" stroke="#c3f5dd" stroke-width="1.3"/><path d="M31 58h18" stroke="#6fe09a" stroke-width="1.5"/><rect x="33" y="48" width="14" height="4" rx="1" fill="#142537" stroke="#91b9d8" stroke-width=".5"/>`,
- light:`<path d="M20 8h40l13 24-13 21H20L7 32z" fill="#263d50" stroke="#a9c6d6"/><path d="M24 13h32l11 19-11 16H24L13 32z" fill="url(#${id}-light)" stroke="#d5e6d3"/><path d="M20 8l7 14M60 8L53 22M7 32h16M73 32H57M20 53l7-12M60 53l-7-12" stroke="#8a9e9e" stroke-width=".65"/><path d="M28 22h24v18H28z" fill="#ffffeb" stroke="#c8d7ad" stroke-width=".7"/><path d="M34 22v18M40 22v18M46 22v18M28 28h24M28 34h24" stroke="#b2c09c" stroke-width=".45"/><path d="M24 50v7h32v-7M40 57v12M40 65L24 76M40 65l16 11" stroke="${metal}" stroke-width="3"/><rect x="36" y="57" width="8" height="7" rx="2" fill="#42617a" stroke="#b8cfdf" stroke-width=".7"/>`,
+ lens:`<defs><linearGradient id="${id}-rim" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e0ebf0"/><stop offset=".2" stop-color="#7891a5"/><stop offset=".5" stop-color="#17232e"/><stop offset=".8" stop-color="#94aabe"/><stop offset="1" stop-color="#354a5d"/></linearGradient><radialGradient id="${id}-coating" cx=".32" cy=".24"><stop stop-color="#91c5d7"/><stop offset=".25" stop-color="#365980"/><stop offset=".58" stop-color="#172d48"/><stop offset="1" stop-color="#040a13"/></radialGradient></defs>
+ <g class="lens-barrel"><circle cx="40" cy="42" r="31" fill="#0a1018" stroke="#405468" stroke-width="1"/>
+ <circle cx="40" cy="40" r="31" fill="url(#${id}-rim)" stroke="#9eb4c5" stroke-width=".6"/>
+ <circle cx="40" cy="40" r="28.5" fill="#151e29" stroke="#61788d" stroke-width="2" stroke-dasharray=".5 1.4"/>
+ <circle cx="40" cy="40" r="26" fill="#0b121c" stroke="#b6c8d5" stroke-width=".55"/>
+ <path d="M20 21A27 27 0 0 1 57 20M22 60A27 27 0 0 0 58 59" fill="none" stroke="#c8d9e5" stroke-opacity=".6" stroke-width=".7"/>
+ <text x="40" y="18" text-anchor="middle" font-size="3.6" font-family="Arial,sans-serif" letter-spacing=".65" fill="#d2dce5" stroke="none">FE 24–70 mm</text>
+ <text x="40" y="65" text-anchor="middle" font-size="3.6" font-family="Arial,sans-serif" letter-spacing=".65" fill="#c0cdd8" stroke="none">1:2.8 GM</text></g>
+ <g class="lens-focus-ring"><circle cx="40" cy="40" r="22" fill="#182838" stroke="#687f96" stroke-width=".7"/>
+ <circle cx="40" cy="40" r="20" fill="url(#${id}-coating)" stroke="#304f6c" stroke-width="1.2"/>
+ <circle cx="40" cy="40" r="15.8" fill="none" stroke="#56949d" stroke-opacity=".45" stroke-width=".55"/>
+ <circle cx="40" cy="40" r="11.5" fill="#07111e" stroke="#31465d" stroke-width=".7"/>
+ <path d="M40 32l6 2 3 6-3 6-6 3-6-3-3-6 3-6Z" fill="#030812" stroke="#50677d" stroke-width=".6"/>
+ <path d="M40 32l-2 8 8-6M49 40l-11 0 8 6M40 49l-2-9-4 6M31 40h7l-4-6" stroke="#354e65" stroke-width=".6"/>
+ <path class="lens-optical-glint" d="M27 30A17 17 0 0 1 48 25" fill="none" stroke="#d4eff4" stroke-opacity=".8" stroke-width="1.2"/>
+ <ellipse class="lens-optical-glint" cx="32" cy="32" rx="4.5" ry="2.6" transform="rotate(-35 32 32)" fill="#c5e4ec" fill-opacity=".32" stroke="none"/>
+ <path d="M29 53A17 17 0 0 0 52 51" fill="none" stroke="#6e91c8" stroke-opacity=".65" stroke-width=".8"/></g>`,
+ light:`<path d="M20 8h40l13 24-13 21H20L7 32z" fill="#263d50" stroke="#a9c6d6"/><path d="M24 13h32l11 19-11 16H24L13 32z" class="softbox-diffuser" fill="url(#${id}-light)" stroke="#d5e6d3"/><path d="M20 8l7 14M60 8L53 22M7 32h16M73 32H57M20 53l7-12M60 53l-7-12" stroke="#8a9e9e" stroke-width=".65"/><path d="M28 22h24v18H28z" fill="#ffffeb" stroke="#c8d7ad" stroke-width=".7"/><path d="M34 22v18M40 22v18M46 22v18M28 28h24M28 34h24" stroke="#b2c09c" stroke-width=".45"/><path d="M24 50v7h32v-7M40 57v12M40 65L24 76M40 65l16 11" stroke="${metal}" stroke-width="3"/><rect x="36" y="57" width="8" height="7" rx="2" fill="#42617a" stroke="#b8cfdf" stroke-width=".7"/>`,
  gimbal:`<path d="M14 16v27h31V27" stroke="${metal}" stroke-width="5"/><path d="M14 16h9M45 27h9" stroke="#91b9d8" stroke-width="2"/><g class="gimbal-camera"><rect x="27" y="8" width="39" height="24" rx="4" fill="${metal}" stroke="#b3cfdf"/><rect x="28" y="12" width="7" height="16" rx="2" fill="#23384c"/><circle cx="49" cy="20" r="9" fill="#1b3049" stroke="#a3c4dd"/><circle cx="49" cy="20" r="6" fill="${glass}" stroke="#79b3bc" stroke-width=".7"/><path d="M46 16l6-1" stroke="#c8f1e0"/></g><circle cx="14" cy="35" r="7" fill="${metal}" stroke="#b2ccdf"/><circle cx="14" cy="35" r="3" fill="#273e53"/><circle cx="45" cy="36" r="5" fill="${metal}"/><path d="M14 43v12h21v17" stroke="${metal}" stroke-width="5"/><rect x="29" y="54" width="12" height="22" rx="4" fill="#1c3348" stroke="#91b9d8"/><rect x="32" y="59" width="6" height="7" rx="1" fill="#7cbea9" stroke="none"/><circle cx="35" cy="70" r="2" fill="#adcde0" stroke="none"/>`,
  tripod:`<g class="tripod-column"><path d="M40 31v34" stroke="${metal}" stroke-width="4"/><path d="M40 47v6" stroke="#6fe09a" stroke-width="5"/></g>
  <g class="tripod-leg-left"><path d="M34 33L14 74" stroke="${metal}" stroke-width="4"/><path d="M34 36l-5 11" stroke="#b9d4e8" stroke-width="5"/><path d="M24 53l-3 6" stroke="#6fe09a" stroke-width="5"/><path d="M12 75h7" stroke="#a5bed2" stroke-width="3"/></g>
@@ -126,12 +196,34 @@ document.querySelectorAll('.preview-toggle button').forEach(button=>button.addEv
 
 const initialStage=document.querySelector('[data-stage="0"]');if(initialStage)setStage(initialStage);
 
-// Compact toolkit buttons also respond to keyboard focus and touch.
-document.querySelectorAll('.tool-button').forEach(button=>{
+// Equipment toggles expose their description and replay the setup illustration.
+const toolButtons=[...document.querySelectorAll('.tool-button')];
+const closeTool=button=>{button.setAttribute('aria-expanded','false');button.parentElement.classList.remove('tool-active','tool-replaying')};
+toolButtons.forEach(button=>{
+ const wrap=button.parentElement;
+ button.addEventListener('focus',()=>{if(button.matches(':focus-visible'))wrap.classList.add('tool-previewing')});
+ button.addEventListener('blur',()=>wrap.classList.remove('tool-previewing'));
  button.addEventListener('click',()=>{
   const open=button.getAttribute('aria-expanded')!=='true';
-  document.querySelectorAll('.tool-button').forEach(other=>{other.setAttribute('aria-expanded','false');other.parentElement.classList.remove('tool-active')});
-  button.setAttribute('aria-expanded',String(open));button.parentElement.classList.toggle('tool-active',open);
+  toolButtons.forEach(closeTool);
+  if(!open){wrap.classList.remove('tool-previewing');return}
+  button.setAttribute('aria-expanded','true');wrap.classList.add('tool-active');
+  if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!document.documentElement.classList.contains('motion-disabled')){
+   wrap.classList.add('tool-replaying');getComputedStyle(wrap.querySelector('.tool-hover-art')).animationName;
+   requestAnimationFrame(()=>wrap.classList.remove('tool-replaying'));
+  }
  });
 });
-document.addEventListener('keydown',event=>{if(event.key==='Escape')document.querySelectorAll('.tool-button').forEach(button=>{button.setAttribute('aria-expanded','false');button.parentElement.classList.remove('tool-active')})});
+document.addEventListener('keydown',event=>{if(event.key==='Escape')document.querySelectorAll('.tool-button').forEach(button=>{button.setAttribute('aria-expanded','false');button.parentElement.classList.remove('tool-active','tool-previewing','tool-replaying')})});
+
+// Navigation follows the current scene, without taking control of page scrolling.
+let navFrame=0;
+const syncNavigation=()=>{
+ navFrame=0;if(document.documentElement.classList.contains('cinematic-navigation'))return;
+ const sections=navLinks.map(link=>({link,target:document.getElementById(new URL(link.href,location.href).hash.slice(1))})).filter(item=>item.target);
+ let current=null;
+ for(const item of sections){const r=item.target.getBoundingClientRect();if(r.top<=innerHeight*.3&&r.bottom>innerHeight*.15)current=item.link}
+ navLinks.forEach(link=>{const selected=link===current||contactPage&&new URL(link.href,location.href).pathname.replace(/\/$/,'')==='/contact';if(selected&&link.getAttribute('aria-current')!=='location')link.setAttribute('aria-current','location');else if(!selected&&link.hasAttribute('aria-current'))link.removeAttribute('aria-current')});
+};
+const queueNavigation=()=>{if(!navFrame)navFrame=requestAnimationFrame(syncNavigation)};
+addEventListener('scroll',queueNavigation,{passive:true});addEventListener('resize',queueNavigation,{passive:true});queueNavigation();

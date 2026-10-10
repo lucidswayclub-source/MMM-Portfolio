@@ -1,19 +1,19 @@
 import {installLogoCursor} from './logo-cursor.js?v=1';
-import {TravellingCamera} from './travelling-camera.js?v=11';
+import {TravellingCamera} from './travelling-camera.js?v=14';
 /** Native motion layer for the pulled MMM site. One scroll coordinator, no scroll hijack. */
 const $=(s,root=document)=>root.querySelector(s),$$=(s,root=document)=>[...root.querySelectorAll(s)];
 const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 const mobile=()=>matchMedia('(max-width:700px)').matches;
-let disabled=reduced.matches,frame=0;
+let disabled=reduced.matches,frame=0,navigationRunning=false;
 const scenes=new Set(),active=new Set();
-const observer=new IntersectionObserver(entries=>{for(const e of entries){e.target.classList.toggle('in-view',e.isIntersecting);for(const scene of scenes)if(scene.el===e.target){if(e.isIntersecting)active.add(scene);else active.delete(scene)}}schedule()},{rootMargin:'10% 0px'});
+const observer=new IntersectionObserver(entries=>{for(const e of entries){e.target.classList.toggle('in-view',e.isIntersecting);for(const scene of scenes)if(scene.el===e.target){if(e.isIntersecting)active.add(scene);else{active.delete(scene);scene.resetBlur?.()}}}schedule()},{rootMargin:'10% 0px'});
 function add(scene){scenes.add(scene);observer.observe(scene.el);scene.resize?.();return scene}
-function schedule(){if(!disabled&&!frame&&!document.hidden)frame=requestAnimationFrame(render)}
-function render(){frame=0;const measured=[...active].map(s=>[s,s.el.getBoundingClientRect()]);for(const [scene,r]of measured)scene.update(r);if([...active].some(scene=>scene.settling))schedule()}
-addEventListener('scroll',schedule,{passive:true});
+function schedule(){if(!disabled&&!navigationRunning&&!frame&&!document.hidden)frame=requestAnimationFrame(render)}
+function render(){frame=0;if(navigationRunning)return;const measured=[...active].map(s=>[s,s.el.getBoundingClientRect()]);for(const [scene,r]of measured)scene.update(r);if([...active].some(scene=>scene.settling))schedule()}
+document.addEventListener('scroll',event=>{if(event.target instanceof Element&&event.target.classList.contains('growth-loop-viewport'))return;schedule()},{passive:true,capture:true});
 addEventListener('resize',()=>{scenes.forEach(s=>s.resize?.());schedule()},{passive:true});
-document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(frame);frame=0}else schedule()});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(frame);frame=0;scenes.forEach(scene=>scene.resetBlur?.())}else schedule()});
 function setDisabled(value){disabled=value;document.documentElement.classList.toggle('motion-disabled',value);if(value){cancelAnimationFrame(frame);frame=0;scenes.forEach(s=>s.reset?.());document.getAnimations().forEach(a=>{try{a.finish()}catch{a.cancel()}})}else{scenes.forEach(s=>s.resize?.());schedule()}}
 reduced.addEventListener('change',()=>{setDisabled(reduced.matches);updateToggle()});
 // Restore the original pulled site's camera-dial service animation.
@@ -158,7 +158,7 @@ class ScrollTypography {
   this.lastTime=0;this.progress=this.target(this.el.getBoundingClientRect());this.paint(disabled?1:this.progress);
  }
  target(r){return clamp((innerHeight*.94-r.top)/(innerHeight*.42))}
- paint(progress){
+ paint(progress,velocity=0){
   this.slots.forEach((strip,i)=>{
    const wave=i/Math.max(1,this.slots.length-1);
    const delay=wave*(mobile()?.12:.20)+((i*7)%5)*.015;
@@ -167,7 +167,7 @@ class ScrollTypography {
    const travel=strip.dataset.direction==='down'?1-spin:spin;
    strip.style.transform=`translate3d(0,${-travel*(rows-1)/rows*100}%,0)`;
    // Visible letter rows accelerate through the drum, then brake into the final glyph.
-   strip.style.filter=`blur(${Math.sin(Math.PI*p)*(mobile()?.15:.4)}px)`;
+   strip.style.filter=`blur(${Math.sin(Math.PI*p)*clamp(velocity*650,0,mobile()?1.4:3.2)}px)`;
   });
   this.ink.forEach(({line,path,length},i)=>{
    const p=clamp((progress-.34-Math.min(i*.05,.10))/.62);
@@ -180,10 +180,10 @@ class ScrollTypography {
  }
  update(r){
   const target=this.target(r),now=performance.now(),dt=this.lastTime?clamp(now-this.lastTime,8,64):16;
-  this.lastTime=now;this.progress+=(target-this.progress)*(1-Math.exp(-dt/65));
+  this.lastTime=now;const previous=this.progress;this.progress+=(target-this.progress)*(1-Math.exp(-dt/65));
   this.settling=Math.abs(target-this.progress)>.0005;
   if(!this.settling)this.progress=target;
-  this.paint(this.progress);
+  this.paint(this.progress,Math.abs(this.progress-previous)/dt);
  }
  reset(){this.progress=1;this.lastTime=0;this.settling=false;this.paint(1)}
 }
@@ -252,8 +252,9 @@ $$('.preview-toggle,.growth-steps').forEach(group=>{
   if(started&&!disabled&&previous.width){
    indicator.getAnimations().forEach(a=>a.cancel());
    indicator.animate([
-    {transform:`translate3d(${(previous.left-groupRect.left)/scale-group.clientLeft}px,${(previous.top-groupRect.top)/scale-group.clientTop}px,0)`,width:previous.width/scale+'px'},
-    {transform:`translate3d(${x}px,${y}px,0)`,width:selected.offsetWidth+'px'}
+    {transform:`translate3d(${(previous.left-groupRect.left)/scale-group.clientLeft}px,${(previous.top-groupRect.top)/scale-group.clientTop}px,0)`,width:previous.width/scale+'px',filter:'blur(0px)'},
+    {filter:mobile()?'blur(.7px)':'blur(1.4px)',offset:.3},
+    {transform:`translate3d(${x}px,${y}px,0)`,width:selected.offsetWidth+'px',filter:'blur(0px)'}
    ],{duration:520,easing:'cubic-bezier(.22,1,.36,1)'});
   }
   started=true;group.classList.add('glider-ready');
@@ -281,7 +282,7 @@ class ScrollArrival {
  update(r){const target=clamp(((innerHeight*.96-r.top)/(innerHeight*.36)-this.delay)/(1-this.delay));const now=performance.now(),dt=this.lastTime?clamp(now-this.lastTime,8,64):16;this.lastTime=now;this.progress+=(target-this.progress)*(1-Math.exp(-dt/80));this.settling=Math.abs(target-this.progress)>.001;if(!this.settling)this.progress=target;this.animation.currentTime=this.progress*1000}
  reset(){this.progress=1;this.lastTime=0;this.settling=false;this.animation.pause();this.animation.currentTime=1000}
 }
-$$('.hero-intro>p,.hero-actions>*,.growth-offerings article,.tool-button-wrap,.process span,.about-grid .large-copy,.contact-layout form,.website-toolbar').forEach(el=>new ScrollArrival(el));
+$$('.hero-intro>p,.hero-actions>*,.growth-offerings article,.process span,.about-grid .large-copy,.contact-layout form,.website-toolbar').forEach(el=>new ScrollArrival(el));
 const readingLine=document.createElement('div');readingLine.className='reading-line';readingLine.setAttribute('aria-hidden','true');document.body.append(readingLine);
 add({el:document.body,update(){readingLine.style.transform=`scaleX(${clamp(scrollY/Math.max(1,document.documentElement.scrollHeight-innerHeight))})`},reset(){readingLine.style.transform='scaleX(0)'}});
 if(disabled)scenes.forEach(scene=>scene.reset?.());
@@ -414,17 +415,38 @@ $$('.cta').forEach(el=>new LensPortal(el));
 if(document.body.classList.contains('home-page')){const camera=new TravellingCamera(()=>!disabled&&!document.documentElement.classList.contains('launch-active'));if(camera.gl){scenes.add(camera);camera.resize();}}
 if(disabled)scenes.forEach(scene=>scene.reset?.());schedule();
 
-// Pointer light and card banking layer independently over the scroll camera.
+// A shared, damped hover response adds life without replacing scroll transforms.
+class HoverPresence {
+ constructor(el,kind){
+  this.el=el;this.kind=kind;this.x=0;this.y=0;this.time=0;this.point=null;this.settling=false;
+  el.classList.add('hover-alive');el.dataset.hoverKind=kind;
+  el.addEventListener('pointermove',event=>{if(disabled||event.pointerType!=='mouse')return;this.point={x:event.clientX,y:event.clientY};el.classList.add('is-hovered');schedule()},{passive:true});
+  el.addEventListener('pointerleave',()=>{this.point=null;el.classList.remove('is-hovered');schedule()});
+  el.addEventListener('pointercancel',()=>{this.point=null;el.classList.remove('is-hovered');schedule()});
+  add(this);
+ }
+ update(r){
+  const now=performance.now(),dt=this.time?clamp(now-this.time,8,64):16;this.time=now;
+  const tx=this.point?clamp((this.point.x-r.left)/Math.max(1,r.width),0,1)*2-1:0;
+  const ty=this.point?clamp((this.point.y-r.top)/Math.max(1,r.height),0,1)*2-1:0;
+  const ease=1-Math.exp(-dt/85);this.x+=(tx-this.x)*ease;this.y+=(ty-this.y)*ease;
+  this.settling=Math.abs(tx-this.x)+Math.abs(ty-this.y)>.005;
+  if(!this.settling){this.x=tx;this.y=ty}
+  const control=this.kind==='control',frame=this.kind==='frame';
+  this.el.style.setProperty('--hover-x',`${frame?0:this.x*(control?2.5:1.5)}px`);
+  this.el.style.setProperty('--hover-y',`${frame?0:this.y*(control?1.5:1)}px`);
+  this.el.style.setProperty('--hover-roll',`${frame||control?0:this.x*.65}deg`);
+  this.el.style.setProperty('--card-light-x',`${(this.x+1)*50}%`);
+  this.el.style.setProperty('--card-light-y',`${(this.y+1)*50}%`);
+ }
+ reset(){this.point=null;this.time=0;this.x=0;this.y=0;this.settling=false;this.el.classList.remove('is-hovered');for(const name of ['--hover-x','--hover-y','--hover-roll'])this.el.style.removeProperty(name)}
+}
 if(matchMedia('(hover:hover) and (pointer:fine)').matches){
- $$('.website-showcase,.project').forEach(card=>{
-  let raf=0,x=50,y=50;
-  card.addEventListener('pointermove',event=>{
-   if(disabled)return;const r=card.getBoundingClientRect();
-   x=clamp((event.clientX-r.left)/r.width)*100;y=clamp((event.clientY-r.top)/r.height)*100;
-   if(!raf)raf=requestAnimationFrame(()=>{raf=0;card.style.setProperty('--card-light-x',x+'%');card.style.setProperty('--card-light-y',y+'%');card.style.setProperty('--card-bank-x',((50-y)*.06)+'deg');card.style.setProperty('--card-bank-y',((x-50)*.075)+'deg')});
-  },{passive:true});
-  card.addEventListener('pointerleave',()=>{cancelAnimationFrame(raf);raf=0;card.style.setProperty('--card-bank-x','0deg');card.style.setProperty('--card-bank-y','0deg')});
- });
+ const surfaces=$$('.website-showcase,.project,.growth-offerings article,.growth-console,.capability-card');
+ surfaces.forEach(el=>new HoverPresence(el,'surface'));
+ $$('.bts-photo,.director-aperture').forEach(el=>new HoverPresence(el,'frame'));
+ $$('main button:not(.project),main .button,main .text-link,main summary,main .service-choices label,header .button,header nav a,header .menu').forEach(el=>new HoverPresence(el,'control'));
+ $$('main img').filter(el=>!el.closest('.hero-image-wall,.website-showcase,.project,.bts-photo,.director-aperture,.tool-hover-art')).forEach(el=>new HoverPresence(el,'image'));
 }
 
 installLogoCursor();
@@ -440,6 +462,150 @@ $$('.button,.preview-toggle button,.growth-steps button,.tool-button,.website-re
  control.addEventListener('pointermove',event=>{if(disabled||event.pointerType==='touch')return;const r=control.getBoundingClientRect();control.style.setProperty('--control-light-x',`${clamp((event.clientX-r.left)/Math.max(1,r.width))*100}%`);},{passive:true});
  control.addEventListener('pointerleave',()=>control.style.removeProperty('--control-light-x'));
 });
+// Local anisotropic lens blur follows each layer's actual screen-space movement.
+// Separate filters avoid blurring controls or creating a filtered full-page layer.
+const blurSvg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+blurSvg.setAttribute('width','0');blurSvg.setAttribute('height','0');blurSvg.setAttribute('aria-hidden','true');
+blurSvg.style.cssText='position:absolute;pointer-events:none';
+const blurDefs=document.createElementNS(blurSvg.namespaceURI,'defs');blurSvg.append(blurDefs);document.body.append(blurSvg);
+let blurId=0;
+class MotionBlur {
+ constructor(el){
+  this.el=el;this.blur=0;this.previous=null;this.lastTime=0;this.settling=false;this.axisX=0;this.axisY=1;
+  const filter=document.createElementNS(blurSvg.namespaceURI,'filter');filter.id=`movement-blur-${++blurId}`;
+  for(const [name,value]of Object.entries({x:'-20%',y:'-30%',width:'140%',height:'160%', 'color-interpolation-filters':'sRGB'}))filter.setAttribute(name,value);
+  this.gaussian=document.createElementNS(blurSvg.namespaceURI,'feGaussianBlur');this.gaussian.setAttribute('stdDeviation','0 0');
+  filter.append(this.gaussian);blurDefs.append(filter);this.filter=filter;
+  const baseFilter=getComputedStyle(el).filter;el.style.setProperty('--base-motion-filter',baseFilter==='none'?'blur(0px)':baseFilter);
+  el.classList.add('velocity-blur');add(this);
+ }
+ update(r){
+  const now=performance.now(),elapsed=now-this.lastTime,dt=clamp(elapsed,8,64);
+  // Ignore first entry and stale measurements after a hidden tab or off-screen interval.
+  const previous=elapsed<=120?this.previous:null;
+  const dx=previous?r.left-previous.left:0,dy=previous?r.top-previous.top:0;
+  const resize=previous?Math.hypot(r.width-previous.width,r.height-previous.height)*.5:0;
+  const distance=Math.hypot(dx,dy),speed=Math.hypot(distance,resize)/dt;
+  this.previous={left:r.left,top:r.top,width:r.width,height:r.height};this.lastTime=now;
+  const text=this.el.matches('.ink-line,.slot-word,.hero-wordmark>span');
+  const maximum=text?(mobile()?1:2.2):(mobile()?2.8:6);
+  const target=clamp((speed-.04)*(text?1.15:3.4),0,maximum);
+  const ease=1-Math.exp(-dt/(target>this.blur?28:140));
+  this.blur+=(target-this.blur)*ease;
+  if(distance>.1){this.axisX+=(Math.abs(dx)/distance-this.axisX)*ease;this.axisY+=(Math.abs(dy)/distance-this.axisY)*ease}
+  this.settling=Math.abs(target-this.blur)>.015;
+  if(!this.settling)this.blur=target;
+  this.gaussian.setAttribute('stdDeviation',`${(this.blur*(.15+.85*this.axisX)).toFixed(3)} ${(this.blur*(.15+.85*this.axisY)).toFixed(3)}`);
+  // Removing the filter at rest restores native image rendering and crisp glyphs.
+  this.el.style.setProperty('--movement-filter',this.blur>.015?`blur(${(this.blur*.25).toFixed(3)}px) url(#${this.filter.id})`:'blur(0px)');
+ }
+ resetBlur(){this.blur=0;this.previous=null;this.lastTime=0;this.settling=false;this.gaussian.setAttribute('stdDeviation','0 0');this.el.style.setProperty('--movement-filter','blur(0px)')}
+ reset(){this.resetBlur()}
+}
+const blurTargets=mobile()
+ ?'.hero-wordmark>span,.project-image img,.website-device-stage,.founder-portrait,.scrub-title .ink-line'
+ :'.hero-wordmark>span,.project-image img,.website-device-stage,.bts-photo>img,.founder-portrait,.scrub-title .slot-word,.scrub-title .ink-line';
+$$(blurTargets).forEach(el=>new MotionBlur(el));
+if(disabled)scenes.forEach(scene=>scene.reset?.());schedule();
+
+// Mobile growth cards form a native swipe strip with a pixel-matched loop seam.
+class GrowthLoop {
+ constructor(track){
+  this.track=track;this.cards=[...track.children];this.raf=0;this.lastTime=0;this.position=0;this.period=0;this.visible=false;this.holding=false;this.pauseUntil=0;
+  this.el=document.createElement('div');this.el.className='growth-loop-viewport';this.el.setAttribute('aria-label','Business growth services');
+  track.before(this.el);this.el.append(track);
+  this.copies=this.cards.map(card=>{const copy=card.cloneNode(true);copy.classList.add('growth-loop-copy');copy.setAttribute('aria-hidden','true');copy.inert=true;copy.querySelectorAll('[id]').forEach(el=>el.removeAttribute('id'));track.append(copy);return copy});
+  // Only a deliberate sideways swipe pauses autoplay; vertical page scrolling does not.
+  this.el.addEventListener('pointerdown',event=>{this.gesture={id:event.pointerId,x:event.clientX,y:event.clientY,vertical:false}},{passive:true});
+  this.el.addEventListener('pointermove',event=>{
+   const gesture=this.gesture;if(!gesture||gesture.id!==event.pointerId||gesture.vertical)return;
+   const dx=Math.abs(event.clientX-gesture.x),dy=Math.abs(event.clientY-gesture.y);
+   if(!this.holding&&dy>8&&dy>dx){gesture.vertical=true;return}
+   if(dx>8&&dx>dy*1.2){this.holding=true;this.pauseUntil=Infinity;this.track.style.transform='none'}
+  },{passive:true});
+  const release=event=>{
+   if(this.gesture&&event.pointerId!==this.gesture.id)return;
+   this.gesture=null;if(!this.holding)return;
+   this.holding=false;this.pauseUntil=performance.now()+1200;this.position=this.el.scrollLeft;
+  };
+  addEventListener('pointerup',release,{passive:true});addEventListener('pointercancel',release,{passive:true});
+  this.el.addEventListener('wheel',event=>{if(Math.abs(event.deltaX)>Math.abs(event.deltaY)&&Math.abs(event.deltaX)>1)this.pauseUntil=performance.now()+1200},{passive:true});
+  this.el.addEventListener('focusin',()=>{this.focused=this.el.matches(':focus-visible')});this.el.addEventListener('focusout',()=>{this.focused=false;this.pauseUntil=performance.now()+1000});
+  this.el.addEventListener('scroll',()=>{if(this.holding||performance.now()<this.pauseUntil||this.focused)this.position=this.el.scrollLeft},{passive:true});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)this.stop();else this.start()});
+  this.tick=this.tick.bind(this);add(this);
+  new ResizeObserver(()=>this.resize()).observe(this.el);
+ }
+ resize(){
+  this.el.style.setProperty('--growth-gutter',`${parseFloat(getComputedStyle(this.el.parentElement).paddingLeft)||0}px`);
+  this.period=this.copies[0].offsetLeft-this.cards[0].offsetLeft;
+  if(!mobile()){this.stop();this.el.scrollLeft=0;this.position=0;this.track.style.transform='none';this.el.removeAttribute('tabindex')}
+  else{this.el.tabIndex=0;this.start()}
+ }
+ update(r){this.visible=r.bottom>0&&r.top<innerHeight;if(this.visible)this.start();else this.stop()}
+ start(){if(!this.raf&&mobile()&&!disabled&&this.visible&&!document.hidden&&this.period>0){this.lastTime=0;this.raf=requestAnimationFrame(this.tick)}}
+ stop(){cancelAnimationFrame(this.raf);this.raf=0;this.lastTime=0}
+ tick(now){
+  this.raf=0;if(!mobile()||disabled||!this.visible||document.hidden)return;
+  const dt=this.lastTime?Math.min(50,now-this.lastTime):0;this.lastTime=now;
+  if(!this.holding&&!this.focused&&now>=this.pauseUntil){
+   this.position=(this.position+dt*.026)%this.period;
+   this.el.scrollLeft=this.position;
+   // Native scroll offsets can round to whole pixels. Preserve subpixel travel.
+   this.track.style.transform=`translate3d(${this.el.scrollLeft-this.position}px,0,0)`;
+  }else this.track.style.transform='none';
+  this.raf=requestAnimationFrame(this.tick);
+ }
+ resetBlur(){this.visible=false;this.stop()}
+ reset(){this.stop();this.holding=false;this.gesture=null;this.pauseUntil=0;this.track.style.transform='none'}
+}
+$$('.growth-offerings').forEach(track=>new GrowthLoop(track));
 if(disabled)scenes.forEach(scene=>scene.reset?.());schedule();
 
 addEventListener('mmm:launch-finished',()=>{scenes.forEach(scene=>scene.resize?.());schedule();});
+
+// Menu jumps use a short camera rush, then an exact stop with no blur tail.
+const navigationStretchFilter=document.createElementNS(blurSvg.namespaceURI,'filter');
+navigationStretchFilter.id='navigation-stretch-blur';
+for(const [name,value]of Object.entries({x:'-10%',y:'-100%',width:'120%',height:'300%','color-interpolation-filters':'sRGB'}))navigationStretchFilter.setAttribute(name,value);
+const navigationStretch=document.createElementNS(blurSvg.namespaceURI,'feGaussianBlur');
+navigationStretch.setAttribute('stdDeviation','0 0');navigationStretchFilter.append(navigationStretch);blurDefs.append(navigationStretchFilter);
+let navigationFrame=0;
+function stopNavigation(){
+ cancelAnimationFrame(navigationFrame);navigationFrame=0;navigationRunning=false;
+ document.documentElement.classList.remove('cinematic-navigation');
+ navigationStretch.setAttribute('stdDeviation','0 0');
+ scenes.forEach(scene=>{if(scene instanceof MotionBlur)scene.resetBlur()});schedule();
+}
+function navigateSection(target,hash){
+ stopNavigation();
+ const padding=parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop)||0;
+ const margin=parseFloat(getComputedStyle(target).scrollMarginTop)||0;
+ const destination=clamp(scrollY+target.getBoundingClientRect().top-padding-margin,0,Math.max(0,document.documentElement.scrollHeight-innerHeight));
+ const origin=scrollY,distance=destination-origin;
+ history.pushState(null,'',hash);
+ if(disabled||Math.abs(distance)<24){scrollTo({top:destination,behavior:'instant'});return}
+ const duration=clamp(260+Math.sqrt(Math.abs(distance))*2,340,500);
+ let start=0;navigationRunning=true;cancelAnimationFrame(frame);frame=0;document.documentElement.classList.add('cinematic-navigation');
+ const step=now=>{
+  if(disabled||document.hidden){stopNavigation();return}
+  if(!start)start=now;const p=clamp((now-start)/duration);
+  // A single constant-speed pass avoids lingering over intermediate sticky scenes.
+  const travel=p;
+  navigationStretch.setAttribute('stdDeviation',`.35 ${((mobile()?13:24)*Math.min(1,p/.07)).toFixed(2)}`);
+  scrollTo({top:origin+distance*travel,behavior:'instant'});schedule();
+  if(p<1)navigationFrame=requestAnimationFrame(step);
+  else{scrollTo({top:destination,behavior:'instant'});stopNavigation();target.setAttribute('tabindex',target.getAttribute('tabindex')||'-1');target.focus({preventScroll:true})}
+ };
+ navigationFrame=requestAnimationFrame(step);
+}
+$$('header nav a').forEach(link=>link.addEventListener('click',event=>{
+ if(event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+ const url=new URL(link.href,location.href);
+ if(url.origin!==location.origin||url.pathname!==location.pathname||!url.hash)return;
+ const target=document.getElementById(decodeURIComponent(url.hash.slice(1)));if(!target)return;
+ event.preventDefault();navigateSection(target,url.hash);
+}));
+for(const type of ['wheel','touchstart','pointerdown'])addEventListener(type,()=>{if(navigationRunning)stopNavigation()},{passive:true});
+addEventListener('keydown',event=>{if(navigationRunning&&['Escape','ArrowUp','ArrowDown','PageUp','PageDown','Home','End',' '].includes(event.key))stopNavigation()});
+addEventListener('popstate',()=>{if(navigationRunning)stopNavigation()});

@@ -4,6 +4,7 @@ export class TravellingCamera {
   this.enabled=enabled;this.time=0;this.raf=0;this.lastTime=0;
   this.el=document.createElement('div');this.el.className=container?'launch-camera-model':'travelling-camera';this.el.setAttribute('aria-hidden','true');
   const canvas=document.createElement('canvas');this.el.append(canvas);(container||document.body).append(this.el);this.canvas=canvas;
+  if(!container){const flash=document.createElement('span');flash.className='camera-shutter-flash';this.el.append(flash);}
   const gl=canvas.getContext('webgl',{alpha:true,antialias:true,premultipliedAlpha:false});
   if(!gl){this.el.remove();return}this.gl=gl;
   const shader=(type,source)=>{const s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(s));return s};
@@ -27,7 +28,7 @@ export class TravellingCamera {
     vec3 p=rz*rx*ry*mix(separated,target,assemble);p.xy-=framing;p*=zoom;N=rz*rx*ry*partRotation*normal;C=mix(color,logoColor,assemble);P=position;V=vec3(0.,0.,5.5)-p;M=material;float z=5.5-p.z;
     gl_Position=vec4(p.x*2.8/aspect,p.y*2.8,(z-2.0)*1.4-2.8,z);}`));
    gl.attachShader(program,shader(gl.FRAGMENT_SHADER,`
-    precision mediump float;uniform mediump float assemble;varying vec3 N;varying vec3 C;varying vec3 P;varying vec3 V;varying float M;
+    precision mediump float;uniform mediump float assemble;uniform float flightMode;uniform float flightPhase;uniform float shutterFlash;varying vec3 N;varying vec3 C;varying vec3 P;varying vec3 V;varying float M;
     float noise(vec2 q){return fract(sin(dot(q,vec2(127.1,311.7)))*43758.5);}
     void main(){
      vec3 n=normalize(N),v=normalize(V),l=normalize(vec3(-.55,.8,1.1));
@@ -46,6 +47,22 @@ export class TravellingCamera {
      if(glass){lit=C*.22+reflection*.7+vec3(.18,.32,.40)*fresnel+vec3(.75,.93,1.)*spec*.65;}
      else if(metal){lit=C*(ambient+diffuse*.32)+reflection*(.48+fresnel*.35)+vec3(.92,.96,1.)*spec*.65+brush;}
      else{lit=C*(.35+diffuse*.9)+reflection*.06+spec*.12+grain;}
+     // Floating model gets moving studio reflections; the launch ident keeps its lighting.
+     if(flightMode>.5){
+      vec3 blueLight=normalize(vec3(-.8,.45,.7)),mintLight=normalize(vec3(.85,.15,.5));
+      float blueRim=pow(max(dot(n,blueLight),0.),3.);
+      float mintRim=pow(max(dot(n,mintLight),0.),4.);
+      float sweep=pow(max(0.,1.-abs(r.x-sin(flightPhase)*.45)*2.2),14.)*max(.2,r.y);
+      lit+=vec3(.35,.55,.9)*blueRim*(metal?.32:.10)+vec3(.35,.85,.65)*mintRim*(metal?.24:.07);
+      if(metal)lit+=vec3(.8,.9,1.)*sweep*.46;
+      lit=lit*1.24+vec3(.025,.032,.04);
+      if(glass){
+       float radius=length((P.xy-vec2(.21,-.05))*vec2(1.,1.1));
+       float coating=pow(max(0.,1.-abs(radius-.31)*12.),2.);
+       lit+=vec3(.12,.35,.52)*coating+vec3(.16,.30,.24)*fresnel*.3;
+      }
+     }
+     if(flightMode>.5){float flashPanel=step(.65,P.y)*step(.2,P.z);lit+=vec3(.9,.96,1.)*shutterFlash*(flashPanel*6.+(glass?.65:0.));}
      lit=lit/(vec3(1.)+lit*.35);lit=pow(max(lit,vec3(0.)),vec3(.82));
      gl_FragColor=vec4(mix(lit,C,smoothstep(.7,1.,assemble)),1.);
     }`));gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error('Camera shader link failed');this.program=program;
@@ -99,6 +116,7 @@ export class TravellingCamera {
   this.sourceVertices=vertices;this.count=vertices.length/14;const buffer=gl.createBuffer();this.buffer=buffer;gl.bindBuffer(gl.ARRAY_BUFFER,buffer);const initial=[];for(let i=0;i<vertices.length;i+=14)initial.push(...vertices.slice(i,i+14),0,0,0,1,1,1);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(initial),gl.STATIC_DRAW);gl.useProgram(this.program);
   for(const[name,offset]of[['position',0],['normal',12],['color',24],['piece',36],['pivot',40],['material',52],['logoTarget',56],['logoColor',68]]){const loc=gl.getAttribLocation(this.program,name);gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,name==='piece'||name==='material'?1:3,gl.FLOAT,false,80,offset)}
   this.framing=gl.getUniformLocation(this.program,'framing');
+  this.flightMode=gl.getUniformLocation(this.program,'flightMode');this.flightPhase=gl.getUniformLocation(this.program,'flightPhase');this.shutterFlash=gl.getUniformLocation(this.program,'shutterFlash');gl.uniform1f(this.shutterFlash,0);gl.uniform1f(this.flightMode,container?0:1);
   this.explode=gl.getUniformLocation(this.program,'explode');this.assemble=gl.getUniformLocation(this.program,'assemble');this.zoom=gl.getUniformLocation(this.program,'zoom');gl.uniform1f(this.zoom,1);
   this.roll=gl.getUniformLocation(this.program,'roll');this.angle=gl.getUniformLocation(this.program,'angle');this.aspect=gl.getUniformLocation(this.program,'aspect');gl.enable(gl.DEPTH_TEST);
   this.introMode=!!container;
@@ -133,11 +151,15 @@ export class TravellingCamera {
   const rx=Math.max(0,(innerWidth-w)/2-margin),ry=Math.max(0,innerHeight*.27-h*.25);
   let x=cx+Math.cos(t)*rx,y=cy+Math.sin(t)*ry+Math.sin(t*2)*innerHeight*.025;
   if(small){x=innerWidth-w*.55-14+Math.cos(t)*8;y=innerHeight*.59+Math.sin(t)*innerHeight*.22;}
-  const scale=1+Math.sin(t)*.09;
-  this.el.style.left='0px';this.el.style.top='0px';this.el.style.opacity=small?'.86':'1';
+  const scale=1+Math.sin(t)*.065+Math.sin(t*2)*.015;
+  this.el.style.left='0px';this.el.style.top='0px';this.el.style.opacity=small?'.94':'1';
   this.el.style.transform=`translate3d(${Math.max(margin,Math.min(innerWidth-w-margin,x-w/2))}px,${Math.max(80,Math.min(innerHeight-h-20,y-h/2))}px,0) scale(${scale})`;
   const gl=this.gl;gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(this.program);
-  gl.uniform2f(this.angle,-.42+Math.sin(t)*.62,.16+Math.cos(t)*.18);
+  const shutterPhase=this.time%2;
+  const flash=shutterPhase<.22?Math.pow(Math.sin(Math.PI*shutterPhase/.22),2):0;
+  this.el.style.setProperty('--shutter-flash',flash.toFixed(3));gl.uniform1f(this.shutterFlash,flash);
+  gl.uniform1f(this.flightPhase,t);
+  gl.uniform2f(this.angle,-.38+Math.sin(t)*.64+Math.sin(t*2)*.035,.16+Math.cos(t)*.16);
   gl.uniform1f(this.roll,Math.sin(t)*.12+Math.sin(t*2)*.035);
   gl.uniform1f(this.aspect,this.canvas.width/this.canvas.height);gl.drawArrays(gl.TRIANGLES,0,this.count);
  }
@@ -188,5 +210,5 @@ export class TravellingCamera {
   gl.drawArrays(gl.TRIANGLES,0,this.count);
  }
  dispose(){this.reset();this.gl?.getExtension('WEBGL_lose_context')?.loseContext();this.el.remove();}
- reset(){cancelAnimationFrame(this.raf);this.raf=0;this.lastTime=0;this.el.hidden=true}
+ reset(){cancelAnimationFrame(this.raf);this.raf=0;this.lastTime=0;this.el.hidden=true;this.el.style.setProperty('--shutter-flash','0')}
 }
