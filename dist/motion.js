@@ -9,8 +9,8 @@ let disabled=reduced.matches,frame=0,navigationRunning=false;
 const scenes=new Set(),active=new Set();
 const observer=new IntersectionObserver(entries=>{for(const e of entries){e.target.classList.toggle('in-view',e.isIntersecting);for(const scene of scenes)if(scene.el===e.target){if(e.isIntersecting)active.add(scene);else{active.delete(scene);scene.resetBlur?.()}}}schedule()},{rootMargin:'10% 0px'});
 function add(scene){scenes.add(scene);observer.observe(scene.el);scene.resize?.();return scene}
-function schedule(){if(!disabled&&!navigationRunning&&!frame&&!document.hidden)frame=requestAnimationFrame(render)}
-function render(){frame=0;if(navigationRunning)return;const measured=[...active].map(s=>[s,s.el.getBoundingClientRect()]);for(const [scene,r]of measured)scene.update(r);if([...active].some(scene=>scene.settling))schedule()}
+function schedule(){if(!disabled&&!navigationRunning&&!frame&&!document.hidden&&!document.documentElement.classList.contains('launch-active'))frame=requestAnimationFrame(render)}
+function render(){frame=0;if(navigationRunning||document.documentElement.classList.contains('launch-active'))return;const measured=[...active].map(s=>[s,s.el.getBoundingClientRect()]);for(const [scene,r]of measured)scene.update(r);if([...active].some(scene=>scene.settling))schedule()}
 document.addEventListener('scroll',event=>{if(event.target instanceof Element&&event.target.classList.contains('growth-loop-viewport'))return;schedule()},{passive:true,capture:true});
 addEventListener('resize',()=>{scenes.forEach(s=>s.resize?.());schedule()},{passive:true});
 document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(frame);frame=0;scenes.forEach(scene=>scene.resetBlur?.())}else schedule()});

@@ -983,3 +983,56 @@ header { overflow:visible; }
 @media(max-width:1000px) { .menu-hanging-photographer { left:14px;width:44px;height:62px; }.menu-open .menu-hanging-photographer { visibility:hidden; } }
 .motion-disabled .menu-hanging-photographer * { animation:none!important; }
 @media(prefers-reduced-motion:reduce) { .menu-hanging-photographer * { animation:none!important; } }
+
+/* The camera starts after its warm-up frame; the stage stays calm during loading. */
+.launch-camera-model { opacity:0;transition:opacity .3s ease-out; }
+.launch-intro.is-playing .launch-camera-model { opacity:1; }
+.launch-active .wall-track,.launch-active .menu-atmosphere *,.launch-active .menu-hanging-photographer * { animation-play-state:paused!important; }
+.launch-lens .launch-backdrop { background:radial-gradient(ellipse at 50% 44%,#1f2d39 0%,#0b1118 37%,#020305 76%); }
+.launch-stage-orbit { display:none; }
+.launch-stage-streak { height:2px;opacity:calc(var(--studio-energy,0)*.22);box-shadow:0 0 18px #a6d6ff45; }
+.launch-stage-halo { background:radial-gradient(ellipse,#91b9d816 0%,#91b9d814 24%,transparent 62%);width:min(100vw,1200px); }
+.launch-studio-beam { width:90%;height:160%;top:-45%; }
+.launch-studio-beam.beam-blue { left:-27%;background:conic-gradient(from 153deg at 50% 0,transparent 4deg,#c6e7ff08 10deg,#bedfff35 19deg,#91b9d810 25deg,transparent 34deg);transform:rotate(calc(-12deg + var(--studio-phase,0)*8deg)); }
+.launch-studio-beam.beam-mint { right:-34%;background:conic-gradient(from 153deg at 50% 0,transparent 5deg,#bdebd708 13deg,#bdebd724 20deg,transparent 31deg);transform:rotate(calc(14deg - var(--studio-phase,0)*9deg)); }
+.launch-stage-reflection { left:18%;right:18%;top:74%;height:18%;background:radial-gradient(ellipse,#c2e4f335,#91b9d819 24%,transparent 68%); }
+.launch-studio-horizon { top:76%;opacity:.25;background:linear-gradient(90deg,transparent,#c5dce742,transparent); }
+.launch-studio-haze { background:radial-gradient(ellipse at 30% 60%,#91b9d812,transparent 46%),radial-gradient(ellipse at 75% 40%,#a5d9c70a,transparent 44%); }
+.launch-stage-light:after { content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 48%,transparent 24%,#0005 75%,#0009);pointer-events:none; }
+@media(max-width:700px) { .launch-studio-beam { width:140%; }.launch-studio-beam.beam-blue { left:-55%; }.launch-studio-beam.beam-mint { right:-65%; }.launch-stage-halo { width:140vw; } }
+
+/* The studio opens into the homepage through a continuous lens iris. */
+.launch-intro.is-iris-reveal { opacity:1;transition:none;
+ -webkit-mask-image:radial-gradient(circle at 50% 50%,transparent var(--iris-radius,0px),#000 calc(var(--iris-radius,0px) + 3px));
+ mask-image:radial-gradient(circle at 50% 50%,transparent var(--iris-radius,0px),#000 calc(var(--iris-radius,0px) + 3px));
+}
+.launch-intro.is-iris-reveal .launch-identity { transform:scale(1.15);opacity:0;transition:transform .6s cubic-bezier(.22,1,.36,1),opacity .3s ease; }
+.launch-intro.is-iris-reveal :is(.launch-sound,.launch-skip) { opacity:0;transition:opacity .15s ease; }
+
+/* Fine machined blade edges briefly catch light as the aperture opens. */
+.launch-aperture-edge { position:absolute;inset:0;z-index:5;pointer-events:none;opacity:0; }
+.launch-aperture-edge svg { width:100%;height:100%;display:block; }
+.aperture-rim { fill:none;stroke:#e3f3ff;stroke-width:1.25;vector-effect:non-scaling-stroke; }
+.aperture-blade-seams { fill:none;stroke:#b6d3e5;stroke-opacity:.26;stroke-width:.75;vector-effect:non-scaling-stroke; }
+.launch-intro.is-iris-reveal .launch-identity { transform:scale(1.08);transition:transform .5s cubic-bezier(.22,1,.36,1),opacity .2s ease; }
+
+/* Softer optical edges keep the reveal fluid instead of feeling like a cutout. */
+.aperture-rim { stroke:#d9e9f2;stroke-width:.8;stroke-opacity:.72; }
+.aperture-blade-seams { stroke-opacity:.16;stroke-width:.6; }
+.launch-intro.is-iris-reveal .launch-identity { transform:scale(1.045);transition:transform .65s cubic-bezier(.22,1,.36,1),opacity .32s ease; }
+
+/* Worn, machined aperture edges retain the cool studio palette. */
+.aperture-metal-grain { position:absolute;inset:0;background:url('/assets/frost-grain.svg') repeat;background-size:110px;opacity:.12;pointer-events:none; }
+.aperture-rim { stroke:#b6bfc5;stroke-width:2;stroke-opacity:.38; }
+.aperture-edge-patina { fill:none;stroke:#e2e6e8;stroke-width:.6;stroke-opacity:.38;stroke-dasharray:3 17 1 29;vector-effect:non-scaling-stroke; }
+.aperture-blade-seams { stroke:#879097;stroke-opacity:.12;stroke-width:1; }
+.launch-intro.is-iris-reveal .launch-identity { transform:scale(1.025);transition:transform .45s ease-out,opacity .24s ease-out; }
+
+/* Curved blade tips and a recessed lip give the aperture a physical edge. */
+.aperture-depth { fill:none;stroke:#05080c;stroke-width:22;stroke-opacity:.8;vector-effect:non-scaling-stroke; }
+.aperture-rim { stroke:#a8b9c4;stroke-width:2.5;stroke-opacity:.52; }
+.aperture-edge-patina { stroke:#ecf3f5;stroke-width:.7;stroke-opacity:.28;stroke-dasharray:2 23 1 37; }
+html.launch-active.launch-revealing .wall-track { animation-play-state:running!important; }
+.launch-intro.is-iris-reveal .launch-stage-reflection { transition:opacity .65s ease-out;opacity:0; }
+.launch-intro.is-iris-reveal .launch-studio-haze { transition:opacity .8s ease-out;opacity:.35; }
+@media(max-width:700px) { .aperture-depth { stroke-width:14; }.aperture-rim { stroke-width:1.5; } }
