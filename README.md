@@ -53,3 +53,7 @@ The previous design is saved as `snapshot-before-ascii-hero-fixed-2026-10-07`, i
 ## Website project gallery
 
 The supplied web-development project list is presented in the homepage website panel: PVST, Raizon Space Interiors, Ever Green Artha, Dhruv Consultants, The Lucid Sway and Hasini Infra. Each card links to its supplied live URL. Five new desktop previews were captured from the live sites; Lucid Sway retains its supplied desktop and mobile screenshots and device morph. The gallery is one horizontal row: desktop vertical scrolling pins the panel and moves the cards from right to left. Arrow controls and keyboard focus navigate the reel. Phones and reduced-motion views use a native horizontal swipe row with snapping. The contact page provides the existing local project-brief form.
+
+## Our work film carousel — 26 October 2026
+
+The homepage Work section now uses the four supplied videos from `../megmultimedia/our_work` instead of the concept photograph gallery. Optimized 540px, 24fps H.264 previews and poster frames live in `dist/assets/our-work/`; originals remain untouched. Playback copies omit audio for simultaneous muted playback. Two identical groups make the right-to-left film strip seamless. All films play together while the section is visible, pause offscreen or in a hidden tab, and have a local pause/play control. The footer motion toggle and OS reduced-motion preference pause the films and provide a static horizontally scrollable strip.
