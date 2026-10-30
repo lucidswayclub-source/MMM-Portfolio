@@ -1,7 +1,7 @@
 /** A real, locally rendered 3D camera mesh. Independent, seamless flight with visibility-aware rendering. */
 export class TravellingCamera {
  constructor(enabled=()=>true,container=null){
-  this.enabled=enabled;this.time=0;this.raf=0;this.lastTime=0;
+  this.enabled=enabled;this.time=0;this.raf=0;this.lastTime=0;this.lastDraw=0;
   this.el=document.createElement('div');this.el.className=container?'launch-camera-model':'travelling-camera';this.el.setAttribute('aria-hidden','true');
   const canvas=document.createElement('canvas');this.el.append(canvas);(container||document.body).append(this.el);this.canvas=canvas;
   if(!container){const flash=document.createElement('span');flash.className='camera-shutter-flash';this.el.append(flash);}
@@ -83,6 +83,7 @@ export class TravellingCamera {
    }
   };
   const cylinder=(x,y,z,r,length,col,segments=96,mat=1,inner=0)=>{
+   if((window.MMMPerformance?.level??2)<2)segments=Math.min(48,segments);
    piece++;pivot=[x,y,z+length/2];material=mat;
    for(let i=0;i<segments;i++){const a=i/segments*Math.PI*2,b=(i+1)/segments*Math.PI*2;
     const p=[x+Math.cos(a)*r,y+Math.sin(a)*r,z],q=[x+Math.cos(b)*r,y+Math.sin(b)*r,z],u=[p[0],p[1],z+length],v=[q[0],q[1],z+length],n=[Math.cos((a+b)/2),Math.sin((a+b)/2),0];
@@ -121,39 +122,49 @@ export class TravellingCamera {
   this.roll=gl.getUniformLocation(this.program,'roll');this.angle=gl.getUniformLocation(this.program,'angle');this.aspect=gl.getUniformLocation(this.program,'aspect');gl.enable(gl.DEPTH_TEST);
   this.introMode=!!container;
   canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();this.reset();this.gl=null});
-  if(!this.introMode)document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(this.raf);this.raf=0;this.lastTime=0}else this.start()});
+  if(!this.introMode){this.onVisibility=()=>{if(document.hidden){cancelAnimationFrame(this.raf);this.raf=0;this.lastTime=0}else this.start()};document.addEventListener('visibilitychange',this.onVisibility);}
  }
  resize(){
   if(!this.gl)return;
   this.el.hidden=!this.enabled();
   if(this.el.hidden)return;
-  const r=this.el.getBoundingClientRect(),dpr=Math.min(2,devicePixelRatio||1);
-  this.canvas.width=Math.round(r.width*dpr);this.canvas.height=Math.round(r.height*dpr);
+  const r=this.el.getBoundingClientRect();this.width=r.width;this.height=r.height;const dpr=Math.min(window.MMMPerformance?.pixelRatio??1.5,devicePixelRatio||1);
+  const width=Math.max(1,Math.round(r.width*dpr)),height=Math.max(1,Math.round(r.height*dpr));
+  if(this.canvas.width!==width||this.canvas.height!==height){this.canvas.width=width;this.canvas.height=height;}
   this.gl.viewport(0,0,this.canvas.width,this.canvas.height);if(!this.introMode)this.start();
  }
  start(){
   if(this.raf||!this.gl||!this.enabled()||document.hidden)return;
   this.el.hidden=false;
   const tick=now=>{
-   this.raf=0;if(!this.enabled()||document.hidden){this.lastTime=0;return}
+   this.raf=0;if(!this.enabled()||document.hidden){this.reset();return}
    // Retain phase across pauses, and avoid jumps after a slow frame or tab switch.
    if(this.lastTime)this.time+=Math.min(50,now-this.lastTime)/1000;
-   this.lastTime=now;this.update();this.raf=requestAnimationFrame(tick);
+   this.lastTime=now;
+   if(now-this.lastDraw>=((window.MMMPerformance?.level??2)<2?32:16)){this.lastDraw=now;this.update();}
+   this.raf=requestAnimationFrame(tick);
   };
   this.raf=requestAnimationFrame(tick);
  }
  update(){
   if(!this.gl)return;
-  const small=innerWidth<=700,t=this.time*Math.PI*2/42;
-  const w=this.el.offsetWidth,h=this.el.offsetHeight;
-  // Continuous closed orbit; position and rotation match across the loop seam.
-  const margin=small?12:24,cx=innerWidth/2,cy=innerHeight*.55;
-  const rx=Math.max(0,(innerWidth-w)/2-margin),ry=Math.max(0,innerHeight*.27-h*.25);
-  let x=cx+Math.cos(t)*rx,y=cy+Math.sin(t)*ry+Math.sin(t*2)*innerHeight*.025;
-  if(small){x=innerWidth-w*.55-14+Math.cos(t)*8;y=innerHeight*.59+Math.sin(t)*innerHeight*.22;}
-  const scale=1+Math.sin(t)*.065+Math.sin(t*2)*.015;
-  this.el.style.left='0px';this.el.style.top='0px';this.el.style.opacity=small?'.94':'1';
-  this.el.style.transform=`translate3d(${Math.max(margin,Math.min(innerWidth-w-margin,x-w/2))}px,${Math.max(80,Math.min(innerHeight-h-20,y-h/2))}px,0) scale(${scale})`;
+  const t=this.time*Math.PI*2/42,small=matchMedia('(max-width:1000px), (pointer:coarse)').matches;
+  const viewWidth=Math.min(innerWidth,document.documentElement.clientWidth||innerWidth);
+  const viewHeight=innerHeight;
+  const w=this.width||this.el.offsetWidth,h=this.height||this.el.offsetHeight;
+  const margin=small?12:24,cx=viewWidth/2,cy=viewHeight*.55;
+  const rx=Math.max(0,(viewWidth-w)/2-margin),ry=Math.max(0,viewHeight*.27-h*.25);
+  let x=cx+Math.cos(t)*rx,y=cy+Math.sin(t)*ry+Math.sin(t*2)*viewHeight*.025;
+  if(small){x=viewWidth-w*.5-16+Math.cos(t)*3;y=viewHeight*.57+Math.sin(t)*viewHeight*.2;}
+  const scale=small?1+Math.sin(t)*.025:1+Math.sin(t)*.065+Math.sin(t*2)*.015;
+  // Clamp the scaled footprint, including clearance for flash and shadow.
+  const maxX=Math.max(0,viewWidth-w*scale-margin),minX=Math.min(margin,maxX);
+  const maxY=Math.max(0,viewHeight-h*scale-margin),minY=Math.min(80,maxY);
+  const left=Math.max(minX,Math.min(maxX,x-w*scale/2));
+  const top=Math.max(minY,Math.min(maxY,y-h*scale/2));
+  this.el.style.left='0px';this.el.style.top='0px';this.el.style.opacity='1';
+  this.el.style.transformOrigin='0 0';
+  this.el.style.transform=`translate3d(${left}px,${top}px,0) scale(${scale})`;
   const gl=this.gl;gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(this.program);
   const shutterPhase=this.time%2;
   const flash=shutterPhase<.22?Math.pow(Math.sin(Math.PI*shutterPhase/.22),2):0;
@@ -170,7 +181,7 @@ export class TravellingCamera {
   const canvas=document.createElement('canvas');canvas.width=180;canvas.height=Math.round(180*image.naturalHeight/image.naturalWidth);
   const ctx=canvas.getContext('2d',{willReadFrequently:true});ctx.drawImage(image,0,0,canvas.width,canvas.height);
   const pixels=ctx.getImageData(0,0,canvas.width,canvas.height).data,samples=[];
-  const worldWidth=width*5.5/(this.canvas.height/(Math.min(2,devicePixelRatio||1))*1.4*1.06);
+  const worldWidth=width*5.5/(this.canvas.height/(Math.min(window.MMMPerformance?.pixelRatio??1.5,devicePixelRatio||1))*1.4*1.06);
   for(let y=0;y<canvas.height;y++)for(let x=0;x<canvas.width;x++){const i=(y*canvas.width+x)*4;if(pixels[i+3]>160&&Math.max(pixels[i],pixels[i+1],pixels[i+2])>90)samples.push({p:[((x+.5)/canvas.width-.5)*worldWidth,(.5-(y+.5)/canvas.height)*worldWidth*canvas.height/canvas.width,0],c:[pixels[i]/255,pixels[i+1]/255,pixels[i+2]/255]});}
   if(!samples.length)return;
   const packed=[],hulls=new Map(this.hulls.map(h=>{h.targetMin=[Infinity,Infinity,Infinity];h.targetMax=[-Infinity,-Infinity,-Infinity];return [h.id,h]}));
@@ -209,6 +220,6 @@ export class TravellingCamera {
   gl.uniform2f(this.angle,pose.yaw,pose.pitch);gl.uniform1f(this.roll,pose.roll);gl.uniform1f(this.aspect,pose.aspect);
   gl.drawArrays(gl.TRIANGLES,0,this.count);
  }
- dispose(){this.reset();this.gl?.getExtension('WEBGL_lose_context')?.loseContext();this.el.remove();}
+ dispose(){this.reset();if(this.onVisibility)document.removeEventListener('visibilitychange',this.onVisibility);this.gl?.getExtension('WEBGL_lose_context')?.loseContext();this.gl=null;this.el.remove();}
  reset(){cancelAnimationFrame(this.raf);this.raf=0;this.lastTime=0;this.el.hidden=true;this.el.style.setProperty('--shutter-flash','0')}
 }

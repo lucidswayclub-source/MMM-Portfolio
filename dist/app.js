@@ -70,7 +70,7 @@ navLinks.forEach(a=>a.addEventListener('click',()=>{closeMenu();navLinks.forEach
 compactMenu.addEventListener('change',closeMenu);closeMenu();
 const link=(href,label,kind='text-link')=>`<a class="${kind}" href="${sectionLinks[href]||href}">${label}<span aria-hidden="true">↗</span></a>`;
 const tag=(n,text)=>`<div class="section-tag"><span><i></i>${text}</span></div>`;
-const photo=(key,alt,extra='')=>`<img src="${config.images[key]}" alt="${alt}" loading="lazy" ${extra}>`;
+const photo=(key,alt,extra='')=>`<img src="${config.images[key]}" alt="${alt}" loading="lazy" decoding="async" ${extra}>`;
 const stockNote='<span class="stock-label">Illustrative photography</span>';
 const graph=(kind='')=>`<svg class="journey-graph ${kind}" viewBox="0 0 500 180" fill="none" aria-hidden="true"><defs><linearGradient id="line-${kind}" x1="0" y1="180" x2="500" y2="0"><stop stop-color="#79e2ae"/><stop offset="1" stop-color="#87bfff"/></linearGradient></defs><path class="graph-grid" d="M0 40H500M0 90H500M0 140H500M50 0V180M150 0V180M250 0V180M350 0V180M450 0V180"/><path class="graph-area" d="M0 155C70 155 65 110 135 115S210 155 275 77S350 110 410 45S460 35 500 15V180H0Z"/><path class="graph-line" stroke="url(#line-${kind})" d="M0 155C70 155 65 110 135 115S210 155 275 77S350 110 410 45S460 35 500 15"/><circle cx="275" cy="77" r="5"/><circle cx="410" cy="45" r="5"/></svg>`;
 const heroTile=(kind)=>kind==='product'||kind==='food'||kind==='production'?`<div class="wall-tile wall-photo"><img src="${config.images[kind]}" alt="" loading="eager" decoding="async"><span>${kind==='product'?'VISUAL DIRECTION':kind==='food'?'A DIFFERENT PERSPECTIVE':'BEHIND THE FRAME'}</span></div>`:kind==='website'?`<div class="wall-tile wall-website"><img src="/assets/lucidsway-desktop.png" alt="" loading="eager" decoding="async"></div>`:kind==='creative'?`<div class="wall-tile wall-type"><span>MMM / CREATIVE STUDIO</span><b>Creative<br><i>production.</i></b><small>CREATE / BUILD / GROW</small></div>`:`<div class="wall-tile wall-pattern"><span>VIDEO.<br>PHOTO.</span><div>${Array.from({length:9},()=>'<i></i>').join('')}</div><small>MEGMULTIMEDIA</small></div>`;
@@ -80,7 +80,7 @@ const hero=()=>`<section class="hero" id="top">${imageWall()}<div class="hero-in
 const cta=(heading='Discuss your<br><i>next project.</i>')=>`<section class="cta"><div class="cta-orbit" aria-hidden="true"></div><h2>${heading}</h2><div class="cta-bottom">${link('/contact','Start a conversation','button')}${config.whatsapp?link('https://wa.me/'+config.whatsapp.replace(/\D/g,''),'WhatsApp us','text-link'):''}</div></section>`;
 const projectCard=(key,name,category,n)=>`<button class="project" data-project="${key}" aria-label="View ${name} illustrative photograph"><div class="project-image">${photo(key,name+' — illustrative stock photograph')}${stockNote}<span class="view-project" aria-hidden="true">↗</span><span class="project-no">${n}</span></div><div class="project-caption"><div><span>${category}</span><h3>${name}</h3></div><span aria-hidden="true">↗</span></div></button>`;
 const workFilmLabels=['Film 01','Film 02','Health & wellness','Vigor · Yendada'];
-const workFilmGroup=(duplicate=false)=>`<div class="work-films-group" ${duplicate?'aria-hidden="true" inert':''}>${workFilmLabels.map((label,i)=>`<article class="work-film"><div class="work-film-media"><video muted loop playsinline preload="none" poster="/assets/our-work/film-0${i+1}.jpg" data-film-src="/assets/our-work/film-0${i+1}.mp4" aria-label="${label}"></video><span class="work-film-index" aria-hidden="true">0${i+1}</span></div><div class="work-film-caption"><span>${label}</span><span aria-hidden="true">↗</span></div></article>`).join('')}</div>`;
+const workFilmGroup=(duplicate=false)=>`<div class="work-films-group" ${duplicate?'aria-hidden="true" inert':''}>${workFilmLabels.map((label,i)=>`<article class="work-film"><div class="work-film-media"><video muted loop playsinline preload="none" poster="/assets/our-work/film-0${i+1}.jpg" data-film-src="/assets/our-work/film-0${i+1}.mp4" data-film-mobile="/assets/our-work/film-0${i+1}-mobile.mp4" aria-label="${label}"></video><span class="work-film-index" aria-hidden="true">0${i+1}</span></div><div class="work-film-caption"><span>${label}</span><span aria-hidden="true">↗</span></div></article>`).join('')}</div>`;
 const work=()=>`<section class="section work-video-section" id="selected-work" aria-labelledby="work-films-title">${tag('01','OUR WORK')}<div class="work-films-heading"><h2 id="work-films-title">Stories in<br><i>motion.</i></h2><div><p>A glimpse of what we create.<br>Different stories. The same attention to detail.</p><button class="work-films-toggle" type="button" aria-pressed="false">Pause films <span aria-hidden="true">Ⅱ</span></button></div></div><div class="work-films-viewport" tabindex="0" aria-label="Our work video carousel"><div class="work-films-track">${workFilmGroup()}${workFilmGroup(true)}</div></div><div class="work-films-footer"><span><i></i> FOUR FILMS / ONE CREATIVE STUDIO</span><span>LOOPING FILMS · SOUND OFF</span></div></section>`;
 const serviceData=[['Creative','Give your brand a point of view.',['Scriptwriting','Creative Direction','Content Strategy'],'/contact','creative'],['Production','Beautiful stories, frame by frame.',['Videography','Photography','Video Production','Video Editing'],'/video-photo','production'],['Digital','Make every interaction count.',['Social Media Management','Website Development','SEO'],'/web-development','digital'],['Growth','Turn attention into opportunity.',['Influencer Marketing','Meta Ads','Google Ads','Performance Marketing','PR & Press Releases'],'/business-growth','growth']];
 const services=()=>`<section class="section capabilities" id="services">${tag('02','WHAT WE CREATE')}<div class="service-list">${serviceData.map((s,i)=>`<details ${i===0?'open':''}><summary><span class="service-index">0${i+1}</span><h3>${s[0].toUpperCase()}</h3><span class="plus" aria-hidden="true">+</span></summary><div class="service-content"><ul>${s[2].map(x=>`<li>${x}</li>`).join('')}</ul></div></details>`).join('')}</div></section>`;
@@ -96,10 +96,10 @@ const websiteProjects=[
  {name:'The Lucid Sway',category:'Nightlife & experiences',url:'https://thelucidsway.com/',desktop:'/assets/lucidsway-desktop.png',mobile:'/assets/lucidsway-mobile.png'},
  {name:'Hasini Infra',category:'Infrastructure & development',url:'https://hasiniinfra.org/',desktop:'/assets/hasini-desktop.png',mobile:'/assets/hasini-mobile.jpg'}
 ];
-const websiteCards=()=>websiteProjects.map((project,i)=>`<article class="website-showcase" data-website="${i}"><div class="website-toolbar"><h3>${project.name}<small>${project.category}</small></h3>${project.mobile?`<div class="preview-toggle" role="group" aria-label="${project.name} preview device"><button type="button" data-view="desktop" aria-pressed="true">Desktop</button><button type="button" data-view="mobile" aria-pressed="false">Mobile</button></div>`:`<span class="website-number">0${i+1} / WEB</span>`}</div><div class="website-device-stage"><a class="website-device" href="${project.url}" target="_blank" rel="noopener" aria-label="Visit ${project.name} live website"><div class="website-chrome" aria-hidden="true"><span><i></i><i></i><i></i></span><span>${new URL(project.url).hostname} ↗</span></div><img src="${project.desktop}" alt="${project.name} website homepage preview" loading="lazy" width="1280" height="720"></a></div><a class="website-live-link" href="${project.url}" target="_blank" rel="noopener"><span>${new URL(project.url).hostname}</span><span>Visit website ↗</span></a></article>`).join('');
+const websiteCards=()=>websiteProjects.map((project,i)=>`<article class="website-showcase" data-website="${i}"><div class="website-toolbar"><h3>${project.name}<small>${project.category}</small></h3>${project.mobile?`<div class="preview-toggle" role="group" aria-label="${project.name} preview device"><button type="button" data-view="desktop" aria-pressed="true">Desktop</button><button type="button" data-view="mobile" aria-pressed="false">Mobile</button></div>`:`<span class="website-number">0${i+1} / WEB</span>`}</div><div class="website-device-stage"><a class="website-device" href="${project.url}" target="_blank" rel="noopener" aria-label="Visit ${project.name} live website"><div class="website-chrome" aria-hidden="true"><span><i></i><i></i><i></i></span><span>${new URL(project.url).hostname} ↗</span></div><img src="${project.desktop}" alt="${project.name} website homepage preview" loading="lazy" decoding="async" width="1280" height="720"></a></div><a class="website-live-link" href="${project.url}" target="_blank" rel="noopener"><span>${new URL(project.url).hostname}</span><span>Visit website ↗</span></a></article>`).join('');
 const digital=()=>`<section class="section digital" id="websites">${tag('04','WEBSITES')}<div class="digital-portfolio-heading"><div><h2>Website<br><i>showcase.</i></h2></div></div><div class="website-reel-viewport"><div class="website-portfolio-grid">${websiteCards()}</div></div><div class="website-reel-controls"><span>SCROLL TO EXPLORE THE WEBSITES</span><div><span class="website-reel-count" aria-live="polite">01 / 06</span><button type="button" data-reel-step="-1" aria-label="Previous website">←</button><button type="button" data-reel-step="1" aria-label="Next website">→</button></div></div></section>`;
 const about=()=>`<section class="section about-strip" id="studio">${tag('06','ABOUT THE STUDIO')}<div class="about-grid"><h2>About<br><i>MegMultiMedia.</i></h2><div><p class="large-copy">MegMultiMedia provides creative production, website development and digital marketing.</p></div></div></section>`;
-const director=()=>`<div class="founder"><img class="founder-portrait" src="/assets/rithwik-studio-wide-v2.png" alt="Rithwik Pemmada, Managing Director of MegMultiMedia" loading="lazy" width="1672" height="941"><div class="founder-bio"><span class="eyebrow">THE PERSON BEHIND THE VISION</span><h2>Rithwik<br><i>Pemmada.</i></h2><p>Managing Director</p></div></div>`;
+const director=()=>`<div class="founder"><img class="founder-portrait" src="/assets/rithwik-studio-wide-v2.jpg" alt="Rithwik Pemmada, Managing Director of MegMultiMedia" loading="lazy" decoding="async" width="1672" height="941"><div class="founder-bio"><span class="eyebrow">THE PERSON BEHIND THE VISION</span><h2>Rithwik<br><i>Pemmada.</i></h2><p>Managing Director</p></div></div>`;
 const cameraDiagram=(id,label,video=false)=>`<defs>
  <linearGradient id="${id}-body" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#b7d5e9"/><stop offset=".3" stop-color="#45667f"/><stop offset=".65" stop-color="#1c3449"/><stop offset="1" stop-color="#789db8"/></linearGradient>
  <radialGradient id="${id}-glass"><stop stop-color="#78c9ce"/><stop offset=".35" stop-color="#264c79"/><stop offset=".75" stop-color="#0c1b32"/><stop offset="1" stop-color="#688aa8"/></radialGradient>
@@ -229,3 +229,40 @@ const syncNavigation=()=>{
 };
 const queueNavigation=()=>{if(!navFrame)navFrame=requestAnimationFrame(syncNavigation)};
 addEventListener('scroll',queueNavigation,{passive:true});addEventListener('resize',queueNavigation,{passive:true});queueNavigation();
+
+// Font swaps and narrower in-app browsers must not widen the document's hero.
+function fitHeroWordmark(){
+ const heading=document.querySelector('.hero-wordmark'),hero=document.querySelector('.hero-intro');
+ if(!heading||!hero)return;
+ heading.style.removeProperty('font-size');
+ if(!matchMedia('(max-width:700px)').matches)return;
+ const text=heading.querySelector('span'),available=Math.max(0,hero.clientWidth-12);
+ if(!text||!available)return;
+ const natural=text.scrollWidth,size=parseFloat(getComputedStyle(heading).fontSize);
+ if(natural>available)heading.style.fontSize=`${Math.floor(size*available/natural*10)/10}px`;
+}
+const heroIntro=document.querySelector('.hero-intro');
+if(heroIntro){
+ let wordmarkFrame=0,wordmarkWidth=0;
+ const queueFit=()=>{if(!wordmarkFrame)wordmarkFrame=requestAnimationFrame(()=>{wordmarkFrame=0;fitHeroWordmark()})};
+ new ResizeObserver(entries=>{const width=entries[0].contentRect.width;if(Math.abs(width-wordmarkWidth)>.5){wordmarkWidth=width;queueFit()}}).observe(heroIntro);
+ document.fonts.ready.then(queueFit);queueFit();
+}
+
+// Safari can restore a horizontal document offset after focus or a toolbar resize.
+// Correct only the page offset; native gallery scrolling and pinch zoom stay intact.
+function anchorPhoneViewport(){
+ if(!matchMedia('(max-width:700px)').matches||Math.abs(window.scrollX)<1)return;
+ if(window.visualViewport&&window.visualViewport.scale>1.01)return;
+ window.scrollTo({left:0,top:window.scrollY,behavior:'instant'});
+}
+let phoneAnchorFrame=0;
+const queuePhoneAnchor=()=>{
+ if(Math.abs(window.scrollX)<1||phoneAnchorFrame)return;
+ phoneAnchorFrame=requestAnimationFrame(()=>{phoneAnchorFrame=0;anchorPhoneViewport()});
+};
+addEventListener('scroll',queuePhoneAnchor,{passive:true});
+addEventListener('pageshow',queuePhoneAnchor);
+addEventListener('resize',queuePhoneAnchor,{passive:true});
+document.addEventListener('focusin',queuePhoneAnchor);
+queuePhoneAnchor();

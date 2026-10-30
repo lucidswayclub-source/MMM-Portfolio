@@ -56,4 +56,22 @@ The supplied web-development project list is presented in the homepage website p
 
 ## Our work film carousel — 26 October 2026
 
-The homepage Work section now uses the four supplied videos from `../megmultimedia/our_work` instead of the concept photograph gallery. Optimized 540px, 24fps H.264 previews and poster frames live in `dist/assets/our-work/`; originals remain untouched. Playback copies omit audio for simultaneous muted playback. Two identical groups make the right-to-left film strip seamless. All films play together while the section is visible, pause offscreen or in a hidden tab, and have a local pause/play control. The footer motion toggle and OS reduced-motion preference pause the films and provide a static horizontally scrollable strip.
+The homepage Work section now uses the four supplied videos from `../megmultimedia/our_work` instead of the concept photograph gallery. Optimized 540px, 24fps H.264 previews and poster frames live in `dist/assets/our-work/`; originals remain untouched. Playback copies omit audio for simultaneous muted playback. Two identical groups make the right-to-left film strip seamless. Films in or approaching the visible carousel area play together; distant copies stay unloaded or paused. Playback pauses offscreen or in a hidden tab, with a local pause/play control. The strip is full bleed, with an independent animation clock moving at 55px/s on desktop and 46px/s on phones. The clock runs continuously while visible and does not depend on scrolling. The footer motion toggle and OS reduced-motion preference pause the films and provide a static horizontally scrollable strip.
+
+## Adaptive performance
+
+`dist/performance.js` loads before the intro and chooses Full, Balanced or Light quality using available device capability hints. It can reduce quality after two sustained periods of poor scroll frame timing. Quality never increases during the visit, avoiding oscillation; no measurements leave the browser.
+
+Balanced mode uses smaller letter reels, fewer portal elements, no per-element motion blur or layered card depth, a 30 FPS floating camera and a capped 1.25 pixel ratio. Light mode retains services, gallery controls, portrait sequence, navigation and equipment interactions, uses a short logo intro, and omits the floating WebGL camera and character reels. Reduced-motion preferences and the existing motion toggle remain supported.
+
+The animation coordinator shares geometry reads across scenes on the same element and skips idle hover effects. Resize work is debounced; CSS animations and animation loops pause in hidden tabs. A 960px transparent logo derivative reduces shared logo transfer size by about 70%; the original asset remains available.
+
+Run regression checks with `node --test tests/performance.test.cjs`. These validate scheduling, quality selection, automatic downgrading and the low-power intro lifecycle; they do not replace profiling on physical devices.
+
+## Phone layout
+
+`dist/phone.css` loads last and owns phone-specific refinements: 20px content gutters, paired desktop-style hero actions, 44–50px controls, readable form inputs, full-width swipe galleries, and horizontally scrollable growth tabs. Services use stable `svh` sizing to avoid address-bar resize jumps; service and director scroll sequences are shorter. Short landscape touch viewports retain native galleries rather than desktop pins. Reduced-motion layouts remain unpinned.
+
+The selection highlight accounts for the tab container's scroll offset, and selecting an offscreen tab brings it into view. Verify the final visual layout on iOS Safari and Android Chrome, including browser-toolbar changes, keyboard entry, landscape rotation and reduced-motion settings.
+
+The deployment bundle also includes 360px H.264 phone previews (about 69% less transfer weight and 56% fewer pixels per frame than the 540px versions). Source selection happens only before a film first loads, avoiding playback resets. The decoder budget is one video in Light, two in Balanced and four in Full mode, prioritizing visible films; poster images remain for the others. The carousel's independent movement continues. Floating-camera WebGL initialization waits until the intro has completed. Website and portrait sequences cache pin heights during resize instead of reading layout during each scroll update. The director portrait uses a full-resolution JPEG derivative; the original PNG remains untouched. Deploy the complete `dist` directory, including the new media files and versioned scripts.

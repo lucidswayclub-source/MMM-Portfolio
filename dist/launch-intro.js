@@ -1,6 +1,13 @@
 /** The camera separates into machined parts, then assembles into the MMM ident. */
 (()=>{
  if(location.pathname.replace(/\/$/,'')!==''||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+ // A home launch starts at the hero; explicit section bookmarks keep their destination.
+ const homeLanding=!location.hash||location.hash==='#top';
+ const previousRestoration=history.scrollRestoration;
+ if(homeLanding)history.scrollRestoration='manual';
+ const landAtHero=()=>{if(homeLanding)scrollTo({top:0,left:0,behavior:'instant'})};
+ const blockIntroScroll=event=>event.preventDefault();
+ landAtHero();
  const intro=document.createElement('div');intro.className='launch-intro launch-lens';intro.setAttribute('role','dialog');intro.setAttribute('aria-modal','true');intro.setAttribute('aria-label','Camera components forming the MegMultiMedia logo');
  intro.innerHTML='<div class="launch-backdrop"></div><div class="launch-lens-path" aria-hidden="true"><span></span><span></span><span></span></div><div class="launch-camera-stage" aria-hidden="true"></div><div class="launch-identity" aria-hidden="true"><div class="launch-logo"><img class="launch-size-reference" alt=""><div class="launch-parts"><span><img alt=""></span><span><img alt=""></span><span><img alt=""></span></div></div></div><button type="button" class="launch-sound" aria-pressed="false" aria-label="Enable intro sound" disabled>Play with sound</button><button type="button" class="launch-skip">Skip intro <span aria-hidden="true">↗</span></button>';
  // Studio atmosphere stays behind the transparent camera and exact logo silhouette.
@@ -36,7 +43,7 @@
   return {radius,outline,seams,clip:`path(evenodd, "M0 0H${width}V${height}H0Z${outline}")`};
  };
  const finish=(skipTransition=false)=>{
-  if(done)return;done=true;clearTimeout(failsafe);clearTimeout(resizeTimer);cancelAnimationFrame(raf);
+  if(done)return;done=true;landAtHero();clearTimeout(failsafe);clearTimeout(resizeTimer);cancelAnimationFrame(raf);
   const quick=skipTransition===true||matchMedia('(prefers-reduced-motion: reduce)').matches||document.documentElement.classList.contains('motion-disabled');
   const duration=quick?220:1150;
   intro.classList.add('is-exiting');
@@ -64,10 +71,18 @@
    copy?.animate([{opacity:.8,scale:'.99'},{opacity:1,scale:'1'}],{duration:1250,easing:'cubic-bezier(.22,1,.36,1)'});
   }else{intro.style.transitionDuration=duration+'ms';sound?.mute();}
   setTimeout(()=>{
-   cancelAnimationFrame(revealFrame);sound?.dispose();model?.dispose();intro.remove();document.documentElement.classList.remove('launch-active','launch-revealing');for(const {el,inert}of roots)el.inert=inert;
+   cancelAnimationFrame(revealFrame);sound?.dispose();model?.dispose();intro.remove();document.documentElement.classList.remove('launch-active','launch-revealing');landAtHero();for(const {el,inert}of roots)el.inert=inert;
+   document.removeEventListener('wheel',blockIntroScroll);document.removeEventListener('touchmove',blockIntroScroll);
    document.removeEventListener('keydown',onKey);document.removeEventListener('visibilitychange',onVisibility);window.removeEventListener('resize',onResize);
-   if(previousFocus&&previousFocus!==document.body&&previousFocus.isConnected)previousFocus.focus({preventScroll:true});else{const main=document.querySelector('main');if(main){main.setAttribute('tabindex','-1');main.focus({preventScroll:true});}}
+   if(!homeLanding&&previousFocus&&previousFocus!==document.body&&previousFocus.isConnected)previousFocus.focus({preventScroll:true});else{const main=document.querySelector('main');if(main){main.setAttribute('tabindex','-1');main.focus({preventScroll:true});}}
    dispatchEvent(new Event('mmm:launch-finished'));
+   // Apply after unpinning and scene resize too, so scroll anchoring cannot move the hero.
+   landAtHero();
+   requestAnimationFrame(()=>{
+    landAtHero();if(!homeLanding)return;
+    const releaseRestoration=()=>{landAtHero();history.scrollRestoration=previousRestoration};
+    if(document.readyState==='complete')releaseRestoration();else window.addEventListener('load',releaseRestoration,{once:true});
+   });
   },duration+50);
  };
  const onKey=e=>{if(e.key==='Escape'){e.preventDefault();finish(true)}if(e.key==='Tab'){e.preventDefault();const controls=[...intro.querySelectorAll('button:not(:disabled)')],index=controls.indexOf(document.activeElement);controls[(index+(e.shiftKey?-1:1)+controls.length)%controls.length].focus()}};
@@ -75,7 +90,7 @@
   clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{
    if(done||!model?.gl)return;
    const box=model.el.getBoundingClientRect(),width=intro.querySelector('.launch-identity').clientWidth;
-   const size=`${Math.round(box.width)}:${Math.round(box.height)}:${Math.round(width)}:${Math.min(2,devicePixelRatio||1)}`;
+   const size=`${Math.round(box.width)}:${Math.round(box.height)}:${Math.round(width)}:${Math.min(window.MMMPerformance?.pixelRatio??1.5,devicePixelRatio||1)}`;
    if(size===lastSize)return;lastSize=size;
    model.resize();model.setLogoTargets(intro.querySelector('img'),width);model.drawIntro(time);
   },120);
@@ -106,10 +121,11 @@
  soundButton.addEventListener('click',async()=>{if(done||!sound)return;if(sound.enabled){sound.mute();soundButton.textContent='Play with sound';soundButton.setAttribute('aria-pressed','false');soundButton.setAttribute('aria-label','Enable intro sound');return;}soundButton.disabled=true;try{if(await sound.enable(0)){if(done){sound.dispose();return;}time=0;lastTime=0;clearTimeout(failsafe);failsafe=setTimeout(finish,8000);soundButton.textContent='Mute sound';soundButton.setAttribute('aria-pressed','true');soundButton.setAttribute('aria-label','Mute intro sound');}else{soundButton.textContent='Try sound again';} }catch{sound.mute();soundButton.textContent='Try sound again';}finally{soundButton.disabled=false;}});
  const onVisibility=()=>{if(document.hidden&&sound?.enabled){sound.mute();soundButton.textContent='Play with sound';soundButton.setAttribute('aria-pressed','false');soundButton.setAttribute('aria-label','Enable intro sound');}cancelAnimationFrame(raf);raf=0;lastTime=0;if(!document.hidden&&(model||fallback)&&!done)raf=requestAnimationFrame(tick)};
  skip.addEventListener('click',()=>finish(true));document.documentElement.classList.add('launch-active');for(const {el}of roots)el.inert=true;
- document.body.append(intro);document.documentElement.classList.remove('intro-boot');skip.focus({preventScroll:true});document.addEventListener('keydown',onKey);document.addEventListener('visibilitychange',onVisibility);window.addEventListener('resize',onResize);
+ document.addEventListener('wheel',blockIntroScroll,{passive:false});document.addEventListener('touchmove',blockIntroScroll,{passive:false});
+ document.body.append(intro);landAtHero();document.documentElement.classList.remove('intro-boot');skip.focus({preventScroll:true});document.addEventListener('keydown',onKey);document.addEventListener('visibilitychange',onVisibility);window.addEventListener('resize',onResize);
  let failsafe=setTimeout(finish,10000);
  const imageReady=Promise.all([...intro.querySelectorAll('img')].map(async image=>{
-  image.src='/assets/mmm-logo-transparent.png';
+  image.src='/assets/mmm-logo-web.png';
   if(image.decode)await image.decode();
   else await new Promise((resolve,reject)=>{if(image.complete&&image.naturalWidth){resolve();return}image.onload=resolve;image.onerror=reject;});
  }));
@@ -118,11 +134,11 @@
   if(done)return;sound=new IntroSound();soundButton.disabled=!(window.AudioContext||window.webkitAudioContext);
   sound.enable(time,true).then(enabled=>{if(enabled&&!done){soundButton.textContent='Mute sound';soundButton.setAttribute('aria-pressed','true');soundButton.setAttribute('aria-label','Mute intro sound');}}).catch(()=>{});
  }).catch(()=>{});
- Promise.all([import('/travelling-camera.js?v=14'),imageReady]).then(([{TravellingCamera}])=>{
-  if(done)return;model=new TravellingCamera(()=>!done,stage);
+ Promise.all([(window.MMMPerformance?.level===0?Promise.resolve(null):import('/travelling-camera.js?v=17')),imageReady]).then(([cameraModule])=>{
+  if(done)return;if(!cameraModule){showFallback();return}const {TravellingCamera}=cameraModule;model=new TravellingCamera(()=>!done,stage);
   if(!model.gl){showFallback();return}
   model.resize();model.setLogoTargets(intro.querySelector('img'),intro.querySelector('.launch-identity').clientWidth);
-  const box=model.el.getBoundingClientRect();lastSize=`${Math.round(box.width)}:${Math.round(box.height)}:${Math.round(intro.querySelector('.launch-identity').clientWidth)}:${Math.min(2,devicePixelRatio||1)}`;
+  const box=model.el.getBoundingClientRect();lastSize=`${Math.round(box.width)}:${Math.round(box.height)}:${Math.round(intro.querySelector('.launch-identity').clientWidth)}:${Math.min(window.MMMPerformance?.pixelRatio??1.5,devicePixelRatio||1)}`;
   // Compile and paint the first camera pose while hidden, then begin on a clean frame.
   model.drawIntro(0);
   raf=requestAnimationFrame(()=>{

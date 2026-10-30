@@ -147,7 +147,7 @@
 
 /* A constant image height keeps the portrait intact while the surrounding frame opens. */
 .director-zoom .director-aperture {
- background:#12151a url('/assets/rithwik-studio-wide-v2.png') left center / 300% 100% no-repeat;
+ background:#12151a url('/assets/rithwik-studio-wide-v2.jpg') left center / 300% 100% no-repeat;
 }
 .director-zoom .director-aperture .founder-portrait {
  position:absolute;left:68%;top:0;right:auto;bottom:auto;
