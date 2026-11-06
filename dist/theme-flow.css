@@ -1068,3 +1068,23 @@ html.page-suspended .hero.in-view .wall-track,
 html.page-suspended.launch-active.launch-revealing .wall-track { animation-play-state:paused!important; }
 
 html.launch-active { overflow-anchor:none;overscroll-behavior:none; }
+
+/* A compact unfolding / takeoff sequence, scoped to the open toolkit preview. */
+.drone-airframe,.drone-arm,.drone-gimbal,.drone-propeller,.drone-ground-shadow { transform-box:view-box; }
+.drone-airframe { transform-origin:40px 42px; }
+.drone-gimbal { transform-origin:40px 53px; }
+.drone-ground-shadow { transform-origin:40px 72px; }
+.drone-propeller { transform-origin:0 0; }
+@media(prefers-reduced-motion:no-preference) {
+ html:not(.motion-disabled) .tool-effect-6:is(:hover,.tool-active,.tool-previewing) .drone-airframe { animation:drone-takeoff 1.6s cubic-bezier(.22,1,.36,1) both,drone-hover 3.6s 1.6s ease-in-out infinite; }
+ html:not(.motion-disabled) .tool-effect-6:is(:hover,.tool-active,.tool-previewing) .drone-arm { animation:drone-unfold .8s var(--unfold-delay) cubic-bezier(.22,1,.36,1) both; }
+ html:not(.motion-disabled) .tool-effect-6:is(:hover,.tool-active,.tool-previewing) .drone-propeller { animation:drone-rotor .32s .5s linear infinite;animation-direction:var(--rotor-direction); }
+ html:not(.motion-disabled) .tool-effect-6:is(:hover,.tool-active,.tool-previewing) .drone-ground-shadow { animation:drone-shadow 1.6s ease-out both; }
+ html:not(.motion-disabled) .tool-effect-6:is(:hover,.tool-active,.tool-previewing) .drone-gimbal { animation:drone-gimbal-lock 1.5s .3s ease-out both; }
+}
+@keyframes drone-unfold { from { transform:rotate(var(--fold)) scale(.75); } to { transform:none; } }
+@keyframes drone-takeoff { 0%,25% { transform:translateY(7px) scale(.94); } 75% { transform:translateY(-5px) rotate(-2deg); } 100% { transform:translateY(-3px); } }
+@keyframes drone-hover { 0%,100% { transform:translateY(-3px) rotate(0deg); } 50% { transform:translateY(-6px) rotate(1deg); } }
+@keyframes drone-rotor { to { transform:rotate(360deg); } }
+@keyframes drone-shadow { from { opacity:.6;transform:scale(1); } to { opacity:.22;transform:scale(.72); } }
+@keyframes drone-gimbal-lock { from { transform:rotate(12deg); } to { transform:none; } }

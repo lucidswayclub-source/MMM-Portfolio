@@ -37,7 +37,7 @@ test('one element is measured once even when multiple scenes share it; idle effe
 });
 test('all entry points load quality selection before intro; required assets exist',()=>{
  for(const file of ['index.html','contact/index.html','404.html']){
-  const html=fs.readFileSync(path.join(root,file),'utf8');assert(html.indexOf('/performance.js')<html.indexOf('/launch-intro.js'));assert(html.includes('/performance.js'));assert(html.includes('/theme-flow.css?v=continuous-motion-68'));
+  const html=fs.readFileSync(path.join(root,file),'utf8');assert(html.indexOf('/performance.js')<html.indexOf('/launch-intro.js'));assert(html.includes('/performance.js'));assert(html.includes('/theme-flow.css?v=dji-flight-70'));
  }
  assert(fs.statSync(path.join(root,'assets/mmm-logo-web.png')).size<fs.statSync(path.join(root,'assets/mmm-logo-transparent.png')).size*.4);
 });
